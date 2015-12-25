@@ -1,5 +1,5 @@
 defmodule Xee.ThemeServerTest do
-  use Xee.ConnCase
+  use ExUnit.Case
   alias Xee.ThemeServer, as: ThemeServer
 
   setup do
