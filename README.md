@@ -1,4 +1,5 @@
 # Xee
+[![Build Status](https://travis-ci.org/xeejp/xee.svg?branch=master)](https://travis-ci.org/xeejp/xee)
 
 To start your new Phoenix application:
 
