@@ -16,6 +16,15 @@ defmodule Xee.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    # registration page
+    get "/register", RegistrationController, :new
+    post "/register", RegistrationController, :create
+
+    # login page
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

@@ -18,7 +18,7 @@ defmodule Xee.Mixfile do
   def application do
     [mod: {Xee, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :comeonin]]
   end
 
   # Specifies which paths to compile per environment
@@ -35,6 +35,7 @@ defmodule Xee.Mixfile do
      {:phoenix_html, "~> 1.4"},
      {:phoenix_live_reload, "~> 0.5", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:uuid, "~> 1.1" }]
+     {:uuid, "~> 1.1" },
+     {:comeonin, "~> 1.6"}]
   end
 end
