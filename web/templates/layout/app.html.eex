@@ -1,4 +1,38 @@
 <!DOCTYPE html>
+<div class="navbar navber-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/"><h1>XEE.JP</h1></a>
+    </div>
+    <div id="nav-content" class="navbar-right">
+      <ul class="nav nav-tabs">
+        <li><a href="#">XEE.JPについて</a></li>
+        <%= if logged_in?(@conn) do %>
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <%= current_user(@conn).name %>&nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">実験管理画面</a></li>
+              <li><hr/></li>
+              <li><a href="#">お知らせ<span class="badge" style="float:right;">20</span></a></li>
+              <li><a href="#">更新履歴</a></li>
+              <li><hr/></li>
+              <li><a href="#">問題を報告する</a></li>
+              <li><a href="#">実験作成を依頼する</a></li>
+              <li><hr/></li>
+              <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+          <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,28 +41,46 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Phoenix!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <title>XEE.JP</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiledand minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <style type="text/css">
+      .alert:empty { display: none; }
+    </style>
   </head>
 
   <body>
     <div class="container" role="main">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
         </ul>
         <span class="logo"></span>
       </div>
-
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
       <%= @inner %>
-
-    </div> <!-- /container -->
+  </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    
     <script>require("web/static/js/app")</script>
-    
   </body>
 </html>
+
+<footer style="text-align:center; padding:10px;">
+  <hr/>
+  <small>Copyright (C) 2015 <a href="https://www.facebook.com/hryohei">Ryohei HAYASHI</a> All Rights Reserved.</small>
+</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
