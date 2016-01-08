@@ -21,6 +21,7 @@ defmodule Xee do
       # worker(Xee.Worker, [arg1, arg2, arg3]),
       worker(Onetime, [[name: @host_onetime_server_name]], id: :host),
       worker(Onetime, [[name: @participant_onetime_server_name]], id: :participant),
+      worker(Xee.ExperimentServer, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

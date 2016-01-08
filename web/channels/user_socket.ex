@@ -3,6 +3,7 @@ defmodule Xee.UserSocket do
 
   ## Channels
   # channel "rooms:*", Xee.RoomChannel
+  channel "x:*", Xee.ExperimentChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
