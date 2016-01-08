@@ -9,4 +9,5 @@ addons:
 before_script:
     - npm install
     - mix do ecto.create, ecto.migrate
+    - script/bootstrap
 script: mix test
