@@ -11,6 +11,7 @@ defmodule Xee do
       supervisor(Xee.Endpoint, []),
       # Start the Ecto repository
       worker(Xee.Repo, []),
+      worker(Xee.ParticipantServer, []),
       # Here you could define other workers and supervisors as children
       # worker(Xee.Worker, [arg1, arg2, arg3]),
     ]
