@@ -36,6 +36,7 @@ defmodule Xee.Mixfile do
      {:phoenix_live_reload, "~> 0.5", only: :dev},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1" },
+     {:poison, "~> 1.5"},
      {:onetime, "~> 0.1.2"}]
   end
 end
