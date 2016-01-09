@@ -18,6 +18,8 @@ defmodule Xee do
       # Start the Ecto repository
       worker(Xee.Repo, []),
       worker(Xee.ThemeServer, []),
+      worker(Xee.HostServer, []),
+      worker(Xee.TokenServer, []),
       # Here you could define other workers and supervisors as children
       # worker(Xee.Worker, [arg1, arg2, arg3]),
       worker(Onetime, [[name: @host_onetime_server_name]], id: :host),

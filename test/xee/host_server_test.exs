@@ -3,7 +3,10 @@ defmodule Xee.HostServerTest do
   alias Xee.HostServer, as: HostServer
 
   setup do
-    HostServer.start_link()
+    on_exit fn ->
+      Agent.stop(HostServer)
+      HostServer.start_link()
+    end
     :ok
   end
 
