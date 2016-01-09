@@ -37,6 +37,7 @@ defmodule Xee.Mixfile do
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1" },
      {:poison, "~> 1.5"},
-     {:comeonin, "~> 1.6"}]
+     {:comeonin, "~> 1.6"},
+     {:onetime, "~> 0.1.2"}]
   end
 end
