@@ -25,6 +25,8 @@ defmodule Xee.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
+
+    get "/theme", PageController, :theme
   end
 
   # Other scopes may use custom stacks.
