@@ -4,4 +4,11 @@ defmodule Xee.PageController do
   def index(conn, _params) do
     render conn, "index.html"
   end
+
+  def theme(conn, _params) do
+    themes = Xee.ThemeServer.get_all
+              |> Map.to_list
+              |> Enum.map(fn {_key, value} -> value end)
+    render conn, "theme.html", themes: themes
+  end
 end

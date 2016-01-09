@@ -9,13 +9,20 @@
 
     <title>Hello Phoenix!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/vendor.css") %>">
   </head>
 
   <body>
     <div class="container" role="main">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+          <%= if logged_in?(@conn) do %>
+            <li><%= current_user(@conn).name %></li>
+            <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
+          <% else %>
+            <li><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+            <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
+          <% end %>
         </ul>
         <span class="logo"></span>
       </div>
@@ -27,8 +34,8 @@
 
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <script>require("web/static/js/app")</script>
-    
+
   </body>
 </html>

@@ -7,7 +7,7 @@ defmodule Xee.ExperimentServer do
 
   @doc "Stops the server."
   def stop() do
-    Agent.stop(__MODULE__)
+    :ok = Agent.stop(__MODULE__)
   end
 
   @doc "Checks whether the key is used."
