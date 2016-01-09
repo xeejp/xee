@@ -8,6 +8,10 @@ defmodule Xee.TokenServer do
     GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
   end
 
+  def reset() do
+    GenServer.cast(__MODULE__, {:reset, %{}})
+  end
+
   @doc "Checks whether the token is used."
   def has?(token) do
     GenServer.call(__MODULE__, {:has, token})
@@ -69,5 +73,9 @@ defmodule Xee.TokenServer do
     else
       {:reply, :error, map}
     end
+  end
+
+  def handle_cast({:reset, state}, map) do
+    {:noreply, state}
   end
 end

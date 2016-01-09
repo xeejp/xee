@@ -1,11 +1,10 @@
 defmodule Xee.TokenServerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   alias Xee.TokenServer, as: TokenServer
 
   setup do
     on_exit fn ->
-      Agent.stop(TokenServer)
-      TokenServer.start_link()
+      TokenServer.reset()
     end
     :ok
   end
