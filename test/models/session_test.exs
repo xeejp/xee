@@ -75,5 +75,6 @@ defmodule Xee.SessionTest do
     conn = conn
             |> with_session_and_flash
             |> Plug.Conn.delete_session(:current_user)
+    refute Session.logged_in?(conn)
   end
 end
