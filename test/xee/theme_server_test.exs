@@ -3,12 +3,9 @@ defmodule Xee.ThemeServerTest do
   alias Xee.ThemeServer, as: ThemeServer
 
   setup do
-    ThemeServer.start_link()
     on_exit fn ->
-      case Process.whereis(ThemeServer) do
-        pid when is_pid(pid) -> Process.exit(pid, :kill)
-        _ -> nil
-      end
+      Agent.stop(ThemeServer)
+      ThemeServer.start_link()
     end
     :ok
   end
