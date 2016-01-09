@@ -1,4 +1,7 @@
+status=0
 for t in test/**/*_test.exs
 do
 mix test --trace $t
+status+=$?
 done
+test $status -eq 0
