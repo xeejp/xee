@@ -3,7 +3,10 @@ defmodule Xee.TokenServerTest do
   alias Xee.TokenServer, as: TokenServer
 
   setup do
-    TokenServer.start_link()
+    on_exit fn ->
+      Agent.stop(TokenServer)
+      TokenServer.start_link()
+    end
     :ok
   end
 
