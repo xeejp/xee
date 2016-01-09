@@ -33,7 +33,7 @@ defmodule Xee.SessionTest do
   # initialze session
   @session Plug.Session.init(
     store: :cookie,
-    key: "_xee3rd_key",
+    key: "_xee_key",
     signing_salt: "LccKtRJQ"
   )
 
