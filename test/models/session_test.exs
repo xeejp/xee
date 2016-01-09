@@ -1,6 +1,7 @@
 defmodule Xee.SessionTest do
   use Xee.ModelCase
   use Xee.ConnCase
+  use Xee.SessionTestHelper
 
   alias Xee.User
   alias Xee.Session
@@ -28,21 +29,6 @@ defmodule Xee.SessionTest do
     session = %{"name" => @incorrect_attrs[:name], "password" => @incorrect_attrs[:password]}
     status = Session.login(session, Xee.Repo);
     assert status == :error
-  end
-
-  # initialze session
-  @session Plug.Session.init(
-    store: :cookie,
-    key: "_xee_key",
-    signing_salt: "LccKtRJQ"
-  )
-
-  defp with_session_and_flash(conn) do
-    conn
-    |> Map.put(:secret_key_base, String.duplicate("abcdefgh", 8))
-    |> Plug.Session.call(@session)
-    |> Plug.Conn.fetch_session()
-    |> Phoenix.ConnTest.fetch_flash()
   end
 
   test "check whether loggedin or not" do
