@@ -6,6 +6,7 @@ defmodule Xee.ExperimentServerTest do
   setup do
     on_exit fn ->
       ExperimentServer.stop()
+      ExperimentServer.start_link()
     end
     :ok
   end
