@@ -1,0 +1,4 @@
+for t in test/**/*_test.exs
+do
+mix test --trace $t
+done
