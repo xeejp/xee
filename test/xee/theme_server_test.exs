@@ -4,6 +4,12 @@ defmodule Xee.ThemeServerTest do
 
   setup do
     ThemeServer.start_link()
+    on_exit fn ->
+      case Process.whereis(ThemeServer) do
+        pid when is_pid(pid) -> Process.exit(pid, :kill)
+        _ -> nil
+      end
+    end
     :ok
   end
 
