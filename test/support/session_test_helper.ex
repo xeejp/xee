@@ -3,8 +3,6 @@ defmodule Xee.SessionTestHelper do
     controller = Keyword.get(args, :controller)
 
     quote bind_quoted: [controller: controller] do
-      use Plug.Test
-
       @controller controller
 
       @doc """
