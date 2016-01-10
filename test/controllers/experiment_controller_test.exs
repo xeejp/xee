@@ -1,8 +1,8 @@
 defmodule Xee.ExperimentControllerTest do
+  use ExUnit.Case, async: false
   use Xee.ConnCase
   use Xee.ExperimentTestHelper
-  use Xee.SessionTestHelper
-  use ExUnit.Case, async: false
+  use Xee.SessionTestHelper, controller: Xee.ExperimentController
 
   alias Xee.User
 
@@ -18,52 +18,53 @@ defmodule Xee.ExperimentControllerTest do
     end
   end
 
-  test "not exists experiment" do
-    conn = conn()
-            |> with_session_and_flash
-            |> put_session(:u_id, Xee.TokenGenerator.generate)
-            |> get "/experiment/test"
-    assert conn.resp_body =~ "Not Exists Experiment ID"
+  test "get as a participant without experiment" do
+    conn = get conn(), "/experiment/test"
+    assert get_flash(conn, :error) == "Not Exists Experiment ID"
   end
 
-  test "exists experiment" do
+  test "get as a participant successfully" do
     x_id = "test"
+    u_id = Xee.TokenGenerator.generate
     Xee.ExperimentServer.create(x_id, test_experiment)
 
     conn = conn()
             |> with_session_and_flash
-            |> put_session(:u_id, Xee.TokenGenerator.generate)
+            |> put_session(:u_id, u_id)
             |> put_session(:x_id, x_id)
-            |> get "/experiment/test"
+            |> action :index, %{"x_id": x_id}
     assert x_id == get_session(conn, :x_id)
-    assert nil  != get_session(conn, :u_id)
+    assert u_id == get_session(conn, :u_id)
     assert conn.status == 200
   end
 
-  test "signed in" do
+  test "get as a host without experiment" do
     x_id = "test"
     user = Xee.Repo.get_by(User, name: "a")
 
-    # not has experiment
     conn = conn()
             |> with_session_and_flash
             |> put_session(:current_user, user.id)
-            |> get "/experiment/test"
-    assert conn.resp_body =~ "Not Exists Experiment ID"
+            |> action :host, %{"x_id": x_id}
+    assert get_flash(conn, :error) == "Not Exists Experiment ID"
+  end
+
+  test "get as a host successfully" do
+    x_id = "test"
+    user = Xee.Repo.get_by(User, name: "a")
+    Xee.ExperimentServer.create(x_id, test_experiment)
 
     # has experiment
     Xee.HostServer.register("a", x_id, %{})
     conn = conn()
             |> with_session_and_flash
             |> put_session(:current_user, user.id)
-            |> get "/experiment/test"
+            |> action :host, %{"x_id": x_id}
     assert conn.status == 200
   end
 
-  test "not signed in" do
-    conn = conn()
-            |> with_session_and_flash
-            |> get "/"
-    assert conn.resp_body =~ "You need to be signed in to view this page"
+  test "get as a host without signin" do
+    conn = get conn(), "/experiment/test/host"
+    assert get_flash(conn, :error) == "You need to be signed in to view this page"
   end
 end
