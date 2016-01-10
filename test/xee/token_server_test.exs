@@ -49,4 +49,18 @@ defmodule Xee.TokenServerTest do
     assert TokenServer.has?(:c)
     assert TokenServer.has?(:d)
   end
+
+  test "has_id?" do
+    TokenServer.register(:a, "a")
+    TokenServer.register(:b, "b")
+    TokenServer.register(:c, "c")
+    assert TokenServer.has_id?("a")
+    assert TokenServer.has_id?("b")
+    assert TokenServer.has_id?("c")
+  end
+
+  test "generate_id" do
+    assert String.length(TokenServer.generate_id()) == 6
+    assert String.length(TokenServer.generate_id(10)) == 10
+  end
 end
