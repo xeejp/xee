@@ -1,4 +1,6 @@
 defmodule Xee.TokenServer do
+  @id_characters 'abcdefghijklmnopqrstuvwxyz'
+
   @moduledoc """
   The server to store tokens to access experiment easily.
   """
@@ -15,11 +17,6 @@ defmodule Xee.TokenServer do
   @doc "Checks whether the token is used."
   def has?(token) do
     GenServer.call(__MODULE__, {:has, token})
-  end
-
-  @doc "Checks whether the x_id is used."
-  def has_id?(x_id) do
-    GenServer.call(__MODULE__, {:has_id, x_id})
   end
 
   @doc """
@@ -50,6 +47,11 @@ defmodule Xee.TokenServer do
     GenServer.call(__MODULE__, {:change, token, new_token})
   end
 
+  @doc "Generate unique experiment ID."
+  def generate_id(length \\ 6) do
+    GenServer.call(__MODULE__, {:generate_id, length})
+  end
+
   # Callbacks
 
   def handle_cast({:register, token, x_id}, map) do
@@ -68,10 +70,6 @@ defmodule Xee.TokenServer do
     {:reply, Map.has_key?(map, token), map}
   end
 
-  def handle_call({:has_id, x_id}, _from, map) do
-    {:reply, Enum.member?(Map.values(map), x_id), map}
-  end
-
   def handle_call({:change, token, new_token}, _from, map) do
     if Map.has_key?(map, token) && not Map.has_key?(map, new_token) do
       experiment_id = map[token]
@@ -88,17 +86,15 @@ defmodule Xee.TokenServer do
     {:noreply, state}
   end
 
-  @doc "Generate unique experiment ID."
-  def generate_id(length \\ 6) do
-    :random.seed(:erlang.now)
-    generate_id_recurion(length)
-  end
-
-  defp generate_id_recurion(length \\ 6) do
-    x_id = Enum.map_join(1..length, fn _ -> Enum.take_random 'abcdefghijklmnopqrstuvwxyz', 1 end)
-    x_id = case has_id?(x_id) do
-      true -> generate_id(length)
-      false-> x_id
+  def handle_call({:generate_id, length}, _from, map) do
+    generate = fn (generate) ->
+      x_id1 = Enum.map_join(1..length, fn _ -> Enum.take_random @id_characters, 1 end)
+      x_id1 = case Enum.member?(Map.values(map), x_id1) do
+        true -> generate.(generate)
+        false-> x_id1
+      end
     end
+    x_id = generate.(generate)
+    {:reply, x_id, map}
   end
 end
