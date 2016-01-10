@@ -1,17 +1,18 @@
 language: elixir
 elixir:
-    - 1.1.0
+- 1.1.0
 otp_release:
-    - 18.0
+- 18.0
 sudo: false
 addons:
-    postgresql: '9.4'
+  postgresql: '9.4'
 before_script:
-    - npm install
-    - mix do ecto.create, ecto.migrate
+- npm install
+- mix do ecto.create, ecto.migrate
 script: script/test
 notifications:
-    email:
-        on_success: never
-        on_failure: always
-    slack: xeeteam:W0Hs771htEeHrVL9FYFwalTw
+  email:
+    on_success: never
+    on_failure: always
+  slack:
+    secure: ZHpupeWfoCNcOhWuMylnsWr4BG0+5y65mpEgKBW1Qa0ahykLYWZCWeWXApBTEVgt/6jN5rFhLdyOAIP968wcr6Dv41SpvBq8J1n3CI7Jhb8SxNZAtukLpMcmF686gJjNWtPeCuLnbfnquVxUxRoAhNnS/H27faJQCIYNKOx7wXrKoBlLtcHvUf3H+GWmipXT/DHa6bZBIMtDM+2MhDtrnjUoW5XOK10Lbt0pgQAI/8KWg0V+zulW61EJTVX6vNg3X70D9T5g0rkkJU8Qvk3/NHc79qtEG03ojWS0ZON5CZlhgc3rAnLa7Py3XMW+AmOwezJ4lDzq+jyxfEyZW3ZA3maAN/3AN6Bg2ykCzQDAvvaa0ZssA/3YjlY47cj139OkmuvcT+Sfu/EEAhYoyxdNw6ykcktbd45H11mal7DQ/gAzyzgU40d8sD2HCzkxEsdeqx2hZL151Yr5jGajiEm0foXTzJeldaBCuChnQRcaWAPcGfxKh1iQvzl6PP8c/4ZJGvLwbb1ZJkrY8WCQGgf22MlWcW9SnZRE474axe2Bu/eOQ3rmv5YUzvW4KK36XN3zUtAdEC4P1VJDZNPUS4zaKj0pgTPoUuKchYcCOquzcKe0Bnt4lwYcu6Wo0Jh3cqOXvmJLwCqWkhU0m4NUJBxTSFHCiCt7iT1E04iPNT/84bc=
