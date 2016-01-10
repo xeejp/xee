@@ -1,4 +1,6 @@
 defmodule Xee.TokenServer do
+  @id_characters 'abcdefghijklmnopqrstuvwxyz'
+
   @moduledoc """
   The server to store tokens to access experiment easily.
   """
@@ -45,6 +47,11 @@ defmodule Xee.TokenServer do
     GenServer.call(__MODULE__, {:change, token, new_token})
   end
 
+  @doc "Generate unique experiment ID."
+  def generate_id(length \\ 6) do
+    GenServer.call(__MODULE__, {:generate_id, length})
+  end
+
   # Callbacks
 
   def handle_cast({:register, token, x_id}, map) do
@@ -77,5 +84,17 @@ defmodule Xee.TokenServer do
 
   def handle_cast({:reset, state}, map) do
     {:noreply, state}
+  end
+
+  def handle_call({:generate_id, length}, _from, map) do
+    generate = fn (generate) ->
+      x_id1 = Enum.map_join(1..length, fn _ -> Enum.take_random @id_characters, 1 end)
+      x_id1 = case Enum.member?(Map.values(map), x_id1) do
+        true -> generate.(generate)
+        false-> x_id1
+      end
+    end
+    x_id = generate.(generate)
+    {:reply, x_id, map}
   end
 end
