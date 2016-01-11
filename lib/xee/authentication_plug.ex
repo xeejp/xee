@@ -12,6 +12,7 @@ defmodule Xee.AuthenticationPlug do
       conn
       |> put_flash(:error, "You need to be signed in to view this page")
       |> redirect(to: "/login")
+      |> halt
     end
   end
 end
