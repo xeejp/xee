@@ -28,8 +28,10 @@ defmodule Xee.HostController do
         themes = Xee.ThemeServer.get_all
                   |> Map.to_list
                   |> Enum.map(fn {_key, value} -> value end)
-        xtheme = themes[Integer.parse(theme) - 1]
-        uid = Xee.ExperimentServer.create(x_id,%Xee.Experiment{theme_id: xtheme.id, script: xtheme.script, javascript: xtheme.javascript})
+        {val, _} = Integer.parse(theme)
+        xtheme = Enum.at themes, val - 1
+        Xee.ExperimentServer.create(x_id, %Xee.Experiment{theme_id: xtheme.id, script: xtheme.script, javascript: xtheme.javascript})
+        uid = Xee.ExperimentServer.get(x_id)
         experiment_info = %{uid: uid, name: name, theme: theme, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_id: x_id}
         Xee.HostServer.register(get_session(conn, :current_user), x_id, experiment_info)
         conn

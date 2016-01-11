@@ -50,8 +50,7 @@ defmodule Xee.HostControllerTest do
     conn = conn()
             |> with_session_and_flash
             |> put_session(:current_user, user.id)
-            |> action(:create, %{experiment_name: "test1", theme: "1", user_num: "2", startDateTime: "", endDateTime: "", showDescription: "true", x_id: x_id})
-            #|> post("/host/experiment/create", %{experiment_name: "test1", theme: "1", user_num: "2", startDateTime: "", endDateTime: "", showDescription: "true", x_id: x_id})
+            |> action(:create, %{"experiment_name" => "test1", "theme" => "1", "user_num" => "2", "startDateTime" => "", "endDateTime" => "", "showDescription" => "true", "x_id" => x_id})
     assert Xee.ExperimentServer.has?(x_id)
   end
 end
