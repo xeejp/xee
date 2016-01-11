@@ -16,14 +16,14 @@ defmodule Xee.ExperimentServer do
   end
 
   @doc "Creates and Register a experiment."
-  def create(key, experiment) do
+  def create(key, experiment, info) do
     {:ok, uid} = Experiment.start_link(experiment, key)
-    Agent.update(__MODULE__, fn map -> Map.put(map, key, uid) end)
+    Agent.update(__MODULE__, fn map -> Map.put(map, key, {uid, info}) end)
   end
 
   @doc "Sends a join message to script."
   def join(key, participant_id) do
-    Agent.get(__MODULE__, fn map -> Experiment.join(map[key], participant_id) end)
+    Experiment.join(get(key), participant_id)
   end
 
   @doc "Returns the experiments' map."
@@ -33,7 +33,12 @@ defmodule Xee.ExperimentServer do
 
   @doc "Returns the experiment."
   def get(key) do
-    Agent.get(__MODULE__, fn map -> map[key] end)
+    Agent.get(__MODULE__, fn map -> elem(map[key], 0) end)
+  end
+
+  @doc "Returns the info."
+  def get_info(key) do
+    Agent.get(__MODULE__, fn map -> elem(map[key], 1) end)
   end
 
   @doc "Removes the experiment."

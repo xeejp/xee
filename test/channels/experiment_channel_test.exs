@@ -7,7 +7,7 @@ defmodule Xee.ExperimentChannelTest do
   alias Xee.Experiment
 
   setup do
-    ExperimentServer.create("x1", test_experiment)
+    ExperimentServer.create("x1", test_experiment, "")
     prepare_servers
     host_socket = join_channel("x1")
     participant_socket = join_channel("x1", "p1")
