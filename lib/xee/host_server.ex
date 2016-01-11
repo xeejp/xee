@@ -9,11 +9,11 @@ defmodule Xee.HostServer do
   @doc """
   Stores experiment ID and its info linked host_id.
   """
-  def register(host_id, experiment_id, info) do
+  def register(host_id, experiment_id) do
     Agent.update(__MODULE__, fn map ->
       (
-      experiments = if Map.has_key?(map, host_id), do: map[host_id], else: %{}
-      Map.put(map, host_id, Map.put(experiments, experiment_id, info))
+      experiments = if Map.has_key?(map, host_id), do: map[host_id], else: MapSet.new
+      Map.put(map, host_id, MapSet.put(experiments, experiment_id))
       ) end)
   end
 
@@ -29,7 +29,7 @@ defmodule Xee.HostServer do
   @doc "Checks whether experiment ID exists or not."
   def has?(host_id, experiment_id) do
     Agent.get(__MODULE__, fn map ->
-      Map.has_key?(map, host_id) && Map.has_key?(map[host_id], experiment_id)
+      Map.has_key?(map, host_id) && MapSet.member?(map[host_id], experiment_id)
     end)
   end
 
@@ -37,7 +37,7 @@ defmodule Xee.HostServer do
   def drop(host_id, experiment_id) do
     Agent.update(__MODULE__, fn map ->
       if Map.has_key?(map, host_id) do
-        Map.put(map, host_id, Map.delete(map[host_id], experiment_id))
+        Map.put(map, host_id, MapSet.delete(map[host_id], experiment_id))
       else
         map
       end

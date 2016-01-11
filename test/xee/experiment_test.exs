@@ -5,7 +5,7 @@ defmodule Xee.ExperimentTest do
   alias Xee.Experiment
 
   setup do
-    ExperimentServer.create("a", test_experiment)
+    ExperimentServer.create("a", test_experiment, "")
     pid = ExperimentServer.get("a")
     prepare_servers
     host_socket = join_channel("a")

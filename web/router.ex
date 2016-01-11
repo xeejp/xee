@@ -33,6 +33,14 @@ defmodule Xee.Router do
     get "/experiment/:x_id/host", ExperimentController, :host
   end
 
+  scope "/host", Xee do
+    pipe_through :browser # Use the default browser stack
+    get "/", HostController, :index
+    get "/index", HostController, :index
+    get "/experiment", HostController, :experiment
+    post "/experiment/create", HostController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Xee do
   #   pipe_through :api

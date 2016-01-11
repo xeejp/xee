@@ -11,10 +11,10 @@ defmodule Xee.ExperimentServerTest do
     :ok
   end
 
-  test "create and get" do
-    assert :ok == ExperimentServer.create(:a, test_experiment)
-    assert :ok == ExperimentServer.create(:b, test_experiment)
-    assert :ok == ExperimentServer.create(:c, test_experiment)
+  test "create, get and get_info" do
+    assert :ok == ExperimentServer.create(:a, test_experiment, :A)
+    assert :ok == ExperimentServer.create(:b, test_experiment, :B)
+    assert :ok == ExperimentServer.create(:c, test_experiment, :C)
     a = ExperimentServer.get(:a)
     b = ExperimentServer.get(:b)
     c = ExperimentServer.get(:c)
@@ -24,13 +24,16 @@ defmodule Xee.ExperimentServerTest do
     assert Process.alive?(a)
     assert Process.alive?(b)
     assert Process.alive?(c)
+    assert :A == ExperimentServer.get_info(:a)
+    assert :B == ExperimentServer.get_info(:b)
+    assert :C == ExperimentServer.get_info(:c)
   end
 
   test "get_all" do
-    ExperimentServer.create(:a, test_experiment)
-    ExperimentServer.create(:b, test_experiment)
-    ExperimentServer.create(:c, test_experiment)
-    %{a: a, b: b, c: c} = ExperimentServer.get_all()
+    ExperimentServer.create(:a, test_experiment, :A)
+    ExperimentServer.create(:b, test_experiment, :B)
+    ExperimentServer.create(:c, test_experiment, :C)
+    %{a: {a, :A}, b: {b, :B}, c: {c, :C}} = ExperimentServer.get_all()
     assert is_pid(a)
     assert is_pid(b)
     assert is_pid(c)
@@ -41,16 +44,16 @@ defmodule Xee.ExperimentServerTest do
 
   test "has?" do
     refute ExperimentServer.has?(:a)
-    ExperimentServer.create(:a, test_experiment)
+    ExperimentServer.create(:a, test_experiment, :A)
     assert ExperimentServer.has?(:a)
     refute ExperimentServer.has?(:b)
-    ExperimentServer.create(:b, test_experiment)
+    ExperimentServer.create(:b, test_experiment, :B)
     assert ExperimentServer.has?(:b)
   end
 
   test "remove" do
-    ExperimentServer.create(:a, test_experiment)
-    ExperimentServer.create(:b, test_experiment)
+    ExperimentServer.create(:a, test_experiment, :A)
+    ExperimentServer.create(:b, test_experiment, :B)
     assert ExperimentServer.has?(:a)
     assert :ok == ExperimentServer.remove(:a)
     refute ExperimentServer.has?(:a)

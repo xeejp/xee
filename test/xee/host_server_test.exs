@@ -11,20 +11,21 @@ defmodule Xee.HostServerTest do
   end
 
   test "register and get" do
-    assert :ok == HostServer.register(:a, :A, "a")
-    assert :ok == HostServer.register(:b, :B, "b")
-    assert :ok == HostServer.register(:c, :C1, "c1")
-    assert :ok == HostServer.register(:c, :C2, "c2")
-    assert %{A: "a"} == HostServer.get(:a)
-    assert %{B: "b"} == HostServer.get(:b)
-    assert %{C1: "c1", C2: "c2"} == HostServer.get(:c)
+    assert :ok == HostServer.register(:a, :A)
+    assert :ok == HostServer.register(:b, :B)
+    assert :ok == HostServer.register(:c, :C1)
+    assert :ok == HostServer.register(:c, :C2)
+    assert HostServer.get(:a) |> MapSet.member?(:A)
+    assert HostServer.get(:b) |> MapSet.member?(:B)
+    assert HostServer.get(:c) |> MapSet.member?(:C1)
+    assert HostServer.get(:c) |> MapSet.member?(:C2)
   end
 
   test "has?" do
-    HostServer.register(:a, :A, "a")
-    HostServer.register(:b, :B, "b")
-    HostServer.register(:c, :C1, "c1")
-    HostServer.register(:c, :C2, "c2")
+    HostServer.register(:a, :A)
+    HostServer.register(:b, :B)
+    HostServer.register(:c, :C1)
+    HostServer.register(:c, :C2)
     assert HostServer.has?(:a, :A)
     assert HostServer.has?(:b, :B)
     assert HostServer.has?(:c, :C1)
@@ -34,10 +35,10 @@ defmodule Xee.HostServerTest do
   end
 
   test "drop" do
-    HostServer.register(:a, :A, "a")
-    HostServer.register(:b, :B, "b")
-    HostServer.register(:c, :C1, "c1")
-    HostServer.register(:c, :C2, "c2")
+    HostServer.register(:a, :A)
+    HostServer.register(:b, :B)
+    HostServer.register(:c, :C1)
+    HostServer.register(:c, :C2)
     assert :ok == HostServer.drop(:a, :A)
     assert :ok == HostServer.drop(:c, :C1)
     refute HostServer.has?(:a, :A)
