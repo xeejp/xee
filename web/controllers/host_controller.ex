@@ -4,7 +4,11 @@ defmodule Xee.HostController do
   plug Xee.AuthenticationPlug
 
   def index(conn, _params) do
-    experiment = Xee.HostServer.get(get_session(conn, :current_user))
+    user = Integer.to_string(get_session(conn, :current_user))
+    experiment = Xee.HostServer.get(user)
+    if experiment do
+      experiment = Enum.map(experiment, fn(x) -> Xee.ExperimentServer.get_info(x) end)
+    end
     render conn, "index.html", experiment: experiment
   end
 
@@ -22,19 +26,20 @@ defmodule Xee.HostController do
       |> redirect(to: "/host")
       |> halt
     else
-      has   = Xee.HostServer.has?(get_session(conn, :current_user), x_id)
+      user = Integer.to_string(get_session(conn, :current_user))
+      has   = Xee.HostServer.has?(user, x_id)
       exist = Xee.ExperimentServer.has?(x_id)
       unless (has || exist) do
         themes = Xee.ThemeServer.get_all
                   |> Map.to_list
                   |> Enum.map(fn {_key, value} -> value end)
         {val, _} = Integer.parse(theme)
-        xtheme = Enum.at themes, val - 1
+        xtheme = Enum.at(themes, val - 1)
         Xee.ExperimentServer.create(x_id, %Xee.Experiment{theme_id: xtheme.id, script: xtheme.script, javascript: xtheme.javascript},
-        %{name: name, theme: theme, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_id: x_id})
-        Xee.HostServer.register(get_session(conn, :current_user), x_id)
+        %{name: name, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_id: x_id})
+        Xee.HostServer.register(user, x_id)
         conn
-        |> put_flash(:info, "Made New Experiment : " <> name <> "(" <> theme <> ")")
+        |> put_flash(:info, "Made New Experiment : " <> name <> "(" <> xtheme.name <> ")")
         |> redirect(to: "/experiment/" <> x_id <> "/host")
         |> halt
       else
