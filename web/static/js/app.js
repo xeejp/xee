@@ -7,7 +7,27 @@ import {Socket} from "phoenix"
 //   console.log("Joined succesffuly!", resp)
 // })
 
-let App = {
-}
+import {Socket} from "phoenix"
 
-export default App
+// let socket = new Socket("/ws")
+// socket.connect()
+// let chan = socket.chan("topic:subtopic", {})
+// chan.join().receive("ok", resp => {
+//   console.log("Joined succesffuly!", resp)
+// })
+
+export class Experiment {
+    constructor(topic, type, root) {
+        this.socket = new Socket("/experiment")
+        this.socket.connect({token: token})
+        this.chan = this.socket.chan(topic, {})
+        this.chan.join().receive("ok", resp => {})
+        this.chan.on("update", payload => {
+            root.setState(payload.body)
+        })
+    }
+
+    send_data(data) {
+        this.chan.push("client", {body: data})
+    }
+}

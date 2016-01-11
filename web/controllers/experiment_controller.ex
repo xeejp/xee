@@ -16,7 +16,8 @@ defmodule Xee.ExperimentController do
       end
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.participant_onetime, token, %{participant_id: u_id, experiment_id: x_id})
-      render conn, "index.html", token: token, topic: "x:" <> x_id <> ":participant:" <> u_id
+      js = get_javascript(x_id)
+      render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":participant:" <> u_id
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
@@ -30,11 +31,19 @@ defmodule Xee.ExperimentController do
     if has do
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.host_onetime, token, %{host_id: conn.assigns[:current_user], experiment_id: x_id})
-      render conn, "host.html", token: token, topic: "x:" <> x_id <> ":host:" <> conn.assigns[:current_user]
+      js = get_javascript(x_id)
+      render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":host:" <> conn.assigns[:current_user]
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
       |> redirect(to: "/host")
     end
+  end
+
+  defp get_javascript(xid) do
+    ExperimentServer.get_info xid
+    |> Map.get :experiment
+    |> Map.get :javascript
+    |> File.read!
   end
 end
