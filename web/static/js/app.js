@@ -17,13 +17,13 @@ import {Socket} from "phoenix"
 // })
 
 export class Experiment {
-    constructor(topic, type, root) {
+    constructor(topic, type, update) {
         this.socket = new Socket("/experiment")
         this.socket.connect({token: token})
         this.chan = this.socket.chan(topic, {})
         this.chan.join().receive("ok", resp => {})
         this.chan.on("update", payload => {
-            root.setState(payload.body)
+            update(payload.body)
         })
     }
 
