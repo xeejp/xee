@@ -6,7 +6,7 @@ defmodule Xee.ExperimentController do
   def index(conn, %{"x_id" => x_id}) do
     if Xee.ExperimentServer.has?(x_id) do
       {conn, u_id} = case {get_session(conn, :u_id), get_session(conn, :x_id)} do
-        {u_id, ^x_id} -> {conn, u_id}
+        {u_id, ^x_id} when u_id != nil -> {conn, u_id}
         _ ->
           u_id = Xee.TokenGenerator.generate
           conn = conn
