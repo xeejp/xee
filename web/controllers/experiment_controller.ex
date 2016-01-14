@@ -15,7 +15,7 @@ defmodule Xee.ExperimentController do
           {conn, u_id}
       end
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.participant_onetime, token, %{participant_id: u_id, experiment_id: x_id})
+      Onetime.register(Xee.participant_onetime, token, {:participant, x_id, u_id})
       js = get_javascript(x_id)
       render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":participant:" <> u_id
     else
@@ -30,7 +30,7 @@ defmodule Xee.ExperimentController do
     has = Xee.HostServer.has?(user.id, x_id)
     if has do
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.host_onetime, token, %{host_id: user.id, experiment_id: x_id})
+      Onetime.register(Xee.host_onetime, token, {:host, x_id})
       js = get_javascript(x_id)
       render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":host:" <> Integer.to_string(user.id)
     else
