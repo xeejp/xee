@@ -45,11 +45,11 @@ defmodule Xee.Experiment do
         case Poison.decode(result) do
           {:ok, result = %{"host" => new_host, "participant" => new_participant}} when is_map(new_participant) ->
             if host != new_host do
-              Xee.Endpoint.broadcast!(form_topic(xid), "update", %{payload: new_host})
+              Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: new_host})
             end
             Enum.each(new_participant, fn {id, new_data} ->
               unless Map.get(participant, id) |> is_nil do
-                Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{payload: new_data})
+                Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{body: new_data})
               end
             end)
             {:noreply, {xid, experiment, result}}
