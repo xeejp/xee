@@ -15,7 +15,7 @@ defmodule Xee.PageControllerTest do
 
   test "GET /" do
     conn = get conn(), "/"
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    assert html_response(conn, 200) =~ "経済実験へようこそ！"
   end
 
   test "GET /theme" do
