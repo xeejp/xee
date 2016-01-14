@@ -26,11 +26,11 @@ defmodule Xee.ExperimentController do
   end
 
   def host(conn, %{"x_id" => x_id}) do
-    user = Xee.Repo.get(Xee.User, conn.assigns[:host])
-    has = Xee.HostServer.has?(user.name, x_id)
+    user = Integer.to_string(get_session(conn, :current_user))
+    has = Xee.HostServer.has?(user, x_id)
     if has do
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.host_onetime, token, %{host_id: conn.assigns[:current_user], experiment_id: x_id})
+      Onetime.register(Xee.host_onetime, token, %{host_id: user, experiment_id: x_id})
       js = get_javascript(x_id)
       render conn, "host.html", javascript: js, token: token, topic: "x:" <> x_id <> ":host:" <> user
     else
