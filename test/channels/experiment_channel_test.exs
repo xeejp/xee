@@ -20,11 +20,11 @@ defmodule Xee.ExperimentChannelTest do
 
   test "push from client", %{host_socket: host_socket, participant_socket: participant_socket} do
     name = ExperimentServer.get("x1")
-    push host_socket, "client", %{"data" => 1}
+    push host_socket, "client", %{"body" => 1}
     :timer.sleep(15)
     assert %{"data" => %{"host" => ["1"], "participant" => %{"p1" => []}}, "host" => ["1"], "participant" => %{"p1" => []}} == Experiment.fetch(name)
     assert_broadcast "update", %{body: ["1"]}
-    push participant_socket, "client", %{"data" => 2}
+    push participant_socket, "client", %{"body" => 2}
     :timer.sleep(15)
     assert %{"data" => %{"host" => ["1"], "participant" => %{"p1" => ["2"]}}, "host" => ["1"], "participant" => %{"p1" => ["2"]}} == Experiment.fetch(name)
     assert_broadcast "update", %{body: ["2"]}
