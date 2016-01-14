@@ -23,8 +23,7 @@ defmodule Xee.HostControllerTest do
   test "GET /host with signin" do
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
-            |> with_session_and_flash
-            |> put_session(:current_user, user.id)
+            |> assign(:host, user)
             |> action(:index)
     assert html_response(conn, 200) =~ "管理者画面"
   end
@@ -37,8 +36,7 @@ defmodule Xee.HostControllerTest do
   test "GET /experiment with signin" do
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
-            |> with_session_and_flash
-            |> put_session(:current_user, user.id)
+            |> assign(:host, user)
             |> action(:experiment)
     assert html_response(conn, 200) =~ "実験作成"
   end
@@ -49,7 +47,7 @@ defmodule Xee.HostControllerTest do
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
             |> with_session_and_flash
-            |> put_session(:current_user, user.id)
+            |> assign(:host, user)
             |> action(:create, %{"experiment_name" => "test1", "theme" => "1", "user_num" => "2", "startDateTime" => "", "endDateTime" => "", "showDescription" => "true", "x_id" => x_id})
     assert Xee.ExperimentServer.has?(x_id)
   end
