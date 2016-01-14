@@ -7,17 +7,8 @@ import {Socket} from "phoenix"
 //   console.log("Joined succesffuly!", resp)
 // })
 
-import {Socket} from "phoenix"
-
-// let socket = new Socket("/ws")
-// socket.connect()
-// let chan = socket.chan("topic:subtopic", {})
-// chan.join().receive("ok", resp => {
-//   console.log("Joined succesffuly!", resp)
-// })
-
 export class Experiment {
-    constructor(topic, type, update) {
+    constructor(topic, token, update) {
         this.socket = new Socket("/experiment")
         this.socket.connect({token: token})
         this.chan = this.socket.chan(topic, {})

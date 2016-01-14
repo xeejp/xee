@@ -1,8 +1,5 @@
-<script>
-var _channel_topic = "<%= @topic %>"
-var _token = "<%= @token %>"
-</script>
 <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
-require("web/static/js/app").App.run()
+<%= @javascript %>
+require("web/static/js/app").Experiment("<%= @topic %>", "<%= @token %>", _root)
 </script>

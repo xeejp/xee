@@ -1,7 +1,8 @@
 <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
 <%= @javascript %>
-var _experiment = require("web/static/js/app").Experiment("<%= @topic %>", "<%= @token %>", onUpdate)
+var ex = require("web/static/js/app");
+var _experiment = new ex.Experiment("<%= @topic %>", "<%= @token %>", onUpdate)
 function send_data(data) {
   _experiment.send_data(data)
 }
