@@ -6,7 +6,7 @@ defmodule Xee.ExperimentChannel do
   @wrong_token_error {:error, %{reason: "wrong token"}}
   @wrong_xid_error {:error, %{reason: "wrong xid"}}
 
-  def join("x:" <> topic, %{token: token}, socket) do
+  def join("x:" <> topic, %{"token" => token}, socket) do
     case String.split(topic, ":") do
       [xid, "host"] ->
         if ExperimentServer.has?(xid) do

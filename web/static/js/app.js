@@ -9,9 +9,9 @@ import {Socket} from "phoenix"
 
 export class Experiment {
     constructor(topic, token, update) {
-        this.socket = new Socket("/experiment")
-        this.socket.connect({token: token})
-        this.chan = this.socket.chan(topic, {})
+        this.socket = new Socket("/socket")
+        this.socket.connect()
+        this.chan = this.socket.chan(topic, {token: token})
         this.chan.join().receive("ok", resp => {})
         this.chan.on("update", payload => {
             update(payload.body)
