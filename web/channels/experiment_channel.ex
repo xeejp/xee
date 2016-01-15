@@ -15,6 +15,7 @@ defmodule Xee.ExperimentChannel do
               socket = socket
                         |> assign(:user, :host)
                         |> assign(:xid, xid)
+              ExperimentServer.join(xid)
               {:ok, socket}
             _ -> @wrong_token_error
           end

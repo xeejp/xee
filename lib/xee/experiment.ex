@@ -19,6 +19,10 @@ defmodule Xee.Experiment do
     GenServer.call(pid, :fetch)
   end
 
+  def join(pid) do
+    GenServer.cast(pid, {:script, ["join"]})
+  end
+
   def join(pid, id) do
     GenServer.cast(pid, {:script, ["join", id]})
   end
