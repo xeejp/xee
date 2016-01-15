@@ -18,8 +18,10 @@
           <div class="col-sm-6">
             <select class="form-control" id="theme" name="theme" value="<%= @theme_num %>">
               <%= if @themes do %>
+                <%= i = 0 %>
                 <%= for theme <- @themes do %>
-                  <option><%= theme[:name] %></option>
+                  <option value=<%= i %>><%= theme[:name] %></option>
+                  <%= i = i + 1 %>
                 <% end %>
               <% end %>
               <option>test_experiment</option>

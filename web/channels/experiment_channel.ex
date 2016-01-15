@@ -15,6 +15,7 @@ defmodule Xee.ExperimentChannel do
               socket = socket
                         |> assign(:user, :host)
                         |> assign(:xid, xid)
+              ExperimentServer.join(xid)
               {:ok, socket}
             _ -> @wrong_token_error
           end
@@ -48,7 +49,7 @@ defmodule Xee.ExperimentChannel do
     {:stop, %{reason: reason}, socket}
   end
 
-  def handle_in("client", data, socket) do
+  def handle_in("client", %{"body" => data}, socket) do
     data = Poison.encode!(data)
     name = ExperimentServer.get(socket.assigns[:xid])
     if is_nil(name) do
