@@ -1,0 +1,55 @@
+defmodule Xee.RegistrationControllerTest do
+  use Xee.ConnCase
+  use ExUnit.Case, async: false
+  use Xee.SessionTestHelper, controller: Xee.RegistrationController
+
+  alias Xee.User
+  alias Xee.Session
+
+  @new_user_attrs %{name: "new_user_name", password: "new_user_password"}
+  @existed_user_attrs %{name: "existed_user_name", password: "existed_user_password"}
+  @invalid_user_attrs %{name: "user_name", password: "p"}
+
+  setup do
+    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
+    changeset = User.changeset(%User{}, @existed_user_attrs);
+    User.create(changeset, Xee.Repo)
+
+    on_exit fn ->
+      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
+    end
+  end
+
+  test "GET /register" do
+    conn = get conn(), "/register"
+    refute html_response(conn, 200) =~ "Error!"
+  end
+
+  test "POST /register with new user information" do
+    conn = conn()
+            |> with_session_and_flash
+            |> action(:create, %{"user" => @new_user_attrs})
+
+    refute get_flash(conn, :info) =~ "Failed to registration."
+    assert Session.logged_in?(conn)
+  end
+
+  test "POST /register with existed user information" do
+    conn = conn()
+            |> with_session_and_flash
+            |> action(:create,  %{"user" => @existed_user_attrs})
+
+    assert get_flash(conn, :info) =~ "Failed to registration."
+    refute Session.logged_in?(conn)
+  end
+
+  test "POST /register with invalid user information" do
+    conn = conn()
+            |> with_session_and_flash
+            |> action(:create,  %{"user" => @invalid_user_attrs})
+
+    assert get_flash(conn, :info) =~ "Failed to registration."
+    refute Session.logged_in?(conn)
+  end
+end
+
