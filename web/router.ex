@@ -27,6 +27,10 @@ defmodule Xee.Router do
     get "/logout", SessionController, :delete
 
     get "/theme", PageController, :theme
+
+    # experiment page
+    get "/experiment/:x_id", ExperimentController, :index
+    get "/experiment/:x_id/host", ExperimentController, :host
   end
 
   scope "/host", Xee do
