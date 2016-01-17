@@ -21,7 +21,7 @@ defmodule Xee.SessionControllerTest do
 
   test "GET /login" do
     conn = get conn(), "/login"
-    assert html_response(conn, 200)
+    assert conn.status == 200
   end
 
   test "POST /login with valid user information" do
