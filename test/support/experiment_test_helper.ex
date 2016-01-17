@@ -48,7 +48,7 @@ defmodule Xee.ExperimentTestHelper do
   def join_channel(xid) do
     token = Xee.TokenGenerator.generate()
     Onetime.register(Xee.host_onetime, token, {:host, xid})
-    socket("x:" <> xid <> ":host", %{token: token})
+    socket("x:" <> xid <> ":host", %{"token" => token})
   end
 
 
@@ -58,7 +58,7 @@ defmodule Xee.ExperimentTestHelper do
   def join_channel(xid, name) do
     token = Xee.TokenGenerator.generate()
     Onetime.register(Xee.participant_onetime, token, {:participant, xid, name})
-    socket("x:" <> xid <> ":participant:" <> name, %{token: token})
+    socket("x:" <> xid <> ":participant:" <> name, %{"token" => token})
   end
 
   @doc """
