@@ -12,7 +12,9 @@ export class Experiment {
         this.socket = new Socket("/socket")
         this.socket.connect()
         this.chan = this.socket.chan(topic, {token: token})
-        this.chan.join().receive("ok", resp => {})
+        this.chan.join().receive("ok", _ => {
+            this.chan.push("fetch", {})
+        })
         this.chan.on("update", payload => {
             update(payload.body)
         })

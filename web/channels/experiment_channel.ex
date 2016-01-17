@@ -15,7 +15,6 @@ defmodule Xee.ExperimentChannel do
               socket = socket
                         |> assign(:user, :host)
                         |> assign(:xid, xid)
-              ExperimentServer.join(xid)
               {:ok, socket}
             _ -> @wrong_token_error
           end
@@ -47,6 +46,16 @@ defmodule Xee.ExperimentChannel do
 
   def handle_in("stop", reason, socket) do
     {:stop, %{reason: reason}, socket}
+  end
+
+  def handle_in("fetch", _, socket) do
+    xid = socket.assigns[:xid]
+    data = ExperimentServer.fetch(xid)
+    case socket.assigns[:user] do
+      :host -> broadcast! socket, "update", %{body: data["host"]}
+      participant_id -> broadcast! socket, "update", %{body: data["participant"][participant_id]}
+    end
+    {:noreply, socket}
   end
 
   def handle_in("client", %{"body" => data}, socket) do

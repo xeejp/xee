@@ -21,12 +21,12 @@ defmodule Xee.ExperimentServer do
     Agent.update(__MODULE__, fn map -> Map.put(map, key, {uid, info}) end)
   end
 
-  @doc "Sends a host join message to script."
-  def join(key) do
-    Experiment.join(get(key))
+  @doc "Returns the experiment data."
+  def fetch(key) do
+    Experiment.fetch(get(key))
   end
 
-  @doc "Sends a participant join message to script."
+  @doc "Sends a join message to script."
   def join(key, participant_id) do
     Experiment.join(get(key), participant_id)
   end

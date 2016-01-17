@@ -30,6 +30,13 @@ defmodule Xee.ExperimentChannelTest do
     assert_broadcast "update", %{body: ["2"]}
   end
 
+  test "fetch", %{host_socket: host_socket, participant_socket: participant_socket} do
+    push host_socket, "fetch", %{}
+    assert_broadcast "update", %{body: []}
+    push participant_socket, "fetch", %{}
+    assert_broadcast "update", %{body: []}
+  end
+
   test "broadcasts are pushed to the client", %{host_socket: host_socket, participant_socket: participant_socket} do
     broadcast_from! host_socket, "update", %{"some" => "data"}
     assert_push "update", %{"some" => "data"}
