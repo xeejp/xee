@@ -9,6 +9,7 @@ defmodule Xee.RegistrationControllerTest do
   @new_user_attrs %{name: "new_user_name", password: "new_user_password"}
   @existed_user_attrs %{name: "existed_user_name", password: "existed_user_password"}
   @invalid_user_attrs1 %{name: "user_name", password: "p"}
+  @invalid_user_attrs2 %{name: "", password: "user_password"}
 
   setup do
     Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
@@ -47,6 +48,15 @@ defmodule Xee.RegistrationControllerTest do
     conn = conn()
             |> with_session_and_flash
             |> action(:create,  %{"user" => @invalid_user_attrs1})
+
+    assert get_flash(conn, :info) =~ "Failed to registration."
+    refute Session.logged_in?(conn)
+  end
+
+  test "POST /register with invalid user information(User name is not long enough)" do
+    conn = conn()
+            |> with_session_and_flash
+            |> action(:create,  %{"user" => @invalid_user_attrs2})
 
     assert get_flash(conn, :info) =~ "Failed to registration."
     refute Session.logged_in?(conn)
