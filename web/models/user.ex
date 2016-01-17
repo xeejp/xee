@@ -23,6 +23,7 @@ defmodule Xee.User do
     |> cast(params, @required_fields, @optional_fields)
     |> update_change(:name, &String.downcase/1)
     |> unique_constraint(:name)
+    |> validate_length(:name, min: 1)
     |> validate_length(:password, min: 5)
   end
 
