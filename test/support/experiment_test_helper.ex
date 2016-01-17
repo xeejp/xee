@@ -91,7 +91,7 @@ defmodule Xee.ExperimentTestHelper do
     socket
   end
 
-  @test_experiment %Xee.Experiment{theme_id: :t1, script: ["python", "experiments/test/script.py"], javascript: ""}
+  @test_experiment %Xee.Experiment{theme_id: :t1, script: ["python", "experiments/test/script.py"], javascript: "experiments/test/script.js"}
 
   def test_experiment, do: @test_experiment
 end

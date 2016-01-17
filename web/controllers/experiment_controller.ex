@@ -41,13 +41,9 @@ defmodule Xee.ExperimentController do
   end
 
   defp get_javascript(xid) do
-    path = Xee.ExperimentServer.get_info(xid)
+    Xee.ExperimentServer.get_info(xid)
             |> Map.get(:experiment)
             |> Map.get(:javascript)
-    if path == nil || path == "" do
-      ""
-    else
-      File.read!
-    end
+            |> File.read!
   end
 end
