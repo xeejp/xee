@@ -6,8 +6,6 @@ defmodule Xee.ExperimentControllerTest do
 
   alias Xee.User
 
-  @opts Xee.AuthenticationPlug.init([])
-
   setup do
     Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
     changeset = User.changeset(%User{}, %{name: "a", password: "abcde"})
@@ -19,20 +17,29 @@ defmodule Xee.ExperimentControllerTest do
   end
 
   test "get as a participant without experiment" do
-    conn = get conn(), "/experiment/test"
+    x_id = "test"
+
+    conn = conn()
+            |> with_session_and_flash
+            |> action :index, %{"x_id" => x_id}
     assert get_flash(conn, :error) == "Not Exists Experiment ID"
   end
 
   test "get as a participant successfully" do
     x_id = "test"
     u_id = Xee.TokenGenerator.generate
+    user = Xee.Repo.get_by(User, name: "a")
     Xee.ExperimentServer.create(x_id, test_experiment, %{experiment: test_experiment})
-
     conn = conn()
             |> with_session_and_flash
+            |> assign(:host, user)
             |> put_session(:u_id, u_id)
             |> put_session(:x_id, x_id)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
             |> action :index, %{"x_id" => x_id}
+
+    Xee.HostServer.drop(user.id, x_id)
+    Xee.ExperimentServer.remove(x_id)
     assert x_id == get_session(conn, :x_id)
     assert u_id == get_session(conn, :u_id)
     assert conn.status == 200
@@ -44,7 +51,7 @@ defmodule Xee.ExperimentControllerTest do
 
     conn = conn()
             |> with_session_and_flash
-            |> put_session(:current_user, user.id)
+            |> assign(:host, user)
             |> action :host, %{"x_id" => x_id}
     assert get_flash(conn, :error) == "Not Exists Experiment ID"
   end
@@ -55,11 +62,15 @@ defmodule Xee.ExperimentControllerTest do
     Xee.ExperimentServer.create(x_id, test_experiment, %{experiment: test_experiment})
 
     # has experiment
-    Xee.HostServer.register("a", x_id)
+    Xee.HostServer.register(user.id, x_id)
     conn = conn()
             |> with_session_and_flash
-            |> put_session(:current_user, user.id)
+            |> assign(:host, user)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
             |> action :host, %{"x_id" => x_id}
+
+    Xee.HostServer.drop(user.id, x_id)
+    Xee.ExperimentServer.remove(x_id)
     assert conn.status == 200
   end
 
