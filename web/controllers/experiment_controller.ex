@@ -44,10 +44,10 @@ defmodule Xee.ExperimentController do
     path = Xee.ExperimentServer.get_info(xid)
             |> Map.get(:experiment)
             |> Map.get(:javascript)
-    if path == nil || path == "" do
-      ""
+    if File.exists?(path) do
+      File.read!(path)
     else
-      File.read!
+      ""
     end
   end
 end
