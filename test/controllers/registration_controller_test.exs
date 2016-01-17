@@ -51,7 +51,5 @@ defmodule Xee.RegistrationControllerTest do
     assert get_flash(conn, :info) =~ "Failed to registration."
     refute Session.logged_in?(conn)
   end
-
-
 end
 
