@@ -24,7 +24,6 @@
                   <%= i = i + 1 %>
                 <% end %>
               <% end %>
-              <option>test_experiment</option>
             </select>
           </div>
         </div>
