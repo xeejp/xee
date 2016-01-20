@@ -43,12 +43,14 @@ defmodule Xee.HostControllerTest do
 
   test "POST /experiment/create" do
     Xee.ThemeServer.register :test, %{id: :t1, name: "Example", playnum: "2", lastupdate: "2015/1/1", producer: "hoge", contact: "aaa@aaa", manual: "", script: ["python", "experiments/test/script.py"], javascript: ""}
-    x_id = "test"
+    x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
             |> with_session_and_flash
             |> assign(:host, user)
-            |> action(:create, %{"experiment_name" => "test1", "theme" => "1", "user_num" => "2", "startDateTime" => "", "endDateTime" => "", "showDescription" => "true", "x_id" => x_id})
-    assert Xee.ExperimentServer.has?(x_id)
+            |> action(:create, %{"experiment_name" => "test1", "theme" => "1", "user_num" => "2", "startDateTime" => "", "endDateTime" => "", "showDescription" => "true", "x_token" => x_token})
+    assert Xee.TokenServer.has?(x_token)
+    xid = Xee.TokenServer.get(x_token)
+    assert Xee.ExperimentServer.has?(xid)
   end
 end

@@ -16,10 +16,10 @@ defmodule Xee.HostController do
     themes = Xee.ThemeServer.get_all
               |> Map.to_list
               |> Enum.map(fn {_key, value} -> value end)
-    render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_num: "0", themes: themes, user_num: "1", startDateTime: "", endDateTime: "", showDescription: "true", id: Xee.TokenServer.generate_id
+    render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_num: "0", themes: themes, user_num: "1", startDateTime: "", endDateTime: "", showDescription: "true", x_token: Xee.TokenServer.generate_id
   end
 
-  def create(conn, %{"experiment_name" => name, "theme" => theme, "user_num" => user_num, "startDateTime" => start_info, "endDateTime" => end_info, "showDescription" => show, "x_id" => x_id}) do
+  def create(conn, %{"experiment_name" => name, "theme" => theme, "user_num" => user_num, "startDateTime" => start_info, "endDateTime" => end_info, "showDescription" => show, "x_token" => x_token}) do
     if (name == nil || name == "") do
       conn
       |> put_flash(:error, "Make Experiment Error")
@@ -27,20 +27,20 @@ defmodule Xee.HostController do
       |> halt
     else
       user = conn.assigns[:host]
-      has   = Xee.HostServer.has?(user.id, x_id)
-      exist = Xee.ExperimentServer.has?(x_id)
-      unless (has || exist) do
+      unless Xee.TokenServer.has?(x_token) do
         themes = Xee.ThemeServer.get_all
                   |> Map.to_list
                   |> Enum.map(fn {_key, value} -> value end)
         {val, _} = Integer.parse(theme)
         xtheme = Enum.at(themes, val - 1)
         experiment = %Xee.Experiment{theme_id: xtheme.id, script: xtheme.script, javascript: xtheme.javascript}
-        Xee.ExperimentServer.create(x_id, experiment, %{name: name, experiment: experiment, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_id: x_id})
-        Xee.HostServer.register(user.id, x_id)
+        xid = Xee.TokenGenerator.generate
+        Xee.TokenServer.register(x_token, xid)
+        Xee.ExperimentServer.create(xid, experiment, %{name: name, experiment: experiment, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, xid: x_token})
+        Xee.HostServer.register(user.id, xid)
         conn
         |> put_flash(:info, "Made New Experiment : " <> name <> "(" <> xtheme.name <> ")")
-        |> redirect(to: "/experiment/" <> x_id <> "/host")
+        |> redirect(to: "/experiment/" <> x_token <> "/host")
         |> halt
       else
         themes = Xee.ThemeServer.get_all

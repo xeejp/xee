@@ -3,21 +3,22 @@ defmodule Xee.ExperimentController do
 
   plug Xee.AuthenticationPlug when action in [:host]
 
-  def index(conn, %{"x_id" => x_id}) do
-    if Xee.ExperimentServer.has?(x_id) do
-      {conn, u_id} = case {get_session(conn, :u_id), get_session(conn, :x_id)} do
-        {u_id, ^x_id} when u_id != nil -> {conn, u_id}
+  def index(conn, %{"x_token" => x_token}) do
+    if Xee.TokenServer.has?(x_token) do
+      xid = Xee.TokenServer.get(x_token)
+      {conn, u_id} = case {get_session(conn, :u_id), get_session(conn, :xid)} do
+        {u_id, ^xid} when u_id != nil -> {conn, u_id}
         _ ->
           u_id = Xee.TokenGenerator.generate
           conn = conn
                   |> put_session(:u_id, u_id)
-                  |> put_session(:x_id, x_id)
+                  |> put_session(:xid, xid)
           {conn, u_id}
       end
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.participant_onetime, token, {:participant, x_id, u_id})
-      js = get_javascript(x_id)
-      render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":participant:" <> u_id
+      Onetime.register(Xee.participant_onetime, token, {:participant, xid, u_id})
+      js = get_javascript(xid)
+      render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":participant:" <> u_id
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
@@ -25,14 +26,15 @@ defmodule Xee.ExperimentController do
     end
   end
 
-  def host(conn, %{"x_id" => x_id}) do
+  def host(conn, %{"x_token" => x_token}) do
     user = conn.assigns[:host]
-    has = Xee.HostServer.has?(user.id, x_id)
+    xid = Xee.TokenServer.get(x_token)
+    has = Xee.HostServer.has?(user.id, xid)
     if has do
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.host_onetime, token, {:host, x_id})
-      js = get_javascript(x_id)
-      render conn, "index.html", javascript: js, token: token, topic: "x:" <> x_id <> ":host"
+      Onetime.register(Xee.host_onetime, token, {:host, xid})
+      js = get_javascript(xid)
+      render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":host"
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")

@@ -65,9 +65,9 @@
       </div>
       <div class="row form-group">
         <div class="form-group form-group-lg">
-          <label class="col-sm-4 control-label" for="x_id">実験ID</label>
+          <label class="col-sm-4 control-label" for="x_token">実験ID</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control" id="x_id" name="x_id" placeholder="" value="<%= @id %>">
+            <input type="text" class="form-control" id="x_token" name="x_token" placeholder="" value="<%= @x_token %>">
           </div>
         </div>
       </div>
