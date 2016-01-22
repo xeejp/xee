@@ -29,8 +29,9 @@ defmodule Xee.Router do
     get "/theme", PageController, :theme
 
     # experiment page
-    get "/experiment/:x_id", ExperimentController, :index
-    get "/experiment/:x_id/host", ExperimentController, :host
+    get "/experiment", ExperimentController, :shortcut
+    get "/experiment/:xid", ExperimentController, :index
+    get "/experiment/:xid/host", ExperimentController, :host
   end
 
   scope "/host", Xee do

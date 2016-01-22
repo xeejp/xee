@@ -17,65 +17,73 @@ defmodule Xee.ExperimentControllerTest do
   end
 
   test "get as a participant without experiment" do
-    x_id = "test"
+    xid = "test"
 
     conn = conn()
             |> with_session_and_flash
-            |> action :index, %{"x_id" => x_id}
+            |> action :index, %{"xid" => xid}
     assert get_flash(conn, :error) == "Not Exists Experiment ID"
   end
 
-  test "get as a participant successfully" do
-    x_id = "test"
+  test "get as a participant with using shortcut token" do
+    token = "test"
+    xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
-    user = Xee.Repo.get_by(User, name: "a")
-    Xee.ExperimentServer.create(x_id, test_experiment, %{experiment: test_experiment})
+
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    Xee.TokenServer.register(token, xid)
     conn = conn()
             |> with_session_and_flash
-            |> assign(:host, user)
             |> put_session(:u_id, u_id)
-            |> put_session(:x_id, x_id)
+            |> put_session(:xid, xid)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :index, %{"x_id" => x_id}
+            |> action :shortcut, %{"token" => token}
 
-    Xee.HostServer.drop(user.id, x_id)
-    Xee.ExperimentServer.remove(x_id)
-    assert x_id == get_session(conn, :x_id)
+    Xee.TokenServer.drop(token)
+    Xee.ExperimentServer.remove(xid)
+
+    assert xid == get_session(conn, :xid)
     assert u_id == get_session(conn, :u_id)
     assert conn.status == 200
   end
 
-  test "get as a host without experiment" do
-    x_id = "test"
-    user = Xee.Repo.get_by(User, name: "a")
+  test "get as a participant successfully" do
+    token = "test"
+    xid  = Xee.TokenGenerator.generate
+    u_id = Xee.TokenGenerator.generate
 
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    Xee.TokenServer.register(token, xid)
     conn = conn()
             |> with_session_and_flash
-            |> assign(:host, user)
-            |> action :host, %{"x_id" => x_id}
-    assert get_flash(conn, :error) == "Not Exists Experiment ID"
+            |> put_session(:u_id, u_id)
+            |> put_session(:xid, xid)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
+            |> action :index, %{"xid" => xid}
+    Xee.TokenServer.drop(token)
+    Xee.ExperimentServer.remove(xid)
+
+    assert xid == get_session(conn, :xid)
+    assert u_id == get_session(conn, :u_id)
+    assert conn.status == 200
   end
 
   test "get as a host successfully" do
-    x_id = "test"
+    xid  = Xee.TokenGenerator.generate
     user = Xee.Repo.get_by(User, name: "a")
-    Xee.ExperimentServer.create(x_id, test_experiment, %{experiment: test_experiment})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
 
     # has experiment
-    Xee.HostServer.register(user.id, x_id)
+    Xee.HostServer.register(user.id, xid)
     conn = conn()
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :host, %{"x_id" => x_id}
+            |> action :host, %{"xid" => xid}
 
-    Xee.HostServer.drop(user.id, x_id)
-    Xee.ExperimentServer.remove(x_id)
+    Xee.HostServer.drop(user.id, xid)
+    Xee.ExperimentServer.remove(xid)
+
     assert conn.status == 200
-  end
-
-  test "get as a host without signin" do
-    conn = get conn(), "/experiment/test/host"
-    assert get_flash(conn, :error) == "You need to be signed in to view this page"
   end
 end
