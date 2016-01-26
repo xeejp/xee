@@ -45,6 +45,7 @@ defmodule Xee.Web do
       use Phoenix.HTML
 
       import Xee.Router.Helpers
+      import Xee.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 

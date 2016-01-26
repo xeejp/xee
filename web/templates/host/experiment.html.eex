@@ -1,0 +1,119 @@
+<h1>実験作成</h1>
+<hr>
+<form method="post" action="/host/experiment/create">
+  <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+  <h3>
+    <div class="container-fluid">
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="experiment">実験名</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="experiment" name="experiment_name" value="<%= @experiment_name %>">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="theme">実験テーマ</label>
+          <div class="col-sm-6">
+            <select class="form-control" id="theme" name="theme" value="<%= @theme_num %>">
+              <%= if @themes do %>
+                <%= i = 0 %>
+                <%= for theme <- @themes do %>
+                  <option value=<%= i %>><%= theme[:name] %></option>
+                  <%= i = i + 1 %>
+                <% end %>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="user_num">参加予定人数</label>
+          <div class="col-sm-6">
+            <input type="number" min="1" max="1000" class="form-control" id="user_num" name="user_num" value="<%= @user_num %>">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="startDateTime">実験開始日時</label>
+          <div class="col-sm-6">
+            <input type="datetime-local" class="form-control" id="startDateTime" name="startDateTime" value="<%= @startDateTime %>">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="endDateTime">実験終了日時</label>
+          <div class="col-sm-6">
+            <input type="datetime-local" class="form-control" id="endDateTime" name="endDateTime" value="<%= @endDateTime %>">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="showDescription">説明</label>
+          <div class="col-sm-6">
+            <select class="form-control" id="showDescription" name="showDescription" value="<%= @showDescription %>">
+              <option value="true">説明を表示する</option>
+              <option value="false">説明を表示しない</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="form-group form-group-lg">
+          <label class="col-sm-4 control-label" for="x_token">実験ID</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="x_token" name="x_token" placeholder="" value="<%= @x_token %>">
+          </div>
+        </div>
+      </div>
+    </div>
+  </h3>
+  <div class="container-fluid">
+    <div class="row">
+      <button class="btn btn-primary pull-right" type="submit">実験作成</button>
+    </div>
+  </div>
+</form>
+
+<%= if @themes do %>
+  <h2>実験テーマ一覧</h2>
+  <hr>
+  <h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>タイトル</th>
+          <th>実験実績</th>
+          <th>最終更新日</th>
+          <th>実験製作者</th>
+          <th>連絡先</th>
+          <th>実験手引書</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for theme <- @themes do %>
+          <tr>
+            <td></td>
+            <td><%= theme[:name] %></td>
+            <td><%= theme[:playnum] %>回終了</td>
+            <td><%= theme[:lastupdate] %></td>
+            <td><%= theme[:producer] %></td>
+            <td><%= theme[:contact] %></td>
+            <td><%= if theme[:manual] == "" do %>
+                なし
+                <%= else %>
+                <a href="<%= theme[:manual] %>">あり</a>
+                <%= end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </h4>
+<% end %>

@@ -1,14 +1,13 @@
 language: elixir
 elixir:
-- 1.1.0
+  - 1.1.0
 otp_release:
-- 18.0
+  - 18.0
 sudo: false
 addons:
   postgresql: '9.4'
 before_script:
-- npm install
-- mix do ecto.create, ecto.migrate
+  - script/test_bootstrap
 script: script/test
 notifications:
   email:
