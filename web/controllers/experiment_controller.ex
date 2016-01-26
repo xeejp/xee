@@ -49,6 +49,5 @@ defmodule Xee.ExperimentController do
     Xee.ExperimentServer.get_info(xid)
             |> Map.get(:experiment)
             |> Map.get(:javascript)
-            |> File.read!
   end
 end
