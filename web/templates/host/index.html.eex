@@ -34,7 +34,7 @@
             <tr>
               <td><%= exp[:name] %></td>
               <td><%= exp[:theme] %></td>
-              <td><a href="/experiment/<%= exp[:x_id] %>/host"><%= exp[:x_id] %></a></td>
+              <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
             </tr>
             <%= end %>
         </tbody>

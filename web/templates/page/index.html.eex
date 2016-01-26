@@ -12,13 +12,13 @@
 <center>
   <div class="row">
     <div class="col-md-4 content-area" style="float:none;">
-      <form>
+      <form method="get" action="/experiment">
         <div class="form-group has-feedback">
-          <input type="text" class="form-control input-lg" id="ExperimentCode" placeholder="実験記号">
+          <input type="text" class="form-control input-lg" name="token" placeholder="実験記号">
           <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
           <span class="help-block">実験記号を入力してください。</span>
         </div>
-        <button type="button" onclick="location.href='/experiment/' + getElementById('ExperimentCode').value" class="btn btn-primary btn-lg btn-block">実験に参加する</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">実験に参加する</button>
       </form>
     </div>
   </div>

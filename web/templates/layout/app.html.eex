@@ -1,4 +1,32 @@
 <!DOCTYPE html>
+<div class="navbar navber-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/"><h1>XEE.JP</h1></a>
+    </div>
+    <div id="nav-content" class="navbar-right">
+      <ul class="nav navbar-nav">
+        <%= if logged_in?(@conn) do %>
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <%= current_user(@conn).name %>&nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation"><a href="/">トップページ</a></li>
+              <li role="presentation"><a href="/host">実験管理画面</a></li>
+              <li role="presentation"><hr/></li>
+              <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li role="presentation"><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+          <li role="presentation"><%= link "ログイン", to: session_path(@conn, :new) %></li>
+        <% end %>
+      </ul>
+    </div> <!-- /nav-content -->
+  </div> <!-- /container -->
+</div> <!-- /navbar -->
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,26 +35,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Phoenix!</title>
+    <title>XEE.JP</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/vendor.css") %>">
   </head>
 
   <body>
     <div class="container" role="main">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <%= if logged_in?(@conn) do %>
-            <li><%= current_user(@conn).name %></li>
-            <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
-          <% else %>
-            <li><%= link "新規登録", to: registration_path(@conn, :new) %></li>
-            <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
-          <% end %>
-        </ul>
-        <span class="logo"></span>
-      </div>
-
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
@@ -36,6 +51,11 @@
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <script>require("web/static/js/app")</script>
-
   </body>
 </html>
+
+<footer style="text-align:center; padding:30px;">
+  <hr/>
+  <small>Copyright (C) 2015-2016 <a href="https://www.facebook.com/hryohei">Ryohei HAYASHI</a> All Rights Reserved.</small>
+</footer>
+
