@@ -30,7 +30,11 @@ defmodule Xee.ExperimentTestHelper do
 
   defmacro __using__(_opts) do
     quote do
+      Code.require_file("experiments/test/test.exs")
+      js = File.read!("experiments/test/script.js")
+      @test_experiment %Xee.Experiment{theme_id: :t1, module: Test, javascript: js}
       import Xee.ExperimentTestHelper
+      def test_experiment, do: @test_experiment
     end
   end
 
@@ -90,8 +94,4 @@ defmodule Xee.ExperimentTestHelper do
     {:ok, _, socket} = Phoenix.ChannelTest.subscribe_and_join(socket, topic, param)
     socket
   end
-
-  @test_experiment %Xee.Experiment{theme_id: :t1, script: ["python", "experiments/test/script.py"], javascript: "experiments/test/script.js"}
-
-  def test_experiment, do: @test_experiment
 end
