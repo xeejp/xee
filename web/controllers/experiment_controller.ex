@@ -21,7 +21,7 @@ defmodule Xee.ExperimentController do
       end
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.participant_onetime, token, {:participant, xid, u_id})
-      js = get_javascript(xid)
+      js = get_javascript(xid, :participant)
       render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":participant:" <> u_id
     else
       conn
@@ -36,7 +36,7 @@ defmodule Xee.ExperimentController do
     if has do
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.host_onetime, token, {:host, xid})
-      js = get_javascript(xid)
+      js = get_javascript(xid, :host)
       render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":host"
     else
       conn
@@ -45,9 +45,9 @@ defmodule Xee.ExperimentController do
     end
   end
 
-  defp get_javascript(xid) do
+  defp get_javascript(xid, key) do
     Xee.ExperimentServer.get_info(xid)
             |> Map.get(:experiment)
-            |> Map.get(:javascript)
+            |> Map.get(key)
   end
 end
