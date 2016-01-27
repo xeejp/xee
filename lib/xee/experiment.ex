@@ -1,16 +1,15 @@
 defmodule Xee.Experiment do
   use GenServer
 
-  defstruct theme_id: nil, script: nil, javascript: nil
+  defstruct theme_id: nil, module: nil, javascript: nil
 
   def start_link(experiment, xid) do
     GenServer.start_link(__MODULE__, {experiment, xid})
   end
 
   def init({experiment, xid}) do
-    [command | args] = experiment.script
-    case call_script(command, args ++ ["init"]) do
-      {0, result} -> {:ok, {xid, experiment, Poison.decode!(result)}}
+    case call_script(experiment, :init, []) do
+      {:ok, result} -> {:ok, {xid, experiment, result}}
       _ -> :error
     end
   end
@@ -20,30 +19,27 @@ defmodule Xee.Experiment do
   end
 
   def join(pid, id) do
-    GenServer.cast(pid, {:script, ["join", id]})
+    GenServer.cast(pid, {:script, {:join, [id]}})
   end
 
   def client(pid, received, participant_id) do
-    GenServer.cast(pid, {:script, ["receive", Poison.encode!(received), participant_id]})
+    GenServer.cast(pid, {:script, {:receive, [received, participant_id]}})
   end
 
   def client(pid, received) do
-    GenServer.cast(pid, {:script, ["receive", Poison.encode!(received)]})
+    GenServer.cast(pid, {:script, {:receive, [received]}})
   end
 
   def handle_call(:fetch, _from, {_xid, _experiment, data} = state) do
     {:reply, data, state}
   end
 
-  def handle_cast({:script, list}, {xid, experiment, %{"data" => data, "host" => host, "participant" => participant}} = state) do
-    [command | tail] = experiment.script
-    args = tail ++ List.insert_at(list, 1, Poison.encode!(data))
-    # command: "python"
-    # args: ["script.py", "join", DATA, id]
-    case call_script(command, args) do
-      {0, result} ->
-        case Poison.decode(result) do
-          {:ok, result = %{"host" => new_host, "participant" => new_participant}} when is_map(new_participant) ->
+  def handle_cast({:script, {func, args}}, {xid, experiment, %{"data" => data, "host" => host, "participant" => participant}} = state) do
+    args = [data] ++ args
+    case call_script(experiment, func, args) do
+      {:ok, result} ->
+        case result do
+          %{"host" => new_host, "participant" => new_participant} when is_map(new_participant) ->
             if host != new_host do
               Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: new_host})
             end
@@ -53,15 +49,14 @@ defmodule Xee.Experiment do
               end
             end)
             {:noreply, {xid, experiment, result}}
-          _ -> {:stop, "The result is wrong: #{result}", state}
+          _ -> {:stop, "The result is wrong: #{inspect result}", state}
         end
       _ -> {:stop, "The script failed. #{args}", state}
     end
   end
 
-  def call_script(command, args) do
-    {output, status} = System.cmd(command, args)
-    {status, output}
+  def call_script(experiment, func, args) do
+    apply(experiment.module, func, args)
   end
 
   @doc "Forms a topic name for host."
