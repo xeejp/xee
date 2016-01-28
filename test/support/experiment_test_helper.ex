@@ -31,8 +31,9 @@ defmodule Xee.ExperimentTestHelper do
   defmacro __using__(_opts) do
     quote do
       Code.require_file("experiments/test/test.exs")
-      js = File.read!("experiments/test/script.js")
-      @test_experiment %Xee.Experiment{theme_id: :t1, module: Test, javascript: js}
+      host = File.read!("experiments/test/host.js")
+      participant = File.read!("experiments/test/participant.js")
+      @test_experiment %Xee.Experiment{theme_id: :t1, module: Test, host: host, participant: participant}
       import Xee.ExperimentTestHelper
       def test_experiment, do: @test_experiment
     end

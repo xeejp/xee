@@ -1,7 +1,7 @@
 defmodule Xee.Experiment do
   use GenServer
 
-  defstruct theme_id: nil, module: nil, javascript: nil
+  defstruct theme_id: nil, module: nil, host: nil, participant: nil
 
   def start_link(experiment, xid) do
     GenServer.start_link(__MODULE__, {experiment, xid})

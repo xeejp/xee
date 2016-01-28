@@ -66,6 +66,7 @@ defmodule Xee.ExperimentControllerTest do
     assert xid == get_session(conn, :xid)
     assert u_id == get_session(conn, :u_id)
     assert conn.status == 200
+    assert html_response(conn, 200) =~ "// participant" # from experiments/test/participant.js
   end
 
   test "get as a host successfully" do
@@ -85,5 +86,6 @@ defmodule Xee.ExperimentControllerTest do
     Xee.ExperimentServer.remove(xid)
 
     assert conn.status == 200
+    assert html_response(conn, 200) =~ "// host" # from experiments/test/participant.js
   end
 end

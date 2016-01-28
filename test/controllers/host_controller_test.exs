@@ -43,7 +43,7 @@ defmodule Xee.HostControllerTest do
   end
 
   test "POST /experiment/create" do
-    Xee.ThemeServer.register :test, %{id: :t1, name: "Example", playnum: "2", lastupdate: "2015/1/1", producer: "hoge", contact: "aaa@aaa", manual: "", module: test_experiment.module, javascript: test_experiment.javascript}
+    Xee.ThemeServer.register :test, %{id: :t1, name: "Example", playnum: "2", lastupdate: "2015/1/1", producer: "hoge", contact: "aaa@aaa", manual: "", module: test_experiment.module, host: test_experiment.host, participant: test_experiment.participant}
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
