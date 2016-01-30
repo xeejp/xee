@@ -25,4 +25,16 @@ defmodule Xee.ThemeServerTest do
     assert :ok == ThemeServer.register(:c, :C)
     assert %{a: :A, b: :B, c: :C} == ThemeServer.get_all()
   end
+
+  test "load experiments" do
+    ThemeServer.load("test/assets/example_experiments.exs")
+    assert ThemeServer.get(:example1) == %Xee.Experiment{
+      theme_id: :example1, module: Example1,
+      host: "// example1 host.js\n",
+      participant: "// example1 participant.js\n"}
+    assert ThemeServer.get(:example2) == %Xee.Experiment{
+      theme_id: :example2, module: Example2,
+      host: "// example2 host.js\n",
+      participant: "// example2 participant.js\n"}
+  end
 end
