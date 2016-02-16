@@ -4,13 +4,12 @@ defmodule Xee.ThemeServer do
   """
 
   def experiment(name, file: file, host: host, participant: participant) do
-    id = Xee.TokenGenerator.generate()
     [{module, _} | _] = Code.load_file(file)
     host = File.read!(host)
     participant = File.read!(participant)
-    experiment = %Xee.Experiment{theme_id: id, module: module, host: host, participant: participant}
-    theme = %Xee.Theme{experiment: experiment, id: id, name: name, playnum: 0, lastupdate: 0, producer: "", contact: "", manual: ""}
-    Xee.ThemeServer.register(id, theme)
+    experiment = %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant}
+    theme = %Xee.Theme{experiment: experiment, id: name, name: name, playnum: 0, lastupdate: 0, producer: "", contact: "", manual: ""}
+    Xee.ThemeServer.register(name, theme)
   end
 
   def start_link() do
