@@ -1,6 +1,12 @@
 defmodule Xee do
   use Application
 
+  @host_onetime_server_name :HostOnetime
+  @participant_onetime_server_name :ParticipantOnetime
+
+  def host_onetime, do: @host_onetime_server_name
+  def participant_onetime, do: @participant_onetime_server_name
+
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -11,8 +17,14 @@ defmodule Xee do
       supervisor(Xee.Endpoint, []),
       # Start the Ecto repository
       worker(Xee.Repo, []),
+      worker(Xee.ThemeServer, []),
+      worker(Xee.HostServer, []),
+      worker(Xee.TokenServer, []),
       # Here you could define other workers and supervisors as children
       # worker(Xee.Worker, [arg1, arg2, arg3]),
+      worker(Onetime, [[name: @host_onetime_server_name]], id: :host),
+      worker(Onetime, [[name: @participant_onetime_server_name]], id: :participant),
+      worker(Xee.ExperimentServer, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

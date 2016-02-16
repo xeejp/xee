@@ -7,7 +7,20 @@ import {Socket} from "phoenix"
 //   console.log("Joined succesffuly!", resp)
 // })
 
-let App = {
-}
+export class Experiment {
+    constructor(topic, token, update) {
+        this.socket = new Socket("/socket")
+        this.socket.connect()
+        this.chan = this.socket.chan(topic, {token: token})
+        this.chan.join().receive("ok", _ => {
+            this.chan.push("fetch", {})
+        })
+        this.chan.on("update", payload => {
+            update(payload.body)
+        })
+    }
 
-export default App
+    send_data(data) {
+        this.chan.push("client", {body: data})
+    }
+}
