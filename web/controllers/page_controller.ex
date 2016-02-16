@@ -9,6 +9,7 @@ defmodule Xee.PageController do
     themes = Xee.ThemeServer.get_all
               |> Map.to_list
               |> Enum.map(fn {_key, value} -> value end)
+              |> Enum.filter(fn theme -> Xee.Theme.granted? theme end)
     render conn, "theme.html", themes: themes
   end
 end

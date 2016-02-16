@@ -17,15 +17,15 @@
         <%= for theme <- @themes do %>
           <tr>
             <td></td>
-            <td><%= theme[:name] %></td>
-            <td><%= theme[:playnum] %>回終了</td>
-            <td><%= theme[:lastupdate] %></td>
-            <td><%= theme[:producer] %></td>
-            <td><%= theme[:contact] %></td>
-            <td><%= if theme[:manual] == "" do %>
+            <td><%= theme.name %></td>
+            <td><%= theme.playnum %>回終了</td>
+            <td><%= theme.lastupdate %></td>
+            <td><%= theme.producer %></td>
+            <td><%= theme.contact %></td>
+            <td><%= if theme.manual == "" do %>
                 なし
                 <%= else %>
-                <a href="<%= theme[:manual] %>">あり</a>
+                <a href="<%= theme.manual %>">あり</a>
                 <%= end %>
             </td>
           </tr>
