@@ -28,13 +28,29 @@ defmodule Xee.ThemeServerTest do
 
   test "load experiments" do
     ThemeServer.load("test/assets/example_experiments.exs")
-    assert ThemeServer.get(:example1) == %Xee.Experiment{
-      theme_id: :example1, module: Example1,
-      host: "// example1 host.js\n",
-      participant: "// example1 participant.js\n"}
-    assert ThemeServer.get(:example2) == %Xee.Experiment{
-      theme_id: :example2, module: Example2,
-      host: "// example2 host.js\n",
-      participant: "// example2 participant.js\n"}
+    themes = ThemeServer.get_all()
+    themes |> Map.to_list() |> Enum.map(fn {key, value} ->
+      case value.name do
+        "example1" ->
+          %Xee.Theme{
+            name: "example1",
+            experiment: %Xee.Experiment{
+              theme_id: id, module: Example1,
+              host: "// example1 host.js\n",
+              participant: "// example1 participant.js\n"
+            }
+          } = value
+          assert id == key
+        "example2" ->
+          %Xee.Theme{
+            name: "example2",
+            experiment: %Xee.Experiment{
+              theme_id: id, module: Example2,
+              host: "// example2 host.js\n",
+              participant: "// example2 participant.js\n"}
+          } = value
+          assert id == key
+      end
+    end)
   end
 end

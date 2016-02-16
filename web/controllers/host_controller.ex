@@ -34,9 +34,8 @@ defmodule Xee.HostController do
                   |> Enum.map(fn {_key, value} -> value end)
         {val, _} = Integer.parse(theme)
         xtheme = Enum.at(themes, val - 1)
-        experiment = %Xee.Experiment{theme_id: xtheme.id, module: xtheme.module, host: xtheme.host, participant: xtheme.participant}
         Xee.TokenServer.register(x_token, xid)
-        Xee.ExperimentServer.create(xid, experiment, %{name: name, experiment: experiment, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_token: x_token, xid: xid})
+        Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_token: x_token, xid: xid})
         Xee.HostServer.register(user.id, xid)
         conn
         |> put_flash(:info, "Made New Experiment : " <> name <> "(" <> xtheme.name <> ")")
