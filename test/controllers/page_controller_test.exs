@@ -24,8 +24,8 @@ defmodule Xee.PageControllerTest do
   end
 
   test "GET /theme with ThemeData" do
-    Xee.ThemeServer.register :test,  %{name: "リカード生産比較", playnum: "2235", lastupdate: "2015/1/1", producer: "hoge", contact: "aaa@aaa", manual: ""}
-    Xee.ThemeServer.register :test1, %{name: "ダブルオークション実験", playnum: "345", lastupdate: "2015/1/2", producer: "piyo", contact: "bbb@bbb", manual: "#"}
+    Xee.ThemeServer.register :test,  %Xee.Theme{name: "リカード生産比較", playnum: "2235", lastupdate: "2015/1/1", producer: "hoge", contact: "aaa@aaa", manual: ""}
+    Xee.ThemeServer.register :test1, %Xee.Theme{name: "ダブルオークション実験", playnum: "345", lastupdate: "2015/1/2", producer: "piyo", contact: "bbb@bbb", manual: "#"}
     conn = get conn(), "/theme"
     assert html_response(conn, 200) =~ "<td>リカード生産比較</td>"
   end
