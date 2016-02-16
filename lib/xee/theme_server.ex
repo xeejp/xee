@@ -3,8 +3,22 @@ defmodule Xee.ThemeServer do
   The server to store experiment themes.
   """
 
+  def experiment(name, file: file, host: host, participant: participant) do
+    [{module, _} | _] = Code.load_file(file)
+    host = File.read!(host)
+    participant = File.read!(participant)
+    Xee.ThemeServer.register(name, %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant})
+  end
+
   def start_link() do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
+  end
+
+  @doc """
+  Loads experiments from file.
+  """
+  def load(experiments_file) do
+    Code.require_file(experiments_file)
   end
 
   @doc """
