@@ -1,3 +1,5 @@
+<div id="content">
+</div>
 <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
 var ex = require("web/static/js/app");
@@ -7,5 +9,3 @@ function send_data(data) {
   _experiment.send_data(data)
 }
 </script>
-<div id="content">
-</div>
