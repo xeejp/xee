@@ -2,8 +2,10 @@
 <script>
 <%= @javascript %>
 var ex = require("web/static/js/app");
-var _experiment = new ex.Experiment("<%= @topic %>", "<%= @token %>", onUpdate)
+_experiment = new ex.Experiment("<%= @topic %>", "<%= @token %>", onUpdate)
 function send_data(data) {
   _experiment.send_data(data)
 }
 </script>
+<div id="content">
+</div>

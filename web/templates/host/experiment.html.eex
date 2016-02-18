@@ -16,12 +16,11 @@
         <div class="form-group form-group-lg">
           <label class="col-sm-4 control-label" for="theme">実験テーマ</label>
           <div class="col-sm-6">
-            <select class="form-control" id="theme" name="theme" value="<%= @theme_num %>">
+            <select class="form-control" id="theme" name="theme" value="<%= @theme_id %>">
               <%= if @themes do %>
                 <%= i = 0 %>
                 <%= for theme <- @themes do %>
-                  <option value=<%= i %>><%= theme.name %></option>
-                  <%= i = i + 1 %>
+                  <option value=<%= theme.id %>><%= theme.name %></option>
                 <% end %>
               <% end %>
             </select>

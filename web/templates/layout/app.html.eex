@@ -41,6 +41,7 @@
   </head>
 
   <body>
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
     <div class="container" role="main">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
@@ -48,9 +49,6 @@
       <%= @inner %>
 
     </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
-    <script>require("web/static/js/app")</script>
   </body>
 </html>
 
