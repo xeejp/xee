@@ -44,7 +44,7 @@ defmodule Xee.Experiment do
               Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: new_host})
             end
             Enum.each(new_participant, fn {id, new_data} ->
-              unless Map.get(participant, id) |> is_nil do
+              if Map.get(participant, id) != new_data do
                 Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{body: new_data})
               end
             end)
