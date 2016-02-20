@@ -1,11 +1,11 @@
+<div id="content">
+</div>
 <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
-<%= @javascript %>
 var ex = require("web/static/js/app");
+<%= raw @javascript %>
 _experiment = new ex.Experiment("<%= @topic %>", "<%= @token %>", onUpdate)
 function send_data(data) {
   _experiment.send_data(data)
 }
 </script>
-<div id="content">
-</div>

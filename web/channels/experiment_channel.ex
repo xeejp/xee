@@ -59,7 +59,6 @@ defmodule Xee.ExperimentChannel do
   end
 
   def handle_in("client", %{"body" => data}, socket) do
-    data = Poison.encode!(data)
     name = ExperimentServer.get(socket.assigns[:xid])
     if is_nil(name) do
       {:stop, "wrong xid", socket}
