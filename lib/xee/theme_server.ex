@@ -2,8 +2,26 @@ defmodule Xee.ThemeServer do
   @moduledoc """
   The server to store experiment themes.
   """
+  require Logger
+
+  defp do_and_watch(files, func) do
+    func.()
+    if Mix.env == :dev do
+      Fwatch.watch_file(files, fn _, _ ->
+        func.()
+      end)
+    end
+  end
 
   def experiment(name, file: file, host: host, participant: participant, granted: granted) do
+    do_and_watch([file, host, participant], fn -> load_from_file(name, file, host, participant, granted) end)
+  end
+
+  def experiment(name, file: file, host: host, participant: participant) do
+    experiment(name, file: file, host: host, participant: participant, granted: nil)
+  end
+
+  defp load_from_file(name, file, host, participant, granted) do
     [{module, _} | _] = Code.load_file(file)
     host = File.read!(host)
     participant = File.read!(participant)
@@ -17,10 +35,6 @@ defmodule Xee.ThemeServer do
     Xee.ThemeServer.register(name, theme)
   end
 
-  def experiment(name, file: file, host: host, participant: participant) do
-    experiment(name, file: file, host: host, participant: participant, granted: nil)
-  end
-
   def start_link() do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
@@ -29,7 +43,10 @@ defmodule Xee.ThemeServer do
   Loads experiments from file.
   """
   def load(experiments_file) do
-    Code.require_file(experiments_file)
+    do_and_watch(experiments_file, fn ->
+      Logger.debug("#{inspect experiments_file}")
+      Code.load_file(experiments_file)
+    end)
   end
 
   @doc """
