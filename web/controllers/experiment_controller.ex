@@ -46,8 +46,16 @@ defmodule Xee.ExperimentController do
   end
 
   defp get_javascript(xid, key) do
-    Xee.ExperimentServer.get_info(xid)
-            |> Map.get(:experiment)
-            |> Map.get(key)
+    if Mix.env == :dev do
+      theme_id = Xee.ExperimentServer.get_info(xid)
+      |> Map.get(:experiment)
+      |> Map.get(:theme_id)
+      Xee.ThemeServer.get(theme_id).experiment
+      |> Map.get(key)
+    else
+      Xee.ExperimentServer.get_info(xid)
+      |> Map.get(:experiment)
+      |> Map.get(key)
+    end
   end
 end

@@ -35,6 +35,11 @@ defmodule Xee.Experiment do
   end
 
   def handle_cast({:script, {func, args}}, {xid, experiment, %{"data" => data, "host" => host, "participant" => participant}} = state) do
+    experiment = if Mix.env == :dev do
+      Xee.ThemeServer.get(experiment.theme_id).experiment
+    else
+      experiment
+    end
     args = [data] ++ args
     case call_script(experiment, func, args) do
       {:ok, result} ->
