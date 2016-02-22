@@ -36,6 +36,6 @@
 <% end %>
 <div class="container-fluid">
   <div class="row">
-    <button class="btn btn-primary pull-right" type="button" onclick="location.href='#'">実験作成</button>
+    <button class="btn btn-primary pull-right" type="button" onclick="location.href='/host/experiment'">実験作成</button>
   </div>
 </div>
