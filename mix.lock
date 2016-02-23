@@ -7,7 +7,7 @@
   "earmark": {:hex, :earmark, "0.2.1"},
   "ecto": {:hex, :ecto, "0.16.0"},
   "fs": {:hex, :fs, "0.9.2"},
-  "fwatch": {:hex, :fwatch, "0.4.0"},
+  "fwatch": {:hex, :fwatch, "0.5.0"},
   "hackney": {:hex, :hackney, "1.4.8"},
   "idna": {:hex, :idna, "1.0.3"},
   "mimerl": {:hex, :mimerl, "1.0.2"},

@@ -39,6 +39,6 @@ defmodule Xee.Mixfile do
      {:poison, "~> 1.5"},
      {:comeonin, "~> 1.6"},
      {:onetime, "~> 0.1.2"},
-     {:fwatch, "~> 0.4.0"}]
+     {:fwatch, "~> 0.5.0"}]
   end
 end
