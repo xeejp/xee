@@ -37,7 +37,7 @@ defmodule Xee.ExperimentControllerTest do
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :shortcut, %{"token" => token}
+            |> action :shortcut, %{"token" => " \n \t #{token} \t\n "}
 
     Xee.TokenServer.drop(token)
     Xee.ExperimentServer.remove(xid)

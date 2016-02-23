@@ -4,6 +4,7 @@ defmodule Xee.ExperimentController do
   plug Xee.AuthenticationPlug when action in [:host]
 
   def shortcut(conn, %{"token" => token}) do
+    token = String.strip(token)
     xid = Xee.TokenServer.get(token)
     index(conn, %{"xid" => xid})
   end
