@@ -12,15 +12,21 @@ export class Experiment {
         this.socket = new Socket("/socket")
         this.socket.connect()
         this.chan = this.socket.chan(topic, {token: token})
-        this.chan.join().receive("ok", _ => {
-            this.chan.push("fetch", {})
-        })
-        this.chan.on("update", payload => {
-            update(payload.body)
-        })
+        if (update != undefined) {
+            this.onUpdate(update)
+        }
     }
 
     send_data(data) {
         this.chan.push("client", {body: data})
+    }
+
+    onUpdate(func) {
+        this.chan.join().receive("ok", _ => {
+            this.chan.push("fetch", {})
+        })
+        this.chan.on("update", payload => {
+            func(payload.body)
+        })
     }
 }
