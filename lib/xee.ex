@@ -30,7 +30,9 @@ defmodule Xee do
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Xee.Supervisor]
-    Supervisor.start_link(children, opts)
+    result = Supervisor.start_link(children, opts)
+    Xee.ThemeServer.load("config/experiment.exs")
+    result
   end
 
   # Tell Phoenix to update the endpoint configuration
