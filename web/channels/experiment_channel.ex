@@ -59,13 +59,13 @@ defmodule Xee.ExperimentChannel do
   end
 
   def handle_in("client", %{"body" => data}, socket) do
-    name = ExperimentServer.get(socket.assigns[:xid])
+    name = socket.assigns[:xid]
     if is_nil(name) do
       {:stop, "wrong xid", socket}
     else
       case socket.assigns[:user] do
-        :host -> Experiment.client(name, data)
-        participant_id -> Experiment.client(name, data, participant_id)
+        :host -> ExperimentServer.client(name, data)
+        participant_id -> ExperimentServer.client(name, data, participant_id)
       end
       {:noreply, socket}
     end
