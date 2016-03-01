@@ -86,6 +86,27 @@ defmodule Xee.ExperimentControllerTest do
     Xee.ExperimentServer.remove(xid)
 
     assert conn.status == 200
-    assert html_response(conn, 200) =~ "// host" # from experiments/test/participant.js
+    assert html_response(conn, 200) =~ "// host" # from experiments/test/host.js
+  end
+
+  test "get as a participant with using :controll successfully" do
+    xid  = Xee.TokenGenerator.generate
+    id = "aaaa"
+    user = Xee.Repo.get_by(User, name: "a")
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+
+    # has experiment
+    Xee.HostServer.register(user.id, xid)
+    conn = conn()
+            |> with_session_and_flash
+            |> assign(:host, user)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
+            |> action :control, %{"xid" => xid, "id" => "aaaa"}
+
+    Xee.HostServer.drop(user.id, xid)
+    Xee.ExperimentServer.remove(xid)
+
+    assert conn.status == 200
+    assert html_response(conn, 200) =~ "// participant" # from experiments/test/participant.js
   end
 end

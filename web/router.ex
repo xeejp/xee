@@ -32,6 +32,7 @@ defmodule Xee.Router do
     get "/experiment", ExperimentController, :shortcut
     get "/experiment/:xid", ExperimentController, :index
     get "/experiment/:xid/host", ExperimentController, :host
+    get "/experiment/:xid/host/:id", ExperimentController, :control
   end
 
   scope "/host", Xee do
