@@ -1,5 +1,6 @@
 defmodule Xee.Experiment do
   use GenServer
+  require Logger
 
   defstruct theme_id: nil, module: nil, host: nil, participant: nil
 
@@ -58,12 +59,24 @@ defmodule Xee.Experiment do
             {:noreply, {xid, experiment, result}}
           _ -> {:stop, "The result is wrong: #{inspect result}", state}
         end
+      {:error, e} ->
+        Logger.error("#{inspect e}")
+        case sender do
+          nil -> nil
+          :host -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: host})
+          id -> Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{body: Map.get(participant, id)})
+        end
+        {:noreply, state}
       _ -> {:stop, "The script failed. #{args}", state}
     end
   end
 
   def call_script(experiment, func, args) do
-    apply(experiment.module, func, args)
+    try do
+      apply(experiment.module, func, args)
+    rescue
+      e -> {:error, e}
+    end
   end
 
   @doc "Forms a topic name for host."
