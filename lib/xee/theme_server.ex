@@ -33,6 +33,7 @@ defmodule Xee.ThemeServer do
     end
     theme = %Xee.Theme{experiment: experiment, id: name, name: name, playnum: 0, lastupdate: 0, producer: "", contact: "", manual: "", granted: granted}
     Xee.ThemeServer.register(name, theme)
+    apply(module, :install, [])
   end
 
   def start_link() do

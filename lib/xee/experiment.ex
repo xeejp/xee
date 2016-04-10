@@ -24,11 +24,11 @@ defmodule Xee.Experiment do
   end
 
   def client(pid, received, participant_id) do
-    GenServer.cast(pid, {:script, {:receive, [received, participant_id]}, participant_id})
+    GenServer.cast(pid, {:script, {:handle_received, [received, participant_id]}, participant_id})
   end
 
   def client(pid, received) do
-    GenServer.cast(pid, {:script, {:receive, [received]}, :host})
+    GenServer.cast(pid, {:script, {:handle_received, [received]}, :host})
   end
 
   def handle_call(:fetch, _from, {_xid, _experiment, data} = state) do
