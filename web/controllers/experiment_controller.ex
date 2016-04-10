@@ -1,9 +1,22 @@
 defmodule Xee.ExperimentController do
   use Xee.Web, :controller
 
-  plug Xee.AuthenticationPlug when action in [:host]
+  plug Xee.AuthenticationPlug when action in [:host, :control]
+
+  def control(conn, %{"xid" => xid, "id" => u_id}) do
+    user = conn.assigns[:host]
+    has = Xee.HostServer.has?(user.id, xid)
+    if has do
+      join_experiment(conn, xid, u_id)
+    else
+      conn
+      |> put_flash(:error, "Not Exists Experiment ID")
+      |> redirect(to: "/host")
+    end
+  end
 
   def shortcut(conn, %{"token" => token}) do
+    token = String.strip(token)
     xid = Xee.TokenServer.get(token)
     index(conn, %{"xid" => xid})
   end
@@ -19,15 +32,19 @@ defmodule Xee.ExperimentController do
                   |> put_session(:xid, xid)
           {conn, u_id}
       end
-      token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.participant_onetime, token, {:participant, xid, u_id})
-      js = get_javascript(xid, :participant)
-      render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":participant:" <> u_id
+      join_experiment(conn, xid, u_id)
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
       |> redirect(to: "/")
     end
+  end
+
+  defp join_experiment(conn, xid, u_id) do
+    token = Xee.TokenGenerator.generate
+    Onetime.register(Xee.participant_onetime, token, {:participant, xid, u_id})
+    js = get_javascript(xid, :participant)
+    render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":participant:" <> u_id
   end
 
   def host(conn, %{"xid" => xid}) do
@@ -46,8 +63,16 @@ defmodule Xee.ExperimentController do
   end
 
   defp get_javascript(xid, key) do
-    Xee.ExperimentServer.get_info(xid)
-            |> Map.get(:experiment)
-            |> Map.get(key)
+    if Mix.env == :dev do
+      theme_id = Xee.ExperimentServer.get_info(xid)
+      |> Map.get(:experiment)
+      |> Map.get(:theme_id)
+      Xee.ThemeServer.get(theme_id).experiment
+      |> Map.get(key)
+    else
+      Xee.ExperimentServer.get_info(xid)
+      |> Map.get(:experiment)
+      |> Map.get(key)
+    end
   end
 end

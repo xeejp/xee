@@ -16,12 +16,11 @@
         <div class="form-group form-group-lg">
           <label class="col-sm-4 control-label" for="theme">実験テーマ</label>
           <div class="col-sm-6">
-            <select class="form-control" id="theme" name="theme" value="<%= @theme_num %>">
+            <select class="form-control" id="theme" name="theme" value="<%= @theme_id %>">
               <%= if @themes do %>
                 <%= i = 0 %>
                 <%= for theme <- @themes do %>
-                  <option value=<%= i %>><%= theme[:name] %></option>
-                  <%= i = i + 1 %>
+                  <option value=<%= theme.id %>><%= theme.name %></option>
                 <% end %>
               <% end %>
             </select>
@@ -100,15 +99,15 @@
         <%= for theme <- @themes do %>
           <tr>
             <td></td>
-            <td><%= theme[:name] %></td>
-            <td><%= theme[:playnum] %>回終了</td>
-            <td><%= theme[:lastupdate] %></td>
-            <td><%= theme[:producer] %></td>
-            <td><%= theme[:contact] %></td>
-            <td><%= if theme[:manual] == "" do %>
+            <td><%= theme.name %></td>
+            <td><%= theme.playnum %>回終了</td>
+            <td><%= theme.lastupdate %></td>
+            <td><%= theme.producer %></td>
+            <td><%= theme.contact %></td>
+            <td><%= if theme.manual == "" do %>
                 なし
                 <%= else %>
-                <a href="<%= theme[:manual] %>">あり</a>
+                <a href="<%= theme.manual %>">あり</a>
                 <%= end %>
             </td>
           </tr>
