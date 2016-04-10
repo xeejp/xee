@@ -1,11 +1,9 @@
 defmodule Xee do
   use Application
 
-  @host_onetime_server_name :HostOnetime
-  @participant_onetime_server_name :ParticipantOnetime
+  @channel_onetime_server_name :ChannelOnetime
 
-  def host_onetime, do: @host_onetime_server_name
-  def participant_onetime, do: @participant_onetime_server_name
+  def channel_token_onetime, do: @channel_onetime_server_name
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -22,8 +20,7 @@ defmodule Xee do
       worker(Xee.TokenServer, []),
       # Here you could define other workers and supervisors as children
       # worker(Xee.Worker, [arg1, arg2, arg3]),
-      worker(Onetime, [[name: @host_onetime_server_name]], id: :host),
-      worker(Onetime, [[name: @participant_onetime_server_name]], id: :participant),
+      worker(Onetime, [[name: @channel_onetime_server_name]], id: :host),
       worker(Xee.ExperimentServer, []),
     ]
 

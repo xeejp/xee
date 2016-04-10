@@ -20,7 +20,7 @@
               <%= if @themes do %>
                 <%= i = 0 %>
                 <%= for theme <- @themes do %>
-                  <option value=<%= theme.id %>><%= theme.name %></option>
+                  <option value=<%= theme.id %>><%= theme.id %></option>
                 <% end %>
               <% end %>
             </select>

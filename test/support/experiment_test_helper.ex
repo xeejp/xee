@@ -43,8 +43,7 @@ defmodule Xee.ExperimentTestHelper do
   Starts onetime token servers.
   """
   def prepare_servers do
-    Onetime.start_link(name: Xee.host_onetime)
-    Onetime.start_link(name: Xee.participant_onetime)
+    Onetime.start_link(name: Xee.channel_token_onetime)
   end
 
   @doc """
@@ -52,8 +51,8 @@ defmodule Xee.ExperimentTestHelper do
   """
   def join_channel(xid) do
     token = Xee.TokenGenerator.generate()
-    Onetime.register(Xee.host_onetime, token, {:host, xid})
-    socket("x:" <> xid <> ":host", %{"token" => token})
+    Onetime.register(Xee.channel_token_onetime, token, {:host, xid})
+    socket("x:" <> xid, %{"token" => token})
   end
 
 
@@ -62,8 +61,8 @@ defmodule Xee.ExperimentTestHelper do
   """
   def join_channel(xid, name) do
     token = Xee.TokenGenerator.generate()
-    Onetime.register(Xee.participant_onetime, token, {:participant, xid, name})
-    socket("x:" <> xid <> ":participant:" <> name, %{"token" => token})
+    Onetime.register(Xee.channel_token_onetime, token, {:participant, xid, name})
+    socket("x:" <> xid, %{"token" => token})
   end
 
   @doc """
