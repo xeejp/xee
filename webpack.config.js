@@ -1,4 +1,4 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin"); 
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = {
     entry: ["./web/static/js/app.js", "./web/static/css/app.css"],
@@ -29,7 +29,7 @@ module.exports = {
         ],
         modulesDirectories: [
             "node_modules",
-            __dirname + "/web/static/js"
+            __dirname + "/web/static/js",
         ]
     }
 };

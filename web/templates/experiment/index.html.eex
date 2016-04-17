@@ -1,8 +1,7 @@
 <div id="content">
 </div>
-<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
-var _topic = "<%= @topic %>"
-var _token = "<%= @token %>"
+var _topic = "<%= @topic %>";
+var _token = "<%= @token %>";
 <%= raw @javascript %>
 </script>
