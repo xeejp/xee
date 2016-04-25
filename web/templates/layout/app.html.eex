@@ -58,8 +58,12 @@ $(".dropdown-button").dropdown();
   </body>
 </html>
 
-<footer style="text-align:center; padding:30px;">
-  <hr/>
-  <small>Copyright (C) 2015-2016 <a href="https://www.facebook.com/hryohei">Ryohei HAYASHI</a> All Rights Reserved.</small>
+<footer class="page-footer light-blue darken-3">
+  <center>
+  <div class="footer-copyright light-blue darken-3">
+    <div class="container">
+      © Copyright (C) 2015-2016 <a href="https://www.facebook.com/hryohei"><font color="#FF0000">Ryohei HAYASHI</font></a> All Rights Reserved.
+    </div>
+  </div>
+  </center>
 </footer>
-
