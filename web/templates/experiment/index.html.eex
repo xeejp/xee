@@ -4,5 +4,6 @@
 <script>
 var _topic = "<%= @topic %>"
 var _token = "<%= @token %>"
+var _x_token = "<%= @x_token %>"
 <%= raw @javascript %>
 </script>
