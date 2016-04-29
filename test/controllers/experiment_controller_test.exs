@@ -30,7 +30,7 @@ defmodule Xee.ExperimentControllerTest do
     xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
 
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
     Xee.TokenServer.register(token, xid)
     conn = conn()
             |> with_session_and_flash
@@ -52,7 +52,7 @@ defmodule Xee.ExperimentControllerTest do
     xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
 
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
     Xee.TokenServer.register(token, xid)
     conn = conn()
             |> with_session_and_flash
@@ -72,7 +72,8 @@ defmodule Xee.ExperimentControllerTest do
   test "get as a host successfully" do
     xid  = Xee.TokenGenerator.generate
     user = Xee.Repo.get_by(User, name: "a")
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    token = "test"
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
@@ -92,8 +93,9 @@ defmodule Xee.ExperimentControllerTest do
   test "get as a participant with using :controll successfully" do
     xid  = Xee.TokenGenerator.generate
     id = "aaaa"
+    token = "test"
     user = Xee.Repo.get_by(User, name: "a")
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
