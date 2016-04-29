@@ -18,7 +18,9 @@ defmodule Xee.Web do
 
   def model do
     quote do
+      use Ecto.Schema
       use Ecto.Model
+      import Ecto
     end
   end
 
@@ -27,6 +29,7 @@ defmodule Xee.Web do
       use Phoenix.Controller
 
       alias Xee.Repo
+      import Ecto
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
@@ -45,6 +48,8 @@ defmodule Xee.Web do
       use Phoenix.HTML
 
       import Xee.Router.Helpers
+      import Xee.ErrorHelpers
+      import Xee.Gettext
       import Xee.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
@@ -60,6 +65,7 @@ defmodule Xee.Web do
       use Phoenix.Channel
 
       alias Xee.Repo
+      import Ecto
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 

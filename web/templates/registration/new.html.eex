@@ -4,7 +4,7 @@
       <p>Error!</p>
       <ul>
         <%= for {attr, message} <- form.errors do %>
-          <li><%= humanize(attr) %> <%= message %></li>
+          <li><%= humanize(attr) %> <%= translate_error(message) %></li>
         <% end %>
       </ul>
     </div>

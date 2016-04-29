@@ -3,14 +3,6 @@ defmodule Xee.UserTest do
 
   alias Xee.User
 
-  setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
-  end
-
   @valid_attrs %{name: "valid_name", password: "valid_password"}
   @valid_attrs2 %{name: "valid_name2", password: "valid_password2"}
   @invalid_attrs %{}

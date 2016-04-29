@@ -12,13 +12,9 @@ defmodule Xee.RegistrationControllerTest do
   @invalid_user_attrs2 %{name: "", password: "user_password"}
 
   setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
     changeset = User.changeset(%User{}, @existed_user_attrs);
     User.create(changeset, Xee.Repo)
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
+    :ok
   end
 
   test "GET /register" do
