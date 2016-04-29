@@ -41,7 +41,6 @@ defmodule Xee.HostController do
         Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, x_token: x_token, xid: xid})
         Xee.HostServer.register(user.id, xid)
         conn
-        |> put_flash(:info, "Made New Experiment : " <> name <> "(" <> xtheme.name <> ")")
         |> redirect(to: "/experiment/" <> xid <> "/host")
         |> halt
       else
