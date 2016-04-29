@@ -18,10 +18,10 @@ defmodule Xee.HostController do
               |> Map.to_list
               |> Enum.map(fn {_key, value} -> value end)
               |> Enum.filter(fn theme -> Xee.Theme.granted?(theme, user.name) end)
-    render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: hd(themes).id, themes: themes, user_num: "1", startDateTime: "", endDateTime: "", showDescription: "true", x_token: Xee.TokenServer.generate_id
+    render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: hd(themes).id, themes: themes, x_token: Xee.TokenServer.generate_id
   end
 
-  def create(conn, %{"experiment_name" => name, "theme" => theme_id, "user_num" => user_num, "startDateTime" => start_info, "endDateTime" => end_info, "showDescription" => show, "x_token" => x_token}) do
+  def create(conn, %{"experiment_name" => name, "theme" => theme_id, "x_token" => x_token}) do
     if (name == nil || name == "") do
       conn
       |> put_flash(:error, "Make Experiment Error")
@@ -38,7 +38,7 @@ defmodule Xee.HostController do
         xtheme = Xee.ThemeServer.get(theme_id)
         true = Xee.Theme.granted?(xtheme, user.name)
         Xee.TokenServer.register(x_token, xid)
-        Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, user_num: user_num, start_info: start_info, end_info: end_info, show: show, x_token: x_token, xid: xid})
+        Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, x_token: x_token, xid: xid})
         Xee.HostServer.register(user.id, xid)
         conn
         |> redirect(to: "/experiment/" <> xid <> "/host")
@@ -50,7 +50,7 @@ defmodule Xee.HostController do
                   |> Enum.filter(fn theme -> Xee.Theme.granted?(theme, user.name) end)
         conn
         |> put_flash(:error, "This ExperimentID is already being used.")
-        |> render("experiment.html", csrf_token: get_csrf_token(), experiment_name: name, theme_id: theme_id, themes: themes, user_num: user_num, startDateTime: start_info, endDateTime: end_info, showDescription: show, x_token: Xee.TokenServer.generate_id)
+        |> render("experiment.html", csrf_token: get_csrf_token(), experiment_name: name, theme_id: theme_id, themes: themes, x_token: Xee.TokenServer.generate_id)
       end
     end
   end

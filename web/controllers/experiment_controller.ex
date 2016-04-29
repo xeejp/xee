@@ -3,6 +3,19 @@ defmodule Xee.ExperimentController do
 
   plug Xee.AuthenticationPlug when action in [:host, :control]
 
+  def control(conn, %{"token" => token, "id" => u_id}) do
+    user = conn.assigns[:host]
+    has = Xee.TokenServer.has?(token)
+    if has do
+      xid = Xee.TokenServer.get(token)
+      join_experiment(conn, xid, u_id)
+    else
+      conn
+      |> put_flash(:error, "Not Exists Experiment Token")
+      |> redirect(to: "/host")
+    end
+  end
+
   def control(conn, %{"xid" => xid, "id" => u_id}) do
     user = conn.assigns[:host]
     has = Xee.HostServer.has?(user.id, xid)
