@@ -55,9 +55,10 @@ defmodule Xee.ExperimentController do
 
   defp join_experiment(conn, xid, u_id) do
     token = Xee.TokenGenerator.generate
-    Onetime.register(Xee.participant_onetime, token, {:participant, xid, u_id})
+    Onetime.register(Xee.channel_token_onetime, token, {:participant, xid, u_id})
     js = get_javascript(xid, :participant)
-    render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":participant:" <> u_id
+    x_token = Xee.ExperimentServer.get_info(xid).x_token
+    render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
   end
 
   def host(conn, %{"xid" => xid}) do
@@ -65,9 +66,10 @@ defmodule Xee.ExperimentController do
     has = Xee.HostServer.has?(user.id, xid)
     if has do
       token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.host_onetime, token, {:host, xid})
+      Onetime.register(Xee.channel_token_onetime, token, {:host, xid})
       js = get_javascript(xid, :host)
-      render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":host"
+      x_token = Xee.ExperimentServer.get_info(xid).x_token
+      render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")

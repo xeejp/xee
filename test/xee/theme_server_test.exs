@@ -30,7 +30,7 @@ defmodule Xee.ThemeServerTest do
     ThemeServer.load("test/assets/example_experiments.exs")
     themes = ThemeServer.get_all()
     themes |> Map.to_list() |> Enum.map(fn {key, value} ->
-      case value.name do
+      case key do
         "example1" ->
           %Xee.Theme{
             name: "example1",

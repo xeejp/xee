@@ -49,11 +49,11 @@ defmodule Xee.Experiment do
         case result do
           %{"host" => new_host, "participant" => new_participant} when is_map(new_participant) ->
             if sender == :host || host != new_host do
-              Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: new_host})
+              Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: :host, body: new_host})
             end
             Enum.each(new_participant, fn {id, new_data} ->
               if sender == id || Map.get(participant, id) != new_data do
-                Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{body: new_data})
+                Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: id, body: new_data})
               end
             end)
             {:noreply, {xid, experiment, result}}
@@ -64,7 +64,7 @@ defmodule Xee.Experiment do
         case sender do
           nil -> nil
           :host -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: host})
-          id -> Xee.Endpoint.broadcast!(form_topic(xid, id), "update", %{body: Map.get(participant, id)})
+          id -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: Map.get(participant, id)})
         end
         {:noreply, state}
       _ -> {:stop, "The script failed. #{args}", state}
@@ -79,13 +79,8 @@ defmodule Xee.Experiment do
     end
   end
 
-  @doc "Forms a topic name for host."
+  @doc "Forms a topic name."
   def form_topic(xid) do
-    "x:" <> xid <> ":" <> "host"
-  end
-
-  @doc "Forms a topic name for participant."
-  def form_topic(xid, participant_id) do
-    "x:" <> xid <> ":" <> "participant" <> ":" <> participant_id
+    "x:" <> xid
   end
 end
