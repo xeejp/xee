@@ -68,12 +68,8 @@ defmodule Xee.ExperimentController do
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.channel_token_onetime, token, {:host, xid})
       js = get_javascript(xid, :host)
-<<<<<<< HEAD
-      render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid)
-=======
       x_token = Xee.ExperimentServer.get_info(xid).x_token
-      render conn, "index.html", javascript: js, token: token, topic: "x:" <> xid <> ":host", x_token: x_token
->>>>>>> master
+      render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
