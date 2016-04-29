@@ -1,17 +1,9 @@
 import {Socket} from "phoenix"
-
-// let socket = new Socket("/ws")
-// socket.connect()
-// let chan = socket.chan("topic:subtopic", {})
-// chan.join().receive("ok", resp => {
-//   console.log("Joined succesffuly!", resp)
-// })
-
-export class Experiment {
+window.Experiment = class Experiment {
     constructor(topic, token, update) {
         this.socket = new Socket("/socket")
         this.socket.connect()
-        this.chan = this.socket.chan(topic, {token: token})
+        this.chan = this.socket.channel(topic, {token: token})
         if (update != undefined) {
             this.onUpdate(update)
         }

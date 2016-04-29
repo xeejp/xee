@@ -1,20 +1,29 @@
 <%= form_for @conn, session_path(@conn, :create), [name: :session], fn form -> %>
-<center>
-  <div class="row">
-    <div class="col-md-4 content-area" style="float:none;">
-      <div class="form-group">
-        <input class="form-control" id="session_name" name="session[name]" type="text"  placeholder="ユーザID">
+<div class="row">
+  <div class="card light-blue lighten-5 col s12 m12 l10">
+    <div class="card-content">
+      <span class="card-title">ログイン</span>
+      <div class="row">
+        <div class="col s12 m12 l6">
+          <div class="input-field">
+            <input class="form-control" id="session_name" name="session[name]" type="text"  placeholder="ユーザID">
+            <label>ユーザーID</label>
+          </div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <input class="form-control" id="session_password" name="session[password]" type="password"  placeholder="パスワード">
-      </div>
-
-      <div class="form-group">
-        <%= submit "ログイン", class: "btn btn-primary" %>
+      <div class="row">
+        <div class="col s12 m12 l6">
+          <div class="input-field">
+            <input class="form-control" id="session_password" name="session[password]" type="password"  placeholder="パスワード">
+            <label>パスワード</label>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</center>
 
+    <div class="card-action">
+      <%= submit "ログイン", class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
 <% end %>

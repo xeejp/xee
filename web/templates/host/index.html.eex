@@ -1,7 +1,7 @@
-<div class="center-block">
-  <h1>管理者画面</h1>
+<div class="center-block" style="margin: 3%;">
+  <h4>管理者画面</h4>
   <hr>
-  <h2>
+  <font size="7">
     <ul>
       <li>
         <a href="/theme">
@@ -14,14 +14,14 @@
         </a>
       </li>
     </ul>
-    </h3>
+  </font>
 </div>
-<div class="Container">
+<div class="Container" style="margin: 3%;">
   <%= if @experiment do %>
-    <h1>現在作成中の実験</h1>
+    <h4>現在作成中の実験</h4>
     <hr>
-    <h3>
-      <table class="table table-striped">
+    <font size="4">
+      <table class="table striped">
         <thead>
           <tr>
             <th>タイトル</th>
@@ -39,6 +39,6 @@
             <%= end %>
         </tbody>
       </table>
-    </h3>
+    </font>
   <% end %>
 </div>
