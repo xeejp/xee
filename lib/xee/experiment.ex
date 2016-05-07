@@ -37,7 +37,11 @@ defmodule Xee.Experiment do
 
   def handle_cast({:script, args}, state), do: handle_cast({:script, args, nil}, state)
 
-  def handle_cast({:script, {func, args}, sender}, {xid, experiment, %{"data" => data, "host" => host, "participant" => participant}} = state) do
+  def handle_cast({:script, {func, args}, sender}, {xid, experiment, %{"data" => data}} = state) do
+    if experiment.module.script_type == :data do
+      host = Map.get(elem(state, 2), "host")
+      participant = Map.get(elem(state, 2), "participant")
+    end
     experiment = if Mix.env == :dev do
       Xee.ThemeServer.get(experiment.theme_id).experiment
     else
@@ -46,29 +50,53 @@ defmodule Xee.Experiment do
     args = [data] ++ args
     case call_script(experiment, func, args) do
       {:ok, result} ->
-        case result do
-          %{"host" => new_host, "participant" => new_participant} when is_map(new_participant) ->
-            if sender == :host || host != new_host do
-              Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: :host, body: new_host})
+        case experiment.module.script_type do
+          :data -> 
+            case result do
+              %{"host" => new_host, "participant" => new_participant} when is_map(new_participant) ->
+                broadcast_data(xid, sender, host, new_host, participant, new_participant)
+                {:noreply, {xid, experiment, result}}
+                _ -> {:stop, "The result is wrong: #{inspect result}", state}
             end
-            Enum.each(new_participant, fn {id, new_data} ->
-              if sender == id || Map.get(participant, id) != new_data do
-                Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: id, body: new_data})
-              end
-            end)
-            {:noreply, {xid, experiment, result}}
-          _ -> {:stop, "The result is wrong: #{inspect result}", state}
+          :message ->
+            IO.inspect state
+            host = Map.get(result, "host", nil)
+            participant = Map.get(result, "participant", %{})
+            broadcast_message(xid, host, participant)
+            {:noreply, {xid, experiment, Map.drop(result, ["host", "participant"])}}
         end
       {:error, e} ->
         Logger.error("#{inspect e}")
-        case sender do
-          nil -> nil
-          :host -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: host})
-          id -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: Map.get(participant, id)})
+        if experiment.module.script_type == :message do
+          case sender do
+            nil -> nil
+            :host -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: host})
+            id -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: Map.get(participant, id)})
+          end
         end
         {:noreply, state}
       _ -> {:stop, "The script failed. #{args}", state}
     end
+  end
+
+  def broadcast_data(xid, sender, host, new_host, participant, new_participant) do
+    if sender == :host || host != new_host do
+      Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: :host, body: new_host})
+    end
+    Enum.each(new_participant, fn {id, new_data} ->
+      if sender == id || Map.get(participant, id) != new_data do
+        Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: id, body: new_data})
+      end
+    end)
+  end
+
+  def broadcast_message(xid, host, participant) do
+    if host != nil do
+      Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: :host, body: host})
+    end
+    Enum.map(participant, fn {id, data} ->
+      Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: id, body: data})
+    end)
   end
 
   def call_script(experiment, func, args) do

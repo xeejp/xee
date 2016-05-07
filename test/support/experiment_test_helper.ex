@@ -34,8 +34,13 @@ defmodule Xee.ExperimentTestHelper do
       host = File.read!("experiments/test/host.js")
       participant = File.read!("experiments/test/participant.js")
       @test_experiment %Xee.Experiment{theme_id: :t1, module: Test, host: host, participant: participant}
+      Code.require_file("experiments/test2/test.exs")
+      host = File.read!("experiments/test2/host.js")
+      participant = File.read!("experiments/test2/participant.js")
+      @test2_experiment %Xee.Experiment{theme_id: :t2, module: Test2, host: host, participant: participant}
       import Xee.ExperimentTestHelper
       def test_experiment, do: @test_experiment
+      def test2_experiment, do: @test2_experiment
     end
   end
 

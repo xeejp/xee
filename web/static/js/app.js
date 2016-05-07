@@ -21,4 +21,13 @@ window.Experiment = class Experiment {
             func(payload.body)
         })
     }
+
+    onReceiveMessage(func) {
+        this.chan.join().receive("ok", _ => {
+            this.chan.push("fetch", {})
+        })
+        this.chan.on("message", payload => {
+            func(payload.body)
+        })
+    }
 }
