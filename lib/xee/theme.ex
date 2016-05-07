@@ -89,6 +89,7 @@ defmodule Xee.ThemeScript do
 
       @doc false
       def init, do: {:ok, nil}
+      def script_type, do: :data
       def install, do: :ok
       def handle_received(data, received) do
         {:error, "There is no matched `handle_received/2`. data = #{inspect data}, received = #{inspect received}"}
@@ -97,7 +98,8 @@ defmodule Xee.ThemeScript do
         {:error, "There is no matched `handle_received/3`. data = #{inspect data}, received = #{inspect received}, id = #{inspect id}"}
       end
 
-      defoverridable [init: 0, install: 0, handle_received: 2, handle_received: 3]
+      defoverridable [init: 0, install: 0, script_type: 0,
+       handle_received: 2, handle_received: 3]
     end
   end
 end

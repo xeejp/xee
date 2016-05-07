@@ -1,3 +1,6 @@
 [submodule "experiments/test"]
 	path = experiments/test
 	url = https://github.com/xeejp/X_test.git
+[submodule "experiments/test2"]
+	path = experiments/test2
+	url = https://github.com/xeejp/X_test2.git

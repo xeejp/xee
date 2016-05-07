@@ -61,7 +61,14 @@ defmodule Xee.ExperimentChannel do
     end
   end
 
-  intercept ["update"]
+  intercept ["update", "message"]
+
+  def handle_out("message", %{to: user, body: body} = info, socket) do
+    if socket.assigns[:user] == user do
+      push socket, "message", %{body: body}
+    end
+    {:noreply, socket}
+  end
 
   def handle_out("update", %{to: user, body: body} = info, socket) do
     if socket.assigns[:user] == user do
