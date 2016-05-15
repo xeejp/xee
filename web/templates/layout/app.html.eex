@@ -49,6 +49,16 @@
 
     </div> <!-- /container -->
 
+    <footer class="page-footer light-blue darken-3">
+      <center>
+        <div class="footer-copyright light-blue darken-3">
+          <div class="container">
+            © Copyright (C) 2015-2016 <a href="https://www.facebook.com/hryohei"><font color="#FF0000">Ryohei HAYASHI</font></a> All Rights Reserved.
+          </div>
+        </div>
+      </center>
+    </footer>
+
     <script>
 $(document).ready(function() {
   $('select').material_select();
@@ -57,13 +67,3 @@ $(".dropdown-button").dropdown();
     </script>
   </body>
 </html>
-
-<footer class="page-footer light-blue darken-3">
-  <center>
-  <div class="footer-copyright light-blue darken-3">
-    <div class="container">
-      © Copyright (C) 2015-2016 <a href="https://www.facebook.com/hryohei"><font color="#FF0000">Ryohei HAYASHI</font></a> All Rights Reserved.
-    </div>
-  </div>
-  </center>
-</footer>
