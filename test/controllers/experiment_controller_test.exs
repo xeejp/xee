@@ -66,7 +66,7 @@ defmodule Xee.ExperimentControllerTest do
     assert xid == get_session(conn, :xid)
     assert u_id == get_session(conn, :u_id)
     assert conn.status == 200
-    assert html_response(conn, 200) =~ "// participant" # from experiments/test/participant.js
+    assert html_response(conn, 200) =~ "/experiment/#{xid}/participant.js"
   end
 
   test "get as a host successfully" do
@@ -87,7 +87,50 @@ defmodule Xee.ExperimentControllerTest do
     Xee.ExperimentServer.remove(xid)
 
     assert conn.status == 200
-    assert html_response(conn, 200) =~ "// host" # from experiments/test/host.js
+    assert html_response(conn, 200) =~ "/experiment/#{xid}/host.js"
+  end
+
+  test "get participant.js" do
+    token = "test"
+    xid  = Xee.TokenGenerator.generate
+    u_id = Xee.TokenGenerator.generate
+
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    conn = conn()
+            |> with_session_and_flash
+            |> put_session(:u_id, u_id)
+            |> put_session(:xid, xid)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
+            |> action :participant_script, %{"xid" => xid}
+    Xee.ExperimentServer.remove(xid)
+
+    assert xid == get_session(conn, :xid)
+    assert u_id == get_session(conn, :u_id)
+    assert conn.status == 200
+    assert response_content_type(conn, :javascript) =~ "charset=utf-8"
+    assert response(conn, 200) =~ "// participant" # from experiments/test/participant.js
+  end
+
+  test "get host.js" do
+    xid  = Xee.TokenGenerator.generate
+    user = Xee.Repo.get_by(User, name: "a")
+    token = "test"
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+
+    # has experiment
+    Xee.HostServer.register(user.id, xid)
+    conn = conn()
+            |> with_session_and_flash
+            |> assign(:host, user)
+    conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
+            |> action :host_script, %{"xid" => xid}
+
+    Xee.HostServer.drop(user.id, xid)
+    Xee.ExperimentServer.remove(xid)
+
+    assert conn.status == 200
+    assert response_content_type(conn, :javascript) =~ "charset=utf-8"
+    assert response(conn, 200) =~ "// host" # from experiments/test/host.js
   end
 
   test "get as a participant with using :controll successfully" do
@@ -109,6 +152,6 @@ defmodule Xee.ExperimentControllerTest do
     Xee.ExperimentServer.remove(xid)
 
     assert conn.status == 200
-    assert html_response(conn, 200) =~ "// participant" # from experiments/test/participant.js
+    assert html_response(conn, 200) =~ "/experiment/#{xid}/participant.js"
   end
 end

@@ -12,6 +12,16 @@ defmodule Xee.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :js do
+    plug :accepts, ["js"]
+  end
+
+  scope "/", Xee do
+    pipe_through :js
+    get "/experiment/:xid/participant.js", ExperimentController, :participant_script
+    get "/experiment/:xid/host.js", ExperimentController, :host_script
+  end
+
   scope "/", Xee do
     pipe_through :browser # Use the default browser stack
 

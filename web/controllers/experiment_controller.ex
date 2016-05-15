@@ -56,9 +56,9 @@ defmodule Xee.ExperimentController do
   defp join_experiment(conn, xid, u_id) do
     token = Xee.TokenGenerator.generate
     Onetime.register(Xee.channel_token_onetime, token, {:participant, xid, u_id})
-    js = get_javascript(xid, :participant)
+    javascript = "/experiment/#{xid}/participant.js"
     x_token = Xee.ExperimentServer.get_info(xid).x_token
-    render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
+    render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
   end
 
   def host(conn, %{"xid" => xid}) do
@@ -67,14 +67,24 @@ defmodule Xee.ExperimentController do
     if has do
       token = Xee.TokenGenerator.generate
       Onetime.register(Xee.channel_token_onetime, token, {:host, xid})
-      js = get_javascript(xid, :host)
+      javascript = "/experiment/#{xid}/host.js"
       x_token = Xee.ExperimentServer.get_info(xid).x_token
-      render conn, "index.html", javascript: js, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
+      render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
       |> redirect(to: "/host")
     end
+  end
+
+  def participant_script(conn, %{"xid" => xid}) do
+    js = get_javascript(xid, :participant)
+    render conn, "participant.js", javascript: js
+  end
+
+  def host_script(conn, %{"xid" => xid}) do
+    js = get_javascript(xid, :host)
+    render conn, "host.js", javascript: js
   end
 
   defp get_javascript(xid, key) do
