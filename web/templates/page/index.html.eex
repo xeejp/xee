@@ -1,26 +1,26 @@
 <div class="container page-header">
   <div class="row">
     <div class="col-md-12">
-      <div style="text-align:center; margin:15%;">
-        <h1>経済実験へようこそ！</h1>
+      <div style="text-align:center;">
+        <img alt="経済実験へようこそ！" src="<%= static_path(@conn, "/logo_front.png") %>" height="300em"/>
       </div>
     </div>
   </div>
 </div>
 
 <div class="container main-content">
-<center>
-  <div class="row">
-    <div class="col-md-4 content-area" style="float:none;">
-      <form method="get" action="/experiment">
-        <div class="form-group has-feedback" style="margin: 10%;">
-          <input type="text" class="form-control input-lg" name="token" placeholder="実験記号">
-          <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
-          <span class="help-block">実験記号を入力してください。</span>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 15%;">実験に参加する</button>
-      </form>
+  <center>
+    <div class="row">
+      <div class="col-md-4 content-area" style="float:none;">
+        <form method="get" action="/experiment">
+          <div class="form-group has-feedback" style="margin: 5% 10%;">
+            <input type="text" class="form-control input-lg" name="token" placeholder="実験記号">
+            <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block">実験記号を入力してください。</span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">実験に参加する</button>
+        </form>
+      </div>
     </div>
-  </div>
-</center>
+  </center>
 </div>
