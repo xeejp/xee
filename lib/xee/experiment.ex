@@ -59,7 +59,6 @@ defmodule Xee.Experiment do
                 _ -> {:stop, "The result is wrong: #{inspect result}", state}
             end
           :message ->
-            IO.inspect state
             host = Map.get(result, "host", nil)
             participant = Map.get(result, "participant", %{})
             broadcast_message(xid, host, participant)
