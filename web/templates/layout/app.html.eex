@@ -50,7 +50,7 @@
 
     </div> <!-- /container -->
 
-    <footer class="page-footer light-blue darken-3" style="padding:10px;">
+    <footer class="page-footer light-blue darken-3" style="padding:10px; bottom:0;">
       <center>
         <div class="footer-copyright light-blue darken-3" style="overflow:visible; line-height:20px;">
           <div class="container">
