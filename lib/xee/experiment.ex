@@ -66,7 +66,7 @@ defmodule Xee.Experiment do
         end
       {:error, e} ->
         Logger.error("#{inspect e}")
-        if experiment.module.script_type == :message do
+        if experiment.module.script_type == :data do
           case sender do
             nil -> nil
             :host -> Xee.Endpoint.broadcast!(form_topic(xid), "update", %{body: host})
