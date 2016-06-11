@@ -34,7 +34,7 @@ defmodule Xee.HostControllerTest do
     assert get_flash(conn, :error) == "You need to be signed in to view this page"
   end
 
-  test "GET /experiment with signin" do
+  test "GET /host/experiment with signin" do
     Xee.ThemeServer.experiment "test",
       file: "experiments/test/test.exs",
       host: "experiments/test/host.js",
@@ -44,6 +44,16 @@ defmodule Xee.HostControllerTest do
             |> assign(:host, user)
             |> action(:experiment)
     assert html_response(conn, 200) =~ "実験作成"
+  end
+
+  test "GET /host/experiment with no themes" do
+    user = Xee.Repo.get_by(User, name: "a")
+    conn = conn()
+            |> with_session_and_flash
+            |> assign(:host, user)
+            |> action(:experiment)
+    assert conn.status != 200
+    assert get_flash(conn, :error) == "There are no themes"
   end
 
   test "create action must fail when one or more of required fields are blank" do

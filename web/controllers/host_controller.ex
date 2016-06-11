@@ -18,7 +18,14 @@ defmodule Xee.HostController do
               |> Map.to_list
               |> Enum.map(fn {_key, value} -> value end)
               |> Enum.filter(fn theme -> Xee.Theme.granted?(theme, user.name) end)
-    render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: hd(themes).id, themes: themes, x_token: Xee.TokenServer.generate_id
+    if length(themes) == 0 do
+      conn
+      |> put_flash(:error, "There are no themes")
+      |> redirect(to: "/host")
+      |> halt
+    else
+      render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: hd(themes).id, themes: themes, x_token: Xee.TokenServer.generate_id
+    end
   end
 
   def create(conn, %{"experiment_name" => name, "theme" => theme_id, "x_token" => x_token}) do
