@@ -78,23 +78,35 @@ defmodule Xee.Experiment do
   end
 
   def broadcast_data(xid, sender, host, new_host, participant, new_participant) do
-    if sender == :host || host != new_host do
-      Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: :host, body: new_host})
-    end
-    Enum.each(new_participant, fn {id, new_data} ->
-      if sender == id || Map.get(participant, id) != new_data do
-        Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: id, body: new_data})
+    host_task = Task.async(fn ->
+      if sender == :host || host != new_host do
+        Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: :host, body: new_host})
       end
     end)
+    Enum.map(new_participant, fn {id, new_data} ->
+      Task.async(fn ->
+        if sender == id || Map.get(participant, id) != new_data do
+          Xee.Endpoint.broadcast!(form_topic(xid), "update", %{to: id, body: new_data})
+        end
+      end)
+    end)
+    |> Enum.map(&Task.await/1)
+    Task.await(host_task)
   end
 
   def broadcast_message(xid, host, participant) do
-    if host != nil do
-      Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: :host, body: host})
-    end
-    Enum.map(participant, fn {id, data} ->
-      Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: id, body: data})
+    host_task = Task.async(fn ->
+      if host != nil do
+        Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: :host, body: host})
+      end
     end)
+    Enum.map(participant, fn {id, data} ->
+      Task.async(fn ->
+        Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: id, body: data})
+      end)
+    end)
+    |> Enum.map(&Task.await/1)
+    Task.await(host_task)
   end
 
   def call_script(experiment, func, args) do
