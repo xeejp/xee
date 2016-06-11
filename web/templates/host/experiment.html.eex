@@ -19,7 +19,7 @@
               <select id="theme" name="theme" value="<%= @theme_id %>">
                 <%= if @themes do %>
                   <%= for theme <- @themes do %>
-                    <option value=<%= theme.id %>><%= theme.name %></option>
+                    <option value="<%= theme.id %>"><%= theme.name %></option>
                   <% end %>
                 <% end %>
               </select>
