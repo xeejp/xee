@@ -22,10 +22,10 @@ defmodule Xee.HostController do
   end
 
   def create(conn, %{"experiment_name" => name, "theme" => theme_id, "x_token" => x_token}) do
-    if (name == nil || name == "") do
+    if (String.length(name) == 0 || String.length(x_token) == 0) do
       conn
-      |> put_flash(:error, "Make Experiment Error")
-      |> redirect(to: "/host")
+      |> put_flash(:error, "All fields are required")
+      |> redirect(to: "/host/experiment")
       |> halt
     else
       user = conn.assigns[:host]
