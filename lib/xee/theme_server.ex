@@ -37,7 +37,13 @@ defmodule Xee.ThemeServer do
   end
 
   def start_link() do
-    Agent.start_link(fn -> %{} end, name: __MODULE__)
+    result = Agent.start_link(fn -> %{} end, name: __MODULE__)
+    config = Application.fetch_env!(:xee, __MODULE__)
+    files = Keyword.fetch!(config, :files)
+    for file <- files do
+      load(file)
+    end
+    result
   end
 
   @doc """
