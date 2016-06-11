@@ -65,7 +65,7 @@ defmodule Xee.Experiment do
             {:noreply, {xid, experiment, Map.drop(result, ["host", "participant"])}}
         end
       {:error, e} ->
-        Logger.error("#{inspect e}")
+        Logger.error(Exception.format(:error, e, System.stacktrace()))
         if experiment.module.script_type == :data do
           case sender do
             nil -> nil
@@ -74,7 +74,6 @@ defmodule Xee.Experiment do
           end
         end
         {:noreply, state}
-      _ -> {:stop, "The script failed. #{args}", state}
     end
   end
 
@@ -100,7 +99,7 @@ defmodule Xee.Experiment do
 
   def call_script(experiment, func, args) do
     try do
-      apply(experiment.module, func, args)
+      {:ok, result} = apply(experiment.module, func, args)
     rescue
       e -> {:error, e}
     end
