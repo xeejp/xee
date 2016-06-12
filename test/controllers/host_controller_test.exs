@@ -47,6 +47,8 @@ defmodule Xee.HostControllerTest do
   end
 
   test "GET /host/experiment with no themes" do
+    Agent.stop(Xee.ThemeServer)
+    Xee.ThemeServer.start_link()
     user = Xee.Repo.get_by(User, name: "a")
     conn = conn()
             |> with_session_and_flash
