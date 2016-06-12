@@ -52,7 +52,6 @@ defmodule Xee.HostControllerTest do
             |> with_session_and_flash
             |> assign(:host, user)
             |> action(:experiment)
-    assert conn.status != 200
     assert get_flash(conn, :error) == "There are no themes"
   end
 
