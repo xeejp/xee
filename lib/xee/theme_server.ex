@@ -13,16 +13,27 @@ defmodule Xee.ThemeServer do
     end
   end
 
+  defp get_module_from_file(file) do
+    [{module, _} | _] = Code.load_file(file)
+    module
+  end
+
   def experiment(name, file: file, host: host, participant: participant, granted: granted) do
-    do_and_watch([file, host, participant], fn -> load_from_file(name, file, host, participant, granted) end)
+    module = get_module_from_file(file)
+    files = apply(module, :require_files, [])
+    do_and_watch(files ++ [file, host, participant], fn -> load_from_file(name, file, files, host, participant, granted) end)
   end
 
   def experiment(name, file: file, host: host, participant: participant) do
     experiment(name, file: file, host: host, participant: participant, granted: nil)
   end
 
-  defp load_from_file(name, file, host, participant, granted) do
-    [{module, _} | _] = Code.load_file(file)
+  defp load_from_file(name, file, files, host, participant, granted) do
+    module = get_module_from_file(file)
+    dir = Path.dirname(file)
+    for file <- files do
+      Code.load_file(file, dir)
+    end
     host = File.read!(host)
     participant = File.read!(participant)
     experiment = %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant}
@@ -31,7 +42,7 @@ defmodule Xee.ThemeServer do
     else
       MapSet.new(granted)
     end
-    theme = %Xee.Theme{experiment: experiment, id: name, name: name, playnum: 0, lastupdate: 0, producer: "", contact: "", manual: "", granted: granted}
+    theme = %Xee.Theme{experiment: experiment, id: name, name: name, granted: granted}
     Xee.ThemeServer.register(name, theme)
     apply(module, :install, [])
   end

@@ -7,11 +7,6 @@
         <tr>
           <th>#</th>
           <th>タイトル</th>
-          <th>実験実績</th>
-          <th>最終更新日</th>
-          <th>実験製作者</th>
-          <th>連絡先</th>
-          <th>実験手引書</th>
         </tr>
       </thead>
       <tbody>
@@ -19,16 +14,6 @@
           <tr>
             <td></td>
             <td><%= theme.name %></td>
-            <td><%= theme.playnum %>回終了</td>
-            <td><%= theme.lastupdate %></td>
-            <td><%= theme.producer %></td>
-            <td><%= theme.contact %></td>
-            <td><%= if theme.manual == "" do %>
-                なし
-                <%= else %>
-                <a href="<%= theme.manual %>">あり</a>
-                <%= end %>
-            </td>
           </tr>
         <% end %>
       </tbody>
