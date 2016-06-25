@@ -17,7 +17,7 @@ defmodule Xee.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Xee, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :timex,
                     :phoenix_ecto, :postgrex, :comeonin, :fwatch]]
   end
 
@@ -39,7 +39,9 @@ defmodule Xee.Mixfile do
      {:uuid, "~> 1.1" },
      {:poison, "~> 1.5"},
      {:comeonin, "~> 1.6"},
-     {:onetime, "~> 0.1.2"},
-     {:fwatch, "~> 0.5.0"}]
+     {:onetime, "~> 1.1.0"},
+     {:fwatch, "~> 0.5.0"},
+     {:timex, "~> 2.2.0"},
+     {:tzdata, "~> 0.5.7", override: true}]
   end
 end
