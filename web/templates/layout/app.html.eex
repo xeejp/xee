@@ -9,7 +9,7 @@
 
     <title>XEE.JP</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+    <link rel="shortcut icon" href="<%= static_path(@conn, "/assets/favicon.ico") %>">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
