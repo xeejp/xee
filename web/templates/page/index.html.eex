@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div style="text-align:center;">
-        <img alt="経済実験へようこそ！" src="<%= static_path(@conn, "/assets/logo_front.png") %>" height="300em"/>
+        <img alt="経済実験へようこそ！" src="<%= static_path(@conn, "/logo_front.png") %>" height="300em"/>
       </div>
     </div>
   </div>
