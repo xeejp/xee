@@ -21,6 +21,8 @@ defmodule Xee.ThemeServer do
   def experiment(name, file: file, host: host, participant: participant, granted: granted) do
     module = get_module_from_file(file)
     files = apply(module, :require_files, [])
+    dir = Path.dirname(file)
+    files = Enum.map(files, fn file -> Path.expand(file, dir) end)
     do_and_watch(files ++ [file, host, participant], fn -> load_from_file(name, file, files, host, participant, granted) end)
   end
 
@@ -30,9 +32,8 @@ defmodule Xee.ThemeServer do
 
   defp load_from_file(name, file, files, host, participant, granted) do
     module = get_module_from_file(file)
-    dir = Path.dirname(file)
     for file <- files do
-      Code.load_file(file, dir)
+      Code.load_file(file)
     end
     host = File.read!(host)
     participant = File.read!(participant)
