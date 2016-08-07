@@ -61,6 +61,10 @@ defmodule Xee.ExperimentChannel do
     end
   end
 
+  def handle_in("ping", _, socket) do
+    {:noreply, socket}
+  end
+
   intercept ["update", "message"]
 
   def handle_out("message", %{to: user, body: body} = info, socket) do
