@@ -7,30 +7,26 @@ defmodule Xee.HostControllerTest do
   alias Xee.User
 
   setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
     changeset = User.changeset(%User{}, %{name: "a", password: "abcde"})
     User.create(changeset, Xee.Repo)
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
+    :ok
   end
 
   test "GET /host without signin" do
-    conn = get conn(), "/host"
+    conn = get build_conn(), "/host"
     assert get_flash(conn, :error) == "You need to be signed in to view this page"
   end
 
   test "GET /host with signin" do
     user = Xee.Repo.get_by(User, name: "a")
-    conn = conn()
+    conn = build_conn()
             |> assign(:host, user)
             |> action(:index)
     assert html_response(conn, 200) =~ "管理者画面"
   end
 
   test "GET /host/experiment without signin" do
-    conn = get conn(), "/host/experiment"
+    conn = get build_conn(), "/host/experiment"
     assert get_flash(conn, :error) == "You need to be signed in to view this page"
   end
 
@@ -40,7 +36,7 @@ defmodule Xee.HostControllerTest do
       host: "experiments/test/host.js",
       participant: "experiments/test/participant.js"
     user = Xee.Repo.get_by(User, name: "a")
-    conn = conn()
+    conn = build_conn()
             |> assign(:host, user)
             |> action(:experiment)
     assert html_response(conn, 200) =~ "実験作成"
@@ -50,7 +46,7 @@ defmodule Xee.HostControllerTest do
     Agent.stop(Xee.ThemeServer)
     Xee.ThemeServer.start_link()
     user = Xee.Repo.get_by(User, name: "a")
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
             |> action(:experiment)
@@ -64,7 +60,7 @@ defmodule Xee.HostControllerTest do
       participant: "experiments/test/participant.js"
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
             |> action(:create, %{"experiment_name" => "", "theme" => "test", "x_token" => x_token})
@@ -79,7 +75,7 @@ defmodule Xee.HostControllerTest do
       participant: "experiments/test/participant.js"
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
             |> action(:create, %{"experiment_name" => "test1", "theme" => "test", "x_token" => x_token})

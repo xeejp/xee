@@ -7,19 +7,15 @@ defmodule Xee.ExperimentControllerTest do
   alias Xee.User
 
   setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
     changeset = User.changeset(%User{}, %{name: "a", password: "abcde"})
     User.create(changeset, Xee.Repo)
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
+    :ok
   end
 
   test "get as a participant without experiment" do
     xid = "test"
 
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> action :index, %{"xid" => xid}
     assert get_flash(conn, :error) == "Not Exists Experiment ID"
@@ -32,7 +28,7 @@ defmodule Xee.ExperimentControllerTest do
 
     Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
     Xee.TokenServer.register(token, xid)
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
@@ -54,7 +50,7 @@ defmodule Xee.ExperimentControllerTest do
 
     Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
     Xee.TokenServer.register(token, xid)
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
@@ -77,7 +73,7 @@ defmodule Xee.ExperimentControllerTest do
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
@@ -96,7 +92,7 @@ defmodule Xee.ExperimentControllerTest do
     u_id = Xee.TokenGenerator.generate
 
     Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
@@ -119,7 +115,7 @@ defmodule Xee.ExperimentControllerTest do
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
@@ -142,7 +138,7 @@ defmodule Xee.ExperimentControllerTest do
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}

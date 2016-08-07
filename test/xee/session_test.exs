@@ -1,5 +1,4 @@
 defmodule Xee.SessionTest do
-  use Xee.ModelCase
   use Xee.ConnCase
   use Xee.SessionTestHelper
 
@@ -10,13 +9,9 @@ defmodule Xee.SessionTest do
   @incorrect_attrs %{name: "incorrect_name", password: "incorrect_pasword"}
 
   setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
     changeset = User.changeset(%User{}, @correct_attrs)
     User.create(changeset, Xee.Repo)
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
+    :ok
   end
 
   test "login as correct user" do

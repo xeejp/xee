@@ -8,13 +8,10 @@ defmodule Xee.AuthenticationPlugTest do
   @opts Xee.AuthenticationPlug.init([])
 
   setup do
-    Mix.Tasks.Ecto.Migrate.run(["--all", "Xee.Repo"]);
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Xee.Repo)
     changeset = User.changeset(%User{}, %{name: "a", password: "abcde"})
     User.create(changeset, Xee.Repo)
-
-    on_exit fn ->
-      Mix.Tasks.Ecto.Rollback.run(["--all", "Xee.Repo"])
-    end
+    :ok
   end
 
   test "signed in" do

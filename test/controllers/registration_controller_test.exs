@@ -18,12 +18,12 @@ defmodule Xee.RegistrationControllerTest do
   end
 
   test "GET /register" do
-    conn = get conn(), "/register"
+    conn = get build_conn(), "/register"
     refute html_response(conn, 200) =~ "Error!"
   end
 
   test "POST /register with new user information" do
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> action(:create, %{"user" => @new_user_attrs})
 
@@ -32,7 +32,7 @@ defmodule Xee.RegistrationControllerTest do
   end
 
   test "POST /register with existed user information" do
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> action(:create,  %{"user" => @existed_user_attrs})
 
@@ -41,7 +41,7 @@ defmodule Xee.RegistrationControllerTest do
   end
 
   test "POST /register with invalid user information(User password is not long enough)" do
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> action(:create,  %{"user" => @invalid_user_attrs1})
 
@@ -50,7 +50,7 @@ defmodule Xee.RegistrationControllerTest do
   end
 
   test "POST /register with invalid user information(User name is not long enough)" do
-    conn = conn()
+    conn = build_conn()
             |> with_session_and_flash
             |> action(:create,  %{"user" => @invalid_user_attrs2})
 
