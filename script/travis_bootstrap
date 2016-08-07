@@ -1,6 +1,3 @@
-# install inotify
-https://github.com/rvoicilas/inotify-tools.git
-cd inotify-tools
-./configure --prefix=/usr && make && su -c 'make install'
-
 script/test_bootstrap
+mix ecto.create
+mix ecto.migrate
