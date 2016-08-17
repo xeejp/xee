@@ -1,7 +1,7 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
-module.exports = [{
-    entry: ["./web/static/js/app.js", "./web/static/css/app.css"],
+module.exports = {
+    entry: ["./web/static/js/app.js", "./web/static/css/app.css", "./web/static/js/footerFixed.js"],
     output: {
         path: "./priv/static",
         filename: "js/app.js"
@@ -32,10 +32,4 @@ module.exports = [{
             __dirname + "/web/static/js",
         ]
     }
-  }, {
-    entry: "./web/static/js/footerFixed.js",
-    output: {
-        path: "./priv/static",
-        filename: "js/footerFixed.js"
-   }
-  }];
+};
