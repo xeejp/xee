@@ -3,13 +3,7 @@ defmodule Xee.PageControllerTest do
   use ExUnit.Case, async: false
 
   setup() do
-    Xee.ThemeServer.start_link
-    on_exit fn ->
-      case Process.whereis(Xee.ThemeServer) do
-        pid when is_pid(pid) -> Process.exit(pid, :kill)
-        _ -> nil
-      end
-    end
+    Xee.ThemeServer.drop_all()
     :ok
   end
 
