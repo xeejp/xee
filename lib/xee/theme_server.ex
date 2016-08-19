@@ -69,7 +69,7 @@ defmodule Xee.ThemeServer do
   end
 
   @doc """
-  Registers a theme with a key.
+  Registers the theme with a key.
   """
   def register(key, theme) do
     Agent.update(__MODULE__, fn map -> Map.put(map, key, theme) end)
@@ -83,9 +83,23 @@ defmodule Xee.ThemeServer do
   end
 
   @doc """
-  Returns a theme for the given key.
+  Returns the theme for a specific key.
   """
   def get(key) do
     Agent.get(__MODULE__, fn map -> map[key] end)
+  end
+
+  @doc """
+  Delete the themes for a specific key.
+  """
+  def delete(key) do
+    Agent.update(__MODULE__, fn map -> Map.delete(map, key) end)
+  end
+
+  @doc """
+  Drops all themes.
+  """
+  def drop_all() do
+    Agent.update(__MODULE__, fn _ -> %{} end)
   end
 end
