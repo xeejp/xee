@@ -7,12 +7,21 @@ window.Experiment = class Experiment {
     if (update != undefined) {
       this.onUpdate(update)
     }
+
+    // Ping
     setInterval(() => this.chan.push("ping"), 10000)
+
+    // Redirect
+    this.chan.on("redirect", payload => {
+      const xid = payload.body
+      window.location = "/experiment/" + xid
+    })
   }
 
   send_data(data) {
     this.chan.push("client", {body: data})
   }
+
 
   onUpdate(func) {
     this.chan.join().receive("ok", _ => {

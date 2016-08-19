@@ -61,8 +61,9 @@ defmodule Xee.Experiment do
           :message ->
             host = Map.get(result, "host", nil)
             participant = Map.get(result, "participant", %{})
-            broadcast_message(xid, host, participant)
-            {:noreply, {xid, experiment, Map.drop(result, ["host", "participant"])}}
+            redirect = Map.get(result, "redirect", %{})
+            broadcast_message(xid, host, participant, redirect)
+            {:noreply, {xid, experiment, Map.drop(result, ["host", "participant", "redirect"])}}
         end
       {:error, e} ->
         Logger.error(Exception.format(:error, e, System.stacktrace()))
@@ -94,11 +95,16 @@ defmodule Xee.Experiment do
     Task.await(host_task)
   end
 
-  def broadcast_message(xid, host, participant) do
+  def broadcast_message(xid, host, participant, redirect) do
     host_task = Task.async(fn ->
       if host != nil do
         Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: :host, body: host})
       end
+    end)
+    redirect = Enum.map(redirect, fn {id, redirect} ->
+      Task.async(fn ->
+        Xee.Endpoint.broadcast!(form_topic(xid), "redirect", %{to: id, body: redirect})
+      end)
     end)
     Enum.map(participant, fn {id, data} ->
       Task.async(fn ->
@@ -106,6 +112,7 @@ defmodule Xee.Experiment do
       end)
     end)
     |> Enum.map(&Task.await/1)
+    Enum.map(redirect, &Task.await/1)
     Task.await(host_task)
   end
 
