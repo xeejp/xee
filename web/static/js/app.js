@@ -1,6 +1,8 @@
 import {Socket} from "phoenix"
 window.Experiment = class Experiment {
   constructor(topic, token, update) {
+    this.topic = topic
+    this.x_token = topic.substring('x:'.length)
     this.socket = new Socket("/socket")
     this.socket.connect()
     this.chan = this.socket.channel(topic, {token: token})
@@ -28,5 +30,9 @@ window.Experiment = class Experiment {
     this.chan.on("message", payload => {
       func(payload.body)
     })
+  }
+
+  openParticipantPage(id) {
+    window.open('/experiment/' + this.x_token + '/host/' + id, '_blank')
   }
 }
