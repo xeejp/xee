@@ -7,6 +7,7 @@ defmodule Xee.HostControllerTest do
   alias Xee.User
 
   setup do
+    Xee.ThemeServer.drop_all()
     changeset = User.changeset(%User{}, %{name: "a", password: "abcde"})
     User.create(changeset, Xee.Repo)
     :ok
@@ -43,8 +44,6 @@ defmodule Xee.HostControllerTest do
   end
 
   test "GET /host/experiment with no themes" do
-    Agent.stop(Xee.ThemeServer)
-    Xee.ThemeServer.start_link()
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
             |> with_session_and_flash

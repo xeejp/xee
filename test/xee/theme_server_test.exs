@@ -26,6 +26,22 @@ defmodule Xee.ThemeServerTest do
     assert %{a: :A, b: :B, c: :C} == ThemeServer.get_all()
   end
 
+  test "register and delete" do
+    assert :ok == ThemeServer.register(:a, :A)
+    assert :ok == ThemeServer.register(:b, :B)
+    assert :ok == ThemeServer.register(:c, :C)
+    assert :ok == ThemeServer.delete(:b)
+    assert %{a: :A, c: :C} == ThemeServer.get_all()
+  end
+
+  test "register and drop_all" do
+    assert :ok == ThemeServer.register(:a, :A)
+    assert :ok == ThemeServer.register(:b, :B)
+    assert :ok == ThemeServer.register(:c, :C)
+    assert :ok == ThemeServer.drop_all()
+    assert %{} == ThemeServer.get_all()
+  end
+
   test "load experiments" do
     ThemeServer.load("test/assets/example_experiments.exs")
     themes = ThemeServer.get_all()
