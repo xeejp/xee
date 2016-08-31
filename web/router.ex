@@ -36,7 +36,7 @@ defmodule Xee.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
-    get "/theme", PageController, :theme
+    get "/explore/:page", ThemeController, :explore
 
     # experiment page
     get "/experiment", ExperimentController, :shortcut
