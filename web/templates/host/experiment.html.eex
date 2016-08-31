@@ -16,10 +16,10 @@
         <div class="row">
           <div class="input-field">
             <div class="col s12 m12 l6">
-              <select id="theme" name="theme" value="<%= @theme_id %>">
+              <select id="theme" name="theme">
                 <%= if @themes do %>
                   <%= for theme <- @themes do %>
-                    <option value="<%= theme.id %>"><%= theme.name %></option>
+                    <option value="<%= theme.id %>" <%= if theme.id == @theme_id do %>selected<% end %>><%= theme.name %></option>
                   <% end %>
                 <% end %>
               </select>
