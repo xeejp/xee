@@ -50,6 +50,7 @@ defmodule Xee.Router do
     pipe_through :browser # Use the default browser stack
     get "/", HostController, :index
     get "/index", HostController, :index
+    post "/remove", HostController, :remove
     get "/experiment", HostController, :experiment
     post "/experiment/create", HostController, :create
   end

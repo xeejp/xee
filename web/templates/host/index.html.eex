@@ -27,6 +27,7 @@
             <th>タイトル</th>
             <th>実験テーマ</th>
             <th>実験ID</th>
+            <th>削除</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,13 @@
               <td><%= exp[:name] %></td>
               <td><%= exp[:theme] %></td>
               <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
+              <td>
+                <form method="post" action="/host/remove">
+                  <input type="submit" value="削除" class="btn">
+                  <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+                  <input type="hidden" name="xid" value="<%= exp[:xid] %>">
+                </form>
+              </td>
             </tr>
             <%= end %>
         </tbody>
