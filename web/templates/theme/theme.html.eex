@@ -1,0 +1,4 @@
+<h2><%= @name %> (<%= @id %>)</h2>
+<div id="content">
+</div>
+<script src="<%= @javascript %>"></script>

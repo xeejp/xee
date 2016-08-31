@@ -1,0 +1,6 @@
+<div class="container main-content">
+  <center>
+    <h2><%= @name %> (<%= @id %>)</h1>
+    <h3>この実験には説明ページがありません。</h3>
+  </center>
+</div>
