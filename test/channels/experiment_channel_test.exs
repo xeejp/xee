@@ -74,4 +74,9 @@ defmodule Xee.ExperimentChannelTest do
     broadcast_from! participant_socket, "update", %{"some" => "data"}
     assert_push "update", %{"some" => "data"}
   end
+
+  test "redirect", %{host_socket2: host_socket} do
+    push host_socket, "client", %{"body" => %{"action" => "redirect", "id" => "p2", "xid" => "a"}}
+    assert_broadcast "redirect", %{body: "a"}
+  end
 end
