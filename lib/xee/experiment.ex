@@ -8,6 +8,10 @@ defmodule Xee.Experiment do
     GenServer.start_link(__MODULE__, {experiment, xid})
   end
 
+  def stop(pid) do
+    GenServer.stop(pid)
+  end
+
   def init({experiment, xid}) do
     case call_script(experiment, :init, []) do
       {:ok, result} -> {:ok, {xid, experiment, result}}

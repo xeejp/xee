@@ -28,6 +28,12 @@ defmodule Xee.ExperimentTest do
     {:ok, pid: pid, pid2: pid2}
   end
 
+  test "remove", %{pid: pid} do
+    assert Process.alive?(pid)
+    Experiment.stop(pid)
+    refute Process.alive?(pid)
+  end
+
   test "fetch", %{pid: pid} do
     assert %{"data" => %{"host" => [], "participant" => %{"p1" => [], "p2" => []}},
       "host" => [], "participant" => %{"p1" => [], "p2" => []}} == Experiment.fetch(pid)
