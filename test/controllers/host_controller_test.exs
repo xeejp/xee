@@ -89,20 +89,22 @@ defmodule Xee.HostControllerTest do
       file: "experiments/test/test.exs",
       host: "experiments/test/host.js",
       participant: "experiments/test/participant.js"
-    x_token = "test"
+
+    user = Xee.Repo.get_by(User, name: "a")
+    name = "test1"
+    x_token = "test1"
+    xid = Xee.TokenGenerator.generate
+    xtheme = Xee.ThemeServer.get("test")
+    Xee.TokenServer.register(x_token, xid)
+    Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, x_token: x_token, xid: xid})
+    Xee.HostServer.register(user.id, xid)
+
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
             |> with_session_and_flash
             |> assign(:host, user)
             |> action(:create, %{"experiment_name" => "test1", "theme" => "test", "x_token" => x_token})
     xid = Xee.TokenServer.get(x_token)
-
-    conn = build_conn()
-            |> with_session_and_flash
-            |> assign(:host, user)
-            |> action(:remove, %{"xid" => xid})
-    refute Xee.TokenServer.has?(x_token)
-    refute Xee.ExperimentServer.has?(xid)
-    refute Xee.HostServer.has?(user.id, xid)
+    pid = Xee.ExperimentServer.get(xid)
   end
 end

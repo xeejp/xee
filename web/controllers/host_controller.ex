@@ -15,9 +15,11 @@ defmodule Xee.HostController do
   def remove(conn, %{"xid" => xid}) do
     user = conn.assigns[:host]
     %{x_token: token} = Xee.ExperimentServer.get_info(xid)
-    Xee.TokenServer.drop(token)
+    pid = Xee.ExperimentServer.get(xid)
     Xee.ExperimentServer.remove(xid)
+    Xee.TokenServer.drop(token)
     Xee.HostServer.drop(user.id, xid)
+    Xee.Experiment.stop(pid)
     conn
     |> redirect(to: "/host")
     |> halt
