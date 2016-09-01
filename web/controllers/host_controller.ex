@@ -25,7 +25,7 @@ defmodule Xee.HostController do
     |> halt
   end
 
-  def experiment(conn, _params) do
+  def experiment(conn, params) do
     user = conn.assigns[:host]
     themes = Xee.ThemeServer.get_all
               |> Map.to_list
@@ -37,7 +37,8 @@ defmodule Xee.HostController do
       |> redirect(to: "/host")
       |> halt
     else
-      render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: hd(themes).id, themes: themes, x_token: Xee.TokenServer.generate_id
+      theme_id = Map.get(params, "theme_id", nil) || hd(themes).id
+      render conn, "experiment.html", csrf_token: get_csrf_token(), experiment_name: "", theme_id: theme_id, themes: themes, x_token: Xee.TokenServer.generate_id
     end
   end
 
@@ -45,7 +46,7 @@ defmodule Xee.HostController do
     if (String.length(name) == 0 || String.length(x_token) == 0) do
       conn
       |> put_flash(:error, "All fields are required")
-      |> redirect(to: "/host/experiment")
+      |> redirect(to: "/host/experiment?theme_id=#{theme_id}")
       |> halt
     else
       user = conn.assigns[:host]

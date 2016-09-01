@@ -7,6 +7,7 @@
         <tr>
           <th>#</th>
           <th>タイトル</th>
+          <th>実験作成</th>
         </tr>
       </thead>
       <tbody>
@@ -14,6 +15,7 @@
           <tr>
             <td></td>
             <td><%= theme.name %></td>
+            <td><a href="<%= host_path(@conn, :experiment, theme_id: theme.id) %>" class="btn">実験作成</a></td>
           </tr>
         <% end %>
       </tbody>

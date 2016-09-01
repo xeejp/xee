@@ -19,8 +19,8 @@
 
   <body>
     <ul id="dropdown" class="dropdown-content">
-      <li><a href="/host">実験管理画面</a></li>
-      <li><a href="/theme">テーマ一覧</a></li>
+      <li><a href="<%= host_path(@conn, :index) %>">実験管理画面</a></li>
+      <li><a href="<%= theme_path(@conn, :explore, "list") %>">テーマ一覧</a></li>
       <li class="divider"></li>
       <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
     </ul>

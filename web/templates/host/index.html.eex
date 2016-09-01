@@ -4,12 +4,12 @@
   <font size="7">
     <ul>
       <li>
-        <a href="/theme">
+        <a href="<%= theme_path(@conn, :explore, "list") %>">
           実験テーマ一覧
         </a>
       </li>
       <li>
-        <a href="/host/experiment">
+        <a href="<%= host_path(@conn, :experiment) %>">
           実験作成画面
         </a>
       </li>
