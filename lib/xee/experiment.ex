@@ -123,6 +123,14 @@ defmodule Xee.Experiment do
   def call_script(experiment, func, args) do
     try do
       {:ok, result} = apply(experiment.module, func, args)
+      result = for {key, value} <- result, into: %{} do
+        key = case key do
+          key when is_atom(key) -> Atom.to_string(key)
+          key -> key
+        end
+        {key, value}
+      end
+      {:ok, result}
     rescue
       e -> {:error, e}
     end

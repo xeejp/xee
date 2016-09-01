@@ -20,6 +20,7 @@ defmodule Xee.Router do
     pipe_through :js
     get "/experiment/:xid/participant.js", ExperimentController, :participant_script
     get "/experiment/:xid/host.js", ExperimentController, :host_script
+    get "/theme/:theme_id/description.js", ThemeController, :description_script
   end
 
   scope "/", Xee do
@@ -36,7 +37,9 @@ defmodule Xee.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
-    get "/theme", PageController, :theme
+    # theme page
+    get "/explore/:page", ThemeController, :explore
+    get "/theme/:theme_id", ThemeController, :theme
 
     # experiment page
     get "/experiment", ExperimentController, :shortcut

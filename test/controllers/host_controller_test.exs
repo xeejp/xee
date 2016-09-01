@@ -43,6 +43,26 @@ defmodule Xee.HostControllerTest do
     assert html_response(conn, 200) =~ "実験作成"
   end
 
+  test "GET /host/experiment?theme_id=THEME_ID" do
+    Xee.ThemeServer.experiment "test1",
+      file: "experiments/test/test.exs",
+      host: "experiments/test/host.js",
+      participant: "experiments/test/participant.js"
+    Xee.ThemeServer.experiment "test2",
+      file: "experiments/test/test.exs",
+      host: "experiments/test/host.js",
+      participant: "experiments/test/participant.js"
+    user = Xee.Repo.get_by(User, name: "a")
+    conn = build_conn()
+            |> assign(:host, user)
+            |> action(:experiment, %{"theme_id" => "test1"})
+    assert html_response(conn, 200) =~ "value=\"test1\" selected"
+    conn = build_conn()
+            |> assign(:host, user)
+            |> action(:experiment, %{"theme_id" => "test2"})
+    assert html_response(conn, 200) =~ "value=\"test2\" selected"
+  end
+
   test "GET /host/experiment with no themes" do
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()

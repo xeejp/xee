@@ -1,4 +1,6 @@
 # App artifacts
+/config/experiments.exs
+/web/static/assets
 /_build
 /db
 /deps
@@ -23,3 +25,6 @@ erl_crash.dump
 # secrets file as long as you replace its contents by environment
 # variables.
 /config/prod.secret.exs
+
+# Others
+.DS_Store
