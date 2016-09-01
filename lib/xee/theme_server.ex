@@ -18,32 +18,46 @@ defmodule Xee.ThemeServer do
     module
   end
 
-  def experiment(name, file: file, host: host, participant: participant, granted: granted) do
+  def experiment(name, params) do
+    params = params
+              |> Keyword.put_new(:granted, nil)
+              |> Keyword.put_new(:description, nil)
+    file = Keyword.get(params, :file)
+    host = Keyword.get(params, :host)
+    participant = Keyword.get(params, :participant)
+    granted = Keyword.get(params, :granted)
+    description = Keyword.get(params, :description)
+
     module = get_module_from_file(file)
     files = apply(module, :require_files, [])
     dir = Path.dirname(file)
     files = Enum.map(files, fn file -> Path.expand(file, dir) end)
-    do_and_watch(files ++ [file, host, participant], fn -> load_from_file(name, file, files, host, participant, granted) end)
+    watch_files = files ++ [file, host, participant]
+    unless is_nil(description) do
+      watch_files = [description | watch_files]
+    end
+    do_and_watch(watch_files, fn -> load_from_file(name, file, files, host, participant, description, granted) end)
   end
 
-  def experiment(name, file: file, host: host, participant: participant) do
-    experiment(name, file: file, host: host, participant: participant, granted: nil)
-  end
-
-  defp load_from_file(name, file, files, host, participant, granted) do
+  defp load_from_file(name, file, files, host, participant, description, granted) do
     module = get_module_from_file(file)
     for file <- files do
       Code.load_file(file)
     end
     host = File.read!(host)
     participant = File.read!(participant)
+    description = unless is_nil(description) do
+      File.read!(description)
+    else
+      nil
+    end
     experiment = %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant}
     granted = if granted == nil do
       nil
     else
       MapSet.new(granted)
     end
-    theme = %Xee.Theme{experiment: experiment, id: name, name: name, granted: granted}
+    theme = %Xee.Theme{experiment: experiment, id: name, name: name, description: description, granted: granted}
     Xee.ThemeServer.register(name, theme)
     apply(module, :install, [])
   end

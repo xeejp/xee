@@ -1,5 +1,5 @@
 defmodule Xee.Theme do
-  defstruct experiment: nil, id: "", name: "", granted: nil
+  defstruct experiment: nil, id: "", name: "", description: nil, granted: nil
 
   def granted?(%Xee.Theme{granted: %MapSet{} = mapset}, id) do
     MapSet.member?(mapset, id)
