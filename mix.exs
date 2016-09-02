@@ -18,7 +18,7 @@ defmodule Xee.Mixfile do
   def application do
     [mod: {Xee, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :timex,
-                    :phoenix_ecto, :postgrex, :comeonin, :fwatch]]
+                    :phoenix_ecto, :postgrex, :comeonin, :fwatch, :test3]]
   end
 
   defp aliases do
@@ -36,6 +36,7 @@ defmodule Xee.Mixfile do
   # Type `mix help deps` for examples and options
   def deps do
     [{:phoenix, "~> 1.2.0"},
+     {:test3, path: "experiments/test3"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0-rc"},
      {:postgrex, ">= 0.9.1", override: true},

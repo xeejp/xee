@@ -13,41 +13,42 @@ defmodule Xee.ThemeServer do
     end
   end
 
-  defp get_module_from_file(file) do
-    [{module, _} | _] = Code.load_file(file)
+  def experiment(name, params) do
+    file = Keyword.get(params, :file)
+    path = Keyword.get(params, :path)
+    module = get_module_from_file(file, path)
+    require_files = apply(module, :require_files, [])
+    load_from_file(name, path, module, require_files, require_files ++ [file], params)
+  end
+
+  defp get_module_from_file(file, relative_to \\ nil) do
+    [{module, _} | _] = Code.load_file(file, relative_to)
     module
   end
 
-  def experiment(name, params) do
-    params = params
-              |> Keyword.put_new(:granted, nil)
-              |> Keyword.put_new(:description, nil)
-    file = Keyword.get(params, :file)
+  defp load_from_file(name, path, module, require_files, watch_files, params) do
     host = Keyword.get(params, :host)
     participant = Keyword.get(params, :participant)
-    granted = Keyword.get(params, :granted)
-    description = Keyword.get(params, :description)
-
-    module = get_module_from_file(file)
-    files = apply(module, :require_files, [])
-    dir = Path.dirname(file)
-    files = Enum.map(files, fn file -> Path.expand(file, dir) end)
-    watch_files = files ++ [file, host, participant]
+    granted = Keyword.get(params, :granted, nil)
+    description = Keyword.get(params, :description, nil)
+    if is_nil(name) do
+      name = name
+    end
+    watch_files = require_files ++ [host, participant] ++ watch_files
     unless is_nil(description) do
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, file, files, host, participant, description, granted) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, path, module, require_files, host, participant, description, granted) end)
   end
 
-  defp load_from_file(name, file, files, host, participant, description, granted) do
-    module = get_module_from_file(file)
-    for file <- files do
-      Code.load_file(file)
+  defp load_from_file(name, path, module, require_files, host, participant, description, granted) do
+    for file <- require_files do
+      Code.load_file(file, path)
     end
-    host = File.read!(host)
-    participant = File.read!(participant)
+    host = File.read!(Path.expand(host, path))
+    participant = File.read!(Path.expand(participant, path))
     description = unless is_nil(description) do
-      File.read!(description)
+      File.read!(Path.expan(description, path))
     else
       nil
     end
@@ -64,22 +65,23 @@ defmodule Xee.ThemeServer do
 
   def start_link() do
     result = Agent.start_link(fn -> %{} end, name: __MODULE__)
-    config = Application.fetch_env!(:xee, __MODULE__)
-    files = Keyword.fetch!(config, :files)
-    for file <- files do
-      load(file)
+
+    themes = Application.get_env(:xee, __MODULE__)
+    module_themes = themes[:module_themes]
+    for {module, params} <- module_themes do
+      name = Keyword.get(params, :name)
+      if is_nil(name) do
+        name = String.slice(Atom.to_string(module), length('Elixir.')..-1)
+      end
+      path = Keyword.get(params, :path)
+      load_from_file(name, path, module, [], [], params)
+    end
+
+    file_themes = themes[:file_themes]
+    for {name, params} <- file_themes do
+      experiment(name, params)
     end
     result
-  end
-
-  @doc """
-  Loads experiments from file.
-  """
-  def load(experiments_file) do
-    do_and_watch(experiments_file, fn ->
-      Logger.debug("#{inspect experiments_file}")
-      Code.load_file(experiments_file)
-    end)
   end
 
   @doc """
