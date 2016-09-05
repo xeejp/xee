@@ -33,9 +33,10 @@ defmodule Xee.HostControllerTest do
 
   test "GET /host/experiment with signin" do
     Xee.ThemeServer.experiment "test",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
             |> assign(:host, user)
@@ -45,13 +46,15 @@ defmodule Xee.HostControllerTest do
 
   test "GET /host/experiment?theme_id=THEME_ID" do
     Xee.ThemeServer.experiment "test1",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
     Xee.ThemeServer.experiment "test2",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
             |> assign(:host, user)
@@ -74,9 +77,10 @@ defmodule Xee.HostControllerTest do
 
   test "create action must fail when one or more of required fields are blank" do
     Xee.ThemeServer.experiment "test",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
@@ -89,9 +93,10 @@ defmodule Xee.HostControllerTest do
 
   test "POST /experiment/create" do
     Xee.ThemeServer.experiment "test",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
@@ -106,9 +111,10 @@ defmodule Xee.HostControllerTest do
 
   test "POST /host/remove" do
     Xee.ThemeServer.experiment "test",
-      file: "experiments/test/test.exs",
-      host: "experiments/test/host.js",
-      participant: "experiments/test/participant.js"
+      path: "experiments/test",
+      file: "test.exs",
+      host: "host.js",
+      participant: "participant.js"
 
     user = Xee.Repo.get_by(User, name: "a")
     name = "test1"
