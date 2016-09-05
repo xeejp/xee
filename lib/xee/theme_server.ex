@@ -48,7 +48,7 @@ defmodule Xee.ThemeServer do
     host = File.read!(Path.expand(host, path))
     participant = File.read!(Path.expand(participant, path))
     description = unless is_nil(description) do
-      File.read!(Path.expan(description, path))
+      File.read!(Path.expand(description, path))
     else
       nil
     end
