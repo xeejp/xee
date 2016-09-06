@@ -14,10 +14,11 @@ defmodule Xee.ThemeServer do
   end
 
   def experiment(name, params) do
-    file = Keyword.get(params, :file)
     path = Keyword.get(params, :path)
-    module = get_module_from_file(file, path)
+    file = Keyword.get(params, :file) |> Path.expand(path)
+    module = get_module_from_file(file)
     require_files = apply(module, :require_files, [])
+                    |> Enum.map(fn file -> Path.expand(file, path) end)
     load_from_file(name, path, module, require_files, require_files ++ [file], params)
   end
 
@@ -27,28 +28,26 @@ defmodule Xee.ThemeServer do
   end
 
   defp load_from_file(name, path, module, require_files, watch_files, params) do
-    host = Keyword.get(params, :host)
-    participant = Keyword.get(params, :participant)
+    host = Keyword.get(params, :host) |> Path.expand(path)
+    participant = Keyword.get(params, :participant) |> Path.expand(path)
     granted = Keyword.get(params, :granted, nil)
     description = Keyword.get(params, :description, nil)
-    if is_nil(name) do
-      name = name
-    end
     watch_files = require_files ++ [host, participant] ++ watch_files
     unless is_nil(description) do
+      description = Path.expand(description, path)
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, path, module, require_files, host, participant, description, granted) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, module, require_files, host, participant, description, granted) end)
   end
 
-  defp load_from_file(name, path, module, require_files, host, participant, description, granted) do
+  defp load_from_file(name, module, require_files, host, participant, description, granted) do
     for file <- require_files do
-      Code.load_file(file, path)
+      Code.load_file(file)
     end
-    host = File.read!(Path.expand(host, path))
-    participant = File.read!(Path.expand(participant, path))
+    host = File.read!(host)
+    participant = File.read!(participant)
     description = unless is_nil(description) do
-      File.read!(Path.expand(description, path))
+      File.read!(description)
     else
       nil
     end
