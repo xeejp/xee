@@ -16,10 +16,11 @@ defmodule Xee.ThemeServer do
   def experiment(name, params) do
     path = Keyword.get(params, :path)
     file = Keyword.get(params, :file) |> Path.expand(path)
-    module = get_module_from_file(file)
+    module_func = fn -> get_module_from_file(file) end
+    module = module_func.()
     require_files = apply(module, :require_files, [])
                     |> Enum.map(fn file -> Path.expand(file, path) end)
-    load_from_file(name, path, module, require_files, require_files ++ [file], params)
+    load_from_file(name, path, module_func, require_files, require_files ++ [file], params)
   end
 
   defp get_module_from_file(file, relative_to \\ nil) do
@@ -27,20 +28,21 @@ defmodule Xee.ThemeServer do
     module
   end
 
-  defp load_from_file(name, path, module, require_files, watch_files, params) do
+  defp load_from_file(name, path, module_func, require_files, watch_files, params) do
     host = Keyword.get(params, :host) |> Path.expand(path)
     participant = Keyword.get(params, :participant) |> Path.expand(path)
     granted = Keyword.get(params, :granted, nil)
     description = Keyword.get(params, :description, nil)
-    watch_files = require_files ++ [host, participant] ++ watch_files
+    watch_files = [host, participant] ++ watch_files
     unless is_nil(description) do
       description = Path.expand(description, path)
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, module, require_files, host, participant, description, granted) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted) end)
   end
 
-  defp load_from_file(name, module, require_files, host, participant, description, granted) do
+  defp load_from_file(name, module_func, require_files, host, participant, description, granted) do
+    module = module_func.()
     for file <- require_files do
       Code.load_file(file)
     end
@@ -73,7 +75,7 @@ defmodule Xee.ThemeServer do
         name = String.slice(Atom.to_string(module), length('Elixir.')..-1)
       end
       path = Keyword.get(params, :path)
-      load_from_file(name, path, module, [], [], params)
+      load_from_file(name, path, fn -> module end, [], [], params)
     end
 
     file_themes = themes[:file_themes]
