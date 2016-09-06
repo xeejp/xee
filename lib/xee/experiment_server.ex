@@ -50,4 +50,8 @@ defmodule Xee.ExperimentServer do
   def remove(key) do
     Agent.update(__MODULE__, fn map -> Map.delete(map, key) end)
   end
+
+  def remove_all do
+    Agent.update(__MODULE__, fn map -> %{} end)
+  end
 end

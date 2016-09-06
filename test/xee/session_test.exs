@@ -27,33 +27,33 @@ defmodule Xee.SessionTest do
   end
 
   test "check whether loggedin or not" do
-    conn = conn()
+    conn = build_conn
     session = %{"name" => @correct_attrs[:name], "password" => @correct_attrs[:password]}
     {_status, user} = Session.login(session, Xee.Repo);
 
-    conn = conn
+    conn = build_conn
             |> with_session_and_flash
             |> Plug.Conn.put_session(:current_user, user.id)
     assert Session.logged_in?(conn)
 
-    conn = conn
+    conn = build_conn
             |> with_session_and_flash
             |> Plug.Conn.delete_session(:current_user)
     refute Session.logged_in?(conn)
   end
 
   test "check current user" do
-    conn = conn()
+    conn = build_conn
     session = %{"name" => @correct_attrs[:name], "password" => @correct_attrs[:password]}
     {_status, user} = Session.login(session, Xee.Repo);
 
-    conn = conn
+    conn = build_conn
             |> with_session_and_flash
             |> Plug.Conn.put_session(:current_user, user.id)
     assert Session.current_user(conn).name == @correct_attrs[:name]
     refute Session.current_user(conn).name == @incorrect_attrs[:name]
 
-    conn = conn
+    conn = build_conn
             |> with_session_and_flash
             |> Plug.Conn.delete_session(:current_user)
     refute Session.logged_in?(conn)

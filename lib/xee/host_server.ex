@@ -43,4 +43,8 @@ defmodule Xee.HostServer do
       end
     end)
   end
+
+  def drop_all() do
+    Agent.update(__MODULE__, fn map -> %{} end)
+  end
 end

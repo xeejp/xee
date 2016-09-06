@@ -3,10 +3,7 @@ defmodule Xee.ThemeServerTest do
   alias Xee.ThemeServer, as: ThemeServer
 
   setup do
-    on_exit fn ->
-      Agent.stop(ThemeServer)
-      ThemeServer.start_link()
-    end
+    ThemeServer.drop_all
     :ok
   end
 

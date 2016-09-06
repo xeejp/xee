@@ -4,10 +4,7 @@ defmodule Xee.ExperimentServerTest do
   alias Xee.ExperimentServer
 
   setup do
-    on_exit fn ->
-      ExperimentServer.stop()
-      ExperimentServer.start_link()
-    end
+    ExperimentServer.remove_all
     :ok
   end
 
