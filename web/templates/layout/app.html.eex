@@ -14,6 +14,8 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/intro.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/introjs.min.css" rel="stylesheet" type="text/css">
     <script></script>
   </head>
 
@@ -43,7 +45,7 @@
     </div>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <div class="container" role="main">
+    <div class="container" role="main" >
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
@@ -53,7 +55,7 @@
     <footer class="page-footer light-blue darken-3" style="padding:10px; bottom:0;" id="footer">
       <center>
         <div class="footer-copyright light-blue darken-3" style="overflow:visible; line-height:20px;">
-          <div class="container">
+          <div class="container" >
             <ul>
               <li>&copy; 2015 <a href="https://www.facebook.com/hryohei"><font color="#FF0000">Ryohei HAYASHI</font></a> All Rights Reserved.</li>
               <li>Powered by <a href="https://github.com/xeejp/xee"><font color="#FF0000">Xee System</font></a>.</li>
@@ -68,6 +70,22 @@ $(document).ready(function() {
   $('select').material_select();
 });
 $(".dropdown-button").dropdown();
+   
+   var fn = function(){
+   introJs().setOptions({
+		    'nextLabel': '次へ',
+		    'prevLabel': '戻る',
+		    'skipLabel': '閉じる',
+		    'doneLabel': '完了',
+		    'showButtons': true,
+		    'showBullets': false,
+		    'exitOnEsc': false,
+		    'exitOnOverlayClick': false,
+		    'showStepNumbers':false,
+		    'keyboardNavigatio': true
+	}).start()
+  }
+  setTimeout(fn,60000)
     </script>
   </body>
 </html>
