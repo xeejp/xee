@@ -14,13 +14,48 @@
       <div class="col-md-4 content-area" style="float:none;" >
         <form method="get" action="/experiment" >
           <div class="form-group has-feedback" style="margin: 5% 10%;"　>
-            <input type="text" class="form-control input-lg" name="token" placeholder="実験記号" data-intro="実験記号を入力してください" data-step="1" data-position='right'>
+            <input type="text" class="form-control input-lg" name="token" id='step1'>
             <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
             <span class="help-block">実験記号を入力してください。</span>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" data-intro="このボタンを押して参加できます" data-step="2" data-position='right'>実験に参加する</button>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id='step2'>実験に参加する</button>
         </form>
       </div>
     </div>
   </center>
+  <%= if logged_in?(@conn) do %>
+  <span></span>
+  <% else %>
+  <script>
+    
+   var intro = introJs().setOptions({
+		    'showButtons': false,
+		    'showBullets': false,
+		    'showStepNumbers':false
+	})
+   
+	const step = [
+	{
+	  element: '#step1',
+	  intro:"実験記号を入力してください。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button><button type='button' class='introbtn' onClick='intro.nextStep()'>次へ</button><br/><button type='button' class='introbtn' onClick='intro.goToStep(3)'>管理者の方はこちら</button>", 
+    position:'right'					
+	},
+	{
+	  element: '#step2',
+	  intro: "こちらから実験に参加することができます。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>",
+    position:'right'
+	},
+	{
+	  element: '#step3',
+	  intro: "こちらから新規登録を行います。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>"
+	}
+	]
+	intro = intro.setOption('steps',step)
+  const fn = function() {
+	        intro.start()
+        }
+  
+  setTimeout(fn,1000)
+  </script>
+  <% end %>
 </div>
