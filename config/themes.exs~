@@ -9,7 +9,7 @@ use Xee.ThemeConfig
 
  theme PublicGoods,
    name: "PublicGoods",
-   path: "apps/public-goods",
+   path: "experiments/public-goods",
    host: "host.js",
    participant: "participant.js"
 

@@ -5,7 +5,7 @@
         <span class="card-title">実験作成</span>
 
         <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
-        <div class="row">
+        <div class="row" id="step1">
           <div class="input-field">
             <div class="col s12 m12 l6">
               <input type="text" placeholder="実験名" class="validate" id="experiment" name="experiment_name" value="<%= @experiment_name %>">
@@ -13,7 +13,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" id="step2">
           <div class="input-field">
             <div class="col s12 m12 l6">
               <select id="theme" name="theme">
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" id="step3">
           <div class="input-field">
             <div class="col s12 m12 l6">
               <input type="text" placeholder="Experiment ID" class="validate" id="x_token" name="x_token" placeholder="" value="<%= @x_token %>">
@@ -36,11 +36,41 @@
           </div>
         </div>
       </div>
-      <div class="card-action">
+      <div class="card-action" id="step4">
         <button class="btn btn-primary pull-right" type="submit">実験作成</button>
       </div>
     </div>
   </div>
+  <script>
+  if ("<%= @conn.params["intro"] %>" == "true"){
+    var intro = introJs().setOptions({
+		    'showButtons': false,
+		    'showBullets': false,
+		    'showStepNumbers':false
+	  })
+	  const step = [
+	  {
+	    element: '#step1',
+	    intro:"実験名を入力してください。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button><button type='button' class='introbtn' onClick='intro.nextStep()'>次へ</button>"
+	  },
+    {
+	    element: '#step2',
+	    intro:"実験テーマを選んでください。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button><button type='button' class='introbtn' onClick='intro.nextStep()'>次へ</button>"
+	  },
+    {
+	    element: '#step3',
+	    intro:"実験IDを入力してください。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button><button type='button' class='introbtn' onClick='intro.nextStep()'>次へ</button>"
+	  },
+    {
+	    element: '#step4',
+	    intro:"実験をはじめます。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>"
+	  }
+	  ]
+	  intro = intro.setOption('steps',step)
+    document.getElementById("experiment").focus()
+    intro.start()
+  }
+  </script>
 </form>
 
 <%= if @themes do %>

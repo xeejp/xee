@@ -18,6 +18,7 @@ defmodule Xee.SessionController do
         conn
         |> put_session(:current_user, user.id)
         |> put_flash(:info, "Logged in.")
+        |> put_flash(:intro, "false")
         |> redirect(to: "/host")
       :error ->
         conn

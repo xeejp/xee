@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="card-action">
-        <%= submit "登録", class: "btn btn-primary", id: "step4" %>
+        <%= submit "登録", class: "btn btn-primary", id: "step3" %>
       </div>
       <script>
     
@@ -51,8 +51,8 @@
 	  intro: "パスワードを入力してください。<br/>パスワードは5文字以上である必要があります<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button><button type='button' class='introbtn' onClick='intro.nextStep()'>次へ</button>"
 	},
 	{
-	  element: '#step4',
-	  intro: "こちらから新規登録を行います。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>",
+	  element: '#step3',
+	  intro: "こちらから新規登録をしてください。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>",
     position:'right'
 	}
 	]

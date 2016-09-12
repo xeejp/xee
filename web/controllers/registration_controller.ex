@@ -21,7 +21,7 @@ defmodule Xee.RegistrationController do
         conn
         |> put_session(:current_user, user.id)
         |> put_flash(:info, "Welcome to Xee!")
-        |> redirect(to: "/host")
+        |> redirect(to: "/host?intro=true")
       {:error, changeset} ->
         conn
         |> put_flash(:info, "Failed to registration.")

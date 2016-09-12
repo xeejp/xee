@@ -46,7 +46,7 @@
     position:'right'
 	},
 	{
-	  element: '#step3',
+	  element: '#step_registration',
 	  intro: "こちらから新規登録を行います。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>"
 	}
 	]
