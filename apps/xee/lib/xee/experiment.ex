@@ -9,7 +9,9 @@ defmodule Xee.Experiment do
   end
 
   def stop(pid) do
-    GenServer.stop(pid)
+    if Process.alive?(pid) do
+      GenServer.stop(pid)
+    end
   end
 
   def init({experiment, xid}) do
