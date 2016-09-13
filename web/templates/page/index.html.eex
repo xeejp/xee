@@ -28,9 +28,10 @@
   <% else %>
   <script>
     
-   var intro = introJs().setOptions({
+   var intro = introJs().onchange(function(){document.activeElement.blur()}).setOptions({
 		    'showButtons': false,
 		    'showBullets': false,
+        'keyboardNavigation': false,
 		    'showStepNumbers':false
 	})
    
