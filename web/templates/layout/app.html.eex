@@ -11,13 +11,24 @@
     <style type="text/css">
     <!--
       .introbtn {
-        background: -moz-linear-gradient(top,#FFF 0%,#EEE);
-	      background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#EEE));
-	      border: 1px solid #888;
+        /*background: -moz-linear-gradient(top,#FFF 0%,#EEE);
+	      background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#333));*/
+	      /*border: 1px solid #888;*/
 	      color:#111;
-	      text-decoration: none;
-	      text-align: center;
+        background-color: #90EE90;
+	      /*text-decoration: none;
+	      text-align: center;*/
         font-size: 0.9em;
+        border: none;
+        border-radius: 2px;
+        display: inline-block;
+        /* height: 36px; */
+        /*line-height: 5px;*/
+        outline: 0;
+        padding: 2px;
+        /* text-transform: uppercase; */
+        /* vertical-align: middle; */
+        /* -webkit-tap-highlight-color: transparent; */
       }
     -->
   </style>
@@ -29,6 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/intro.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/introjs.min.css" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script></script>
   </head>
 

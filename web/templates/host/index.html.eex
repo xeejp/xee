@@ -29,7 +29,7 @@
 	  const step = [
 	  {
 	    element: '#step1',
-	    intro:"こちらから実験を作成することができます。<br/><button type='button' class='introbtn' onClick='intro.exit()'>閉じる</button>"
+	    intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button>"
 	  }
 	  ]
 	  intro = intro.setOption('steps',step)
