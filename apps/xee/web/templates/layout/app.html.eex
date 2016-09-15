@@ -27,11 +27,11 @@
     <div class="row">
       <nav>
         <div class="nav-wrapper light-blue darken-3">
-          <div class="col s12 m12 l8 offset-l2 offset-m1 offset-s1">
+          <div class="">
             <a href="/" class="brand-logo" style="padding-left: 4%;">XEE.JP</a>
             <ul class="right">
               <%= if logged_in?(@conn) do %>
-                <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="padding: 0px 25%; min-width: 130px;"><%= current_user(@conn).name %></a></li>
+                <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="min-width: 130px; text-align: center;"><%= current_user(@conn).name %></a></li>
               <% else %>
                 <li><%= link "新規登録", to: registration_path(@conn, :new) %></li>
                 <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
