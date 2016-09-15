@@ -10,9 +10,6 @@ window.Experiment = class Experiment {
       this.onUpdate(update)
     }
 
-    // Ping
-    setInterval(() => this.chan.push("ping"), 10000)
-
     // Redirect
     this.chan.on("redirect", payload => {
       const xid = payload.body
@@ -28,6 +25,8 @@ window.Experiment = class Experiment {
   onUpdate(func) {
     this.chan.join().receive("ok", _ => {
       this.chan.push("fetch", {})
+      // Ping
+      setInterval(() => this.chan.push("ping"), 10000)
     })
     this.chan.on("update", payload => {
       func(payload.body)

@@ -1,7 +1,5 @@
-Code.require_file "../../../lib/xee/theme_script.ex", __DIR__
-
 defmodule Test3 do
-  use Xee.ThemeScript
+  use XeeThemeScript
 
   def script_type do
     :message

@@ -78,6 +78,11 @@ defmodule Xee.ThemeScript do
       @behaviour unquote(__MODULE__)
       Module.register_attribute(__MODULE__, :require_file, accumulate: true)
       @before_compile unquote(__MODULE__)
+      @on_load :load_check
+
+      def load_check do
+        IO.warn "Xee.ThemeScript is deprecated. You should use XeeThemeScript."
+      end
 
       @doc false
       def init, do: {:ok, nil}
