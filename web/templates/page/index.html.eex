@@ -38,25 +38,26 @@
 	const step = [
 	{
 	  element: '#step1',
-	  intro:"<p>実験記号を入力してください。</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button><button type='button' class='btn waves-effect waves-light' style='margin-left:1px' onClick='intro.nextStep()'>次へ</button><br/><button type='button' class='btn waves-effect waves-light' style='margin-top:1px' onClick='intro.goToStep(3)'>管理者の方はこちら</button>", 
+	  intro:"<p>実験記号を入力してください。</p><br/><button id='exit' type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button><button id='next' type='button' class='btn waves-effect waves-light' style='margin-left:10px' onClick='intro.nextStep()'>次へ</button><br/><button id='admin' type='button' class='btn waves-effect waves-light' style='margin-top:10px;width:100%' onClick='intro.goToStep(3)'>管理者の方はこちら</button>", 
     				
 	},
 	{
 	  element: '#step2',
-	  intro: "<p>こちらから実験に参加することができます。</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button>",
+	  intro: "<p>こちらから実験に参加することができます。</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>",
     position:'right'
 	},
 	{
 	  element: '#step_registration',
-	  intro: "<p>こちらから新規登録を行います。</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button>"
+	  intro: "<p>こちらから新規登録を行います。</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
 	}
 	]
 	intro = intro.setOption('steps',step)
   const fn = function() {
 	        intro.start()
         }
-  
-  setTimeout(fn,60000)
+  var element = document.getElementById("admin");
+  if(element)document.getElementById('admin').style.width = (document.getElementById('exit').clientWidth+document.getElementById('next').clientWidth+10)+'px'
+  setTimeout(fn,1000)
   </script>
   <% end %>
 </div>

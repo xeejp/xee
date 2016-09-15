@@ -52,15 +52,15 @@
 	const step = [
 	{
 	  element: '#step1',
-	  intro:"<p>ユーザーIDを入力してください。</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button><button type='button' class='btn waves-effect waves-light' style='margin-left:1px' onClick='intro.nextStep()'>次へ</button>"				
+	  intro:"<p>ユーザーIDを入力してください。</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button><button type='button' class='btn waves-effect waves-light' style='margin-left:10px' onClick='intro.nextStep()'>次へ</button>"				
 	},
 	{
 	  element: '#step2',
-	  intro: "<p>パスワードを入力してください。<br/>パスワードは5文字以上である必要があります</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button><button type='button' class='btn waves-effect waves-light' style='margin-left:1px' onClick='intro.nextStep()'>次へ</button>"
+	  intro: "<p>パスワードを入力してください。<br/>パスワードは5文字以上である必要があります</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button><button type='button' class='btn waves-effect waves-light' style='margin-left:10px' onClick='intro.nextStep()'>次へ</button>"
 	},
 	{
 	  element: '#step3',
-	  intro: "<p>こちらから新規登録をしてください。</p><br/><button type='button' class='btn-flat waves-effect' onClick='intro.exit()'>閉じる</button>",
+	  intro: "<p>こちらから新規登録をしてください。</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>",
     position:'right'
 	}
 	]
