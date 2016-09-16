@@ -51,7 +51,6 @@ defmodule Xee.Mixfile do
      {:uuid, "~> 1.1" },
      {:poison, "~> 1.5"},
      {:comeonin, "~> 2.5"},
-     {:onetime, "~> 1.1.0"},
      {:fwatch, "~> 0.5.0"},
      {:timex, "~> 2.2.0"},
      {:tzdata, "~> 0.5.7", override: true}]

@@ -10,7 +10,7 @@ defmodule Xee.ExperimentChannel do
 
   def join("x:" <> xid, %{"token" => token}, socket) do
     if ExperimentServer.has?(xid) do
-      case Onetime.pop(Xee.channel_token_onetime, token) do
+      case Phoenix.Token.verify(Xee.Endpoint, "experiment", token) do
         {:ok, {:host, ^xid}} ->
           socket = socket
                     |> assign(:user, :host)

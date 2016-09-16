@@ -54,8 +54,7 @@ defmodule Xee.ExperimentController do
   end
 
   defp join_experiment(conn, xid, u_id) do
-    token = Xee.TokenGenerator.generate
-    Onetime.register(Xee.channel_token_onetime, token, {:participant, xid, u_id})
+    token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:participant, xid, u_id})
     javascript = "/experiment/#{xid}/participant.js"
     x_token = Xee.ExperimentServer.get_info(xid).x_token
     render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
@@ -65,8 +64,7 @@ defmodule Xee.ExperimentController do
     user = conn.assigns[:host]
     has = Xee.HostServer.has?(user.id, xid)
     if has do
-      token = Xee.TokenGenerator.generate
-      Onetime.register(Xee.channel_token_onetime, token, {:host, xid})
+      token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:host, xid})
       javascript = "/experiment/#{xid}/host.js"
       x_token = Xee.ExperimentServer.get_info(xid).x_token
       render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
