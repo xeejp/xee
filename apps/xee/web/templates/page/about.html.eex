@@ -1,0 +1,106 @@
+<div>
+<div class="col s12 m6 col s12 m12 l10" id="concept">
+          		<div class="card z-depth-1 light-blue lighten-5">
+            		<div class="card-content">
+        <h1 style="margin-bottom: 0px;">
+				XEEについて
+				</h1>
+				Online E<font color="red">x</font>periment System for <font color="red">E</font>conomic <font color="red">E</font>ducation.			
+		<div class="card-action">
+        <div class="col s12 m6 col s12 m12 l10" id="concept" style="margin-top:10px;">
+          		<div class="card z-depth-1">
+            		<div class="card-content">
+              			<span class="card-title">概要</span>
+										  <div class="card-action">
+              			<p>1分ですぐにはじめられる経済実験</p>
+              			<p>1 min start, premade Economic Experiment</p>
+										</div>
+            		</div>
+          		</div>
+		</div>
+        <div class="col s12 m6 col s12 m12 l10" id="story" style="margin-top:10px;">
+          		<div class="card z-depth-1">
+            		<div class="card-content">
+              			<span class="card-title">開発の経緯</span>
+										<div class="card-action">
+              			<p>オンラインで簡単に始められる経済実験システムがなかったのでつくりました</p>
+            		</div></div>
+          		</div>
+        </div>
+		
+        <div class="col s12 m6 col s12 m12 l10" id="exeperimentList" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">実験一覧</span>
+                <%= if @themes do %>
+								<div class="card-action">
+    					<table class="table striped">
+      							<thead>
+        							<tr>
+          								<th>#</th>
+          								<th>タイトル</th>
+          								<th>説明画面</th>
+						        	</tr>
+      							</thead>
+      							<tbody>
+        							<%= for theme <- @themes do %>
+          								<tr>
+            							<td></td>
+            							<td><%= theme.name %></td>
+            							<td><%= unless is_nil(theme.description) do %><a href="<%= theme_path(@conn, :theme, theme.id) %>" class="btn">説明画面</a><% end %></td>
+          								</tr>
+        							<% end %>
+      							</tbody>
+    					</table></div>
+  				<% end %>
+            </div>
+          </div>
+        </div>
+		
+		<div class="col s12 m6 col s12 m12 l10" id="development" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">開発チーム</span>
+							<div class="card-action">
+              <table >
+				  <tbody>
+					  <tr>
+					  	<td>General Producer:</td>
+					  	<td>林良平</td>
+					  </tr>
+					  <tr>
+					  	<td>Team member:</td>
+					  	<td>橋口遼</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>池田伊織</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>溝大貴</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>松元翔矢</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>畑山紘一朗</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>片岡大樹</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+					  	<td>湯之上航</td>
+					  </tr>
+				  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+				</div></div></div><div>
+				</div>
+    </div>
