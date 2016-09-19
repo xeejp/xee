@@ -1,0 +1,29 @@
+<div class="center-block" style="margin: 3%;">
+  <%= if @themes do %>
+    <h4>実験テーマ一覧</h4>
+    <hr>
+    <table class="table striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>タイトル</th>
+          <th>説明画面</th>
+          <th>実験作成</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for theme <- @themes do %>
+          <tr>
+            <td></td>
+            <td><%= theme.name %></td>
+            <td><%= unless is_nil(theme.description) do %><a href="<%= theme_path(@conn, :theme, theme.id) %>" class="btn">説明画面</a><% end %></td>
+            <td><a href="<%= host_path(@conn, :experiment, theme_id: theme.id) %>" class="btn">実験作成</a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <div class="row">
+    <button class="btn col offset-l10" style="margin-top: 2%; margin-bottom: 6%;" type="button" onclick="location.href='/host/experiment'">実験作成</button>
+  </div>
+</div>

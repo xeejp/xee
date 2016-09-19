@@ -1,0 +1,52 @@
+<div class="center-block" style="margin: 3%;">
+  <h4>管理者画面</h4>
+  <hr>
+  <font size="7">
+    <ul>
+      <li>
+        <a href="<%= theme_path(@conn, :explore, "list") %>">
+          実験テーマ一覧
+        </a>
+      </li>
+      <li>
+        <a href="<%= host_path(@conn, :experiment) %>">
+          実験作成画面
+        </a>
+      </li>
+    </ul>
+  </font>
+</div>
+<div class="Container" style="margin: 3%;">
+  <%= if @experiment do %>
+    <h4>現在作成中の実験</h4>
+    <hr>
+    <font size="4">
+      <table class="table striped">
+        <thead>
+          <tr>
+            <th>タイトル</th>
+            <th>実験テーマ</th>
+            <th>実験ID</th>
+            <th>削除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for exp <- @experiment do %>
+            <tr>
+              <td><%= exp[:name] %></td>
+              <td><%= exp[:theme] %></td>
+              <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
+              <td>
+                <form method="post" action="/host/remove">
+                  <input type="submit" value="削除" class="btn">
+                  <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+                  <input type="hidden" name="xid" value="<%= exp[:xid] %>">
+                </form>
+              </td>
+            </tr>
+            <%= end %>
+        </tbody>
+      </table>
+    </font>
+  <% end %>
+</div>

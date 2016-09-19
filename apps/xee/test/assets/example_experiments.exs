@@ -1,0 +1,10 @@
+Xee.ThemeServer.experiment "example1",
+  path: "test/assets/example1"
+  file: "script.exs",
+  host: "host.js",
+  participant: "participant.js"
+Xee.ThemeServer.experiment "example2",
+  path: "test/assets/example2"
+  file: "script.exs",
+  host: "host.js",
+  participant: "participant.js"

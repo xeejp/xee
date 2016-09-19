@@ -1,28 +1,49 @@
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
-config :xee, ecto_repos: [Xee.Repo]
+import_config "../apps/*/config/config.exs"
 
-# Configures the endpoint
-config :xee, Xee.Endpoint,
-  url: [host: "localhost"],
-  root: Path.expand("../", __DIR__),
-  secret_key_base: "YMHjvC+X66HvbtH0da1w6v5rJh+wvPjUW7Iqaq0c7aQgxk1uOp5o0DLz+wW4BD5d",
-  render_errors: [default_format: "html"],
-  pubsub: [name: Xee.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+defmodule Xee.ThemeConfig do
+  defmacro __using__(_) do
+    quote do
+      import unquote(__MODULE__)
+      {:ok, pid} = Agent.start_link(fn -> %{module_themes: [], file_themes: []} end)
+      var!(theme_config, Xee.ThemeConfig) = pid
+    end
+  end
 
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  defmacro register_themes do
+    quote do
+      %{
+        module_themes: module_themes,
+        file_themes: file_themes
+      } = Agent.get(var!(theme_config, Xee.ThemeConfig), fn map -> map end)
+      config :xee, Xee.ThemeServer,
+        file_themes: file_themes,
+        module_themes: module_themes
+    end
+  end
 
-# Configures experiments definition files
+  defmacro theme(name, params) do
+    name = Macro.expand(name, __CALLER__)
+    if is_atom(name) do
+      quote do
+        Agent.update(var!(theme_config, Xee.ThemeConfig), fn map ->
+          Map.update!(map, :module_themes, fn themes -> [{unquote(name), unquote(params)} | themes] end)
+        end)
+      end
+    else
+      quote do
+        Agent.update(var!(theme_config, Xee.ThemeConfig), fn map ->
+          Map.update!(map, :file_themes, fn themes -> [{unquote(name), unquote(params)} | themes] end)
+        end)
+      end
+    end
+  end
+end
+
 config :xee, Xee.ThemeServer,
-  files: ["config/experiments.exs"]
-
-import_config "#{Mix.env}.exs"
+  module_themes: [],
+  file_themes: []
+import_config "themes.exs"

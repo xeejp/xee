@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>XEE.JP</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  </head>
+
+  <body>
+    <ul id="dropdown" class="dropdown-content">
+      <li><a href="<%= host_path(@conn, :index) %>">実験管理画面</a></li>
+      <li><a href="<%= theme_path(@conn, :explore, "list") %>">テーマ一覧</a></li>
+      <li class="divider"></li>
+      <li><%= link "ログアウト", to: session_path(@conn, :delete) %></li>
+    </ul>
+    <div class="row">
+      <nav>
+        <div class="nav-wrapper light-blue darken-3">
+          <div class="">
+            <a href="/" class="brand-logo" style="padding-left: 4%;">XEE.JP</a>
+            <ul class="right">
+              <%= if logged_in?(@conn) do %>
+                <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="min-width: 130px; text-align: center;"><%= current_user(@conn).name %></a></li>
+              <% else %>
+                <li><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+                <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+        </nav>
+    </div>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <div class="container" role="main">
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= render @view_module, @view_template, assigns %>
+
+    </div> <!-- /container -->
+
+    <footer class="page-footer light-blue darken-3" style="padding:10px; bottom:0;" id="footer">
+      <center>
+        <div class="footer-copyright light-blue darken-3" style="overflow:visible; line-height:20px;">
+          <div class="container">
+            <ul>
+              <li>&copy; 2015 <a href="https://www.facebook.com/hryohei"><font color="#FF0000">Ryohei HAYASHI</font></a> All Rights Reserved.</li>
+              <li>Powered by <a href="https://github.com/xeejp/xee"><font color="#FF0000">Xee System</font></a>.</li>
+            </ul>
+          </div>
+        </div>
+      </center>
+    </footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $('select').material_select();
+      });
+      $(".dropdown-button").dropdown();
+      $('.modal-trigger').leanModal();
+    </script>
+  </body>
+</html>
