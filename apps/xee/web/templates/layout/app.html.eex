@@ -7,7 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>XEE.JP</title>
+    <%= if assigns[:title] do %>
+      <title>XEE.JP - <%= @title %> -</title>
+    <%= else %>
+      <title>XEE.JP</title>
+    <%= end %>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
 
@@ -29,6 +33,9 @@
         <div class="nav-wrapper light-blue darken-3">
           <div class="">
             <a href="/" class="brand-logo" style="padding-left: 4%;">XEE.JP</a>
+            <%= if assigns[:title] do %>
+              <span class="brand-logo center"><%= @title %></span>
+              <%= end %>
             <ul class="right">
               <%= if logged_in?(@conn) do %>
                 <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="min-width: 130px; text-align: center;"><%= current_user(@conn).name %></a></li>
