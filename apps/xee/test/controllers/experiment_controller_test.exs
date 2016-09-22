@@ -116,7 +116,7 @@ defmodule Xee.ExperimentControllerTest do
     user = Xee.Repo.get_by(User, name: "a")
     token = "test"
     theme = "test"
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token. theme: theme})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
