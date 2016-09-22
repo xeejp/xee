@@ -56,8 +56,10 @@ defmodule Xee.ExperimentController do
   defp join_experiment(conn, xid, u_id) do
     token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:participant, xid, u_id})
     javascript = "/experiment/#{xid}/participant.js"
-    x_token = Xee.ExperimentServer.get_info(xid).x_token
-    render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
+    info = Xee.ExperimentServer.get_info(xid)
+    x_token = info.x_token
+    title = info.theme
+    render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title
   end
 
   def host(conn, %{"xid" => xid}) do
@@ -66,8 +68,10 @@ defmodule Xee.ExperimentController do
     if has do
       token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:host, xid})
       javascript = "/experiment/#{xid}/host.js"
-      x_token = Xee.ExperimentServer.get_info(xid).x_token
-      render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token
+      info = Xee.ExperimentServer.get_info(xid)
+      x_token = info.x_token
+      title = info.theme
+      render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
