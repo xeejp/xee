@@ -24,27 +24,27 @@
       <table class="table striped">
         <thead>
           <tr>
+            <th></th>
             <th>タイトル</th>
             <th>実験テーマ</th>
             <th>実験ID</th>
-            <th>削除</th>
           </tr>
         </thead>
         <tbody>
           <%= for exp <- @experiment do %>
             <tr>
-              <td><%= exp[:name] %></td>
-              <td><%= exp[:theme] %></td>
-              <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
-              <td>
+              <td style="text-align: center">
                 <form method="post" action="/host/remove">
-                  <input type="submit" value="削除" class="btn">
+                  <button class="btn-floating" type="submit" ><i class="tiny material-icons">delete</i></button>
                   <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
                   <input type="hidden" name="xid" value="<%= exp[:xid] %>">
                 </form>
               </td>
+              <td><%= exp[:name] %></td>
+              <td><%= exp[:theme] %></td>
+              <td><a href="/experiment/<%= exp[:xid] %>/host" class="waves-effect waves-light btn" style="text-transform: none"><%= exp[:x_token] %></a></td>
             </tr>
-            <%= end %>
+          <%= end %>
         </tbody>
       </table>
     </font>
