@@ -1,6 +1,6 @@
 defmodule Xee.HostController do
   use Xee.Web, :controller
-
+  require Logger
   plug Xee.AuthenticationPlug
 
   def index(conn, _params) do
