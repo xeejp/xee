@@ -33,15 +33,16 @@ defmodule Xee.ThemeServer do
     participant = Keyword.get(params, :participant) |> Path.expand(path)
     granted = Keyword.get(params, :granted, nil)
     description = Keyword.get(params, :description, nil)
+    standing_experiments = Keyword.get(params, :standing_experiments, nil)
     watch_files = [host, participant] ++ watch_files
     unless is_nil(description) do
       description = Path.expand(description, path)
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments) end)
   end
 
-  defp load_from_file(name, module_func, require_files, host, participant, description, granted) do
+  defp load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments) do
     module = module_func.()
     for file <- require_files do
       Code.load_file(file)
@@ -61,7 +62,30 @@ defmodule Xee.ThemeServer do
     end
     theme = %Xee.Theme{experiment: experiment, id: name, name: name, description: description, granted: granted}
     Xee.ThemeServer.register(name, theme)
+    create_standing_experiment(theme, standing_experiments)
     apply(module, :install, [])
+  end
+
+  defp create_standing_experiment(theme, info) do
+    cond do
+      is_list(info) ->
+        Enum.each(info, fn x ->
+          if Map.has_key?(x, :name) and Map.has_key?(x, :x_token) do
+            xid = Xee.TokenGenerator.generate
+            Xee.TokenServer.register(x.x_token, xid)
+            Xee.ExperimentServer.create(xid, theme.experiment, %{name: x.name, experiment: theme.experiment, theme: theme.name, x_token: x.x_token, xid: xid})
+            Logger.info("[Create Standing Experiment] : #{inspect(info)}")
+          end
+        end)
+      is_map(info) ->
+        if Map.has_key?(info, :name) and Map.has_key?(info, :x_token) do
+          xid = Xee.TokenGenerator.generate
+          Xee.TokenServer.register(info.x_token, xid)
+          Xee.ExperimentServer.create(xid, theme.experiment, %{name: info.name, experiment: theme.experiment, theme: theme.name, x_token: info.x_token, xid: xid})
+          Logger.info("[Create Standing Experiment] : #{inspect(info)}")
+        end
+      true -> nil
+    end
   end
 
   def start_link() do
