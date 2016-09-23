@@ -23,10 +23,11 @@ defmodule Xee.ExperimentControllerTest do
 
   test "get as a participant with using shortcut token" do
     token = "test"
+    theme = "test"
     xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
 
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
     Xee.TokenServer.register(token, xid)
     conn = build_conn()
             |> with_session_and_flash
@@ -45,10 +46,11 @@ defmodule Xee.ExperimentControllerTest do
 
   test "get as a participant successfully" do
     token = "test"
+    theme = "test"
     xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
 
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
     Xee.TokenServer.register(token, xid)
     conn = build_conn()
             |> with_session_and_flash
@@ -69,7 +71,8 @@ defmodule Xee.ExperimentControllerTest do
     xid  = Xee.TokenGenerator.generate
     user = Xee.Repo.get_by(User, name: "a")
     token = "test"
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    theme = "test"
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
@@ -88,10 +91,11 @@ defmodule Xee.ExperimentControllerTest do
 
   test "get participant.js" do
     token = "test"
+    theme = "test"
     xid  = Xee.TokenGenerator.generate
     u_id = Xee.TokenGenerator.generate
 
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
     conn = build_conn()
             |> with_session_and_flash
             |> put_session(:u_id, u_id)
@@ -111,7 +115,8 @@ defmodule Xee.ExperimentControllerTest do
     xid  = Xee.TokenGenerator.generate
     user = Xee.Repo.get_by(User, name: "a")
     token = "test"
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    theme = "test"
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)
@@ -133,8 +138,9 @@ defmodule Xee.ExperimentControllerTest do
     xid  = Xee.TokenGenerator.generate
     id = "aaaa"
     token = "test"
+    theme = "test"
     user = Xee.Repo.get_by(User, name: "a")
-    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token})
+    Xee.ExperimentServer.create(xid, test_experiment, %{experiment: test_experiment, x_token: token, theme: theme})
 
     # has experiment
     Xee.HostServer.register(user.id, xid)

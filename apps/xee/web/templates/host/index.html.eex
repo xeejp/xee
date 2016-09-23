@@ -40,37 +40,37 @@ if ("<%= @conn.params["intro"] %>" == "true") {
 }
 </script>
 <%= end %>
-  <div class="Container" style="margin: 3%;">
-    <%= if @experiment do %>
-      <h4>現在作成中の実験</h4>
-      <hr>
-      <font size="4">
-        <table class="table striped">
-          <thead>
+<div class="Container" style="margin: 3%;">
+  <%= if @experiment do %>
+    <h4>現在作成中の実験</h4>
+    <hr>
+    <font size="4">
+      <table class="table striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>タイトル</th>
+            <th>実験テーマ</th>
+            <th>実験ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for exp <- @experiment do %>
             <tr>
-              <th>タイトル</th>
-              <th>実験テーマ</th>
-              <th>実験ID</th>
-              <th>削除</th>
+              <td style="text-align: center">
+                <form method="post" action="/host/remove">
+                  <button class="btn-floating" type="submit" ><i class="tiny material-icons">delete</i></button>
+                  <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+                  <input type="hidden" name="xid" value="<%= exp[:xid] %>">
+                </form>
+              </td>
+              <td><%= exp[:name] %></td>
+              <td><%= exp[:theme] %></td>
+              <td><a href="/experiment/<%= exp[:xid] %>/host" class="waves-effect waves-light btn" style="text-transform: none"><%= exp[:x_token] %></a></td>
             </tr>
-          </thead>
-          <tbody>
-            <%= for exp <- @experiment do %>
-              <tr>
-                <td><%= exp[:name] %></td>
-                <td><%= exp[:theme] %></td>
-                <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
-                <td>
-                  <form method="post" action="/host/remove">
-                    <input type="submit" value="削除" class="btn">
-                    <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
-                    <input type="hidden" name="xid" value="<%= exp[:xid] %>">
-                  </form>
-                </td>
-              </tr>
             <%= end %>
-          </tbody>
-        </table>
-      </font>
-    <% end %>
-  </div>
+        </tbody>
+      </table>
+    </font>
+  <% end %>
+</div>
