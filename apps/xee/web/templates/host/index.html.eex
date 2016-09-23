@@ -9,65 +9,68 @@
         </a>
       </li>
       <li>
-       <span id='step1'>
-        <a href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
+        <span id='step1'>
+          <%= if Map.has_key?(@conn.params, "intro") do %>
+          <a href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
+          <%= else %>
+          <a href="<%= host_path(@conn, :experiment, intro: false) %>">
+          <%= end %>
           実験作成画面
-        </a>
+          </a>
         </span>
       </li>
     </ul>
   </font>
 </div>
+<%= if Map.has_key?(@conn.params, "intro") do %>
 <script>
-  if ("<%= @conn.params["intro"] %>" == "true") {
-	  var intro = introJs().setOptions({
-		    'showButtons': false,
-		    'showBullets': false,
-		    'showStepNumbers':false
-	  })
-   
-	  const step = [
-	  {
-	    element: '#step1',
-	    intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
-	  }
-	  ]
-	  intro = intro.setOption('steps',step)
-    intro.start()
-  } 
+if ("<%= @conn.params["intro"] %>" == "true") {
+  var intro = introJs().setOptions({
+    'showButtons': false,
+    'showBullets': false,
+    'showStepNumbers':false
+  })
+  const step = [
+  {
+    element: '#step1',
+    intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
+  }]
+  intro = intro.setOption('steps',step)
+  intro.start()
+}
 </script>
-<div class="Container" style="margin: 3%;">
-
-  <%= if @experiment do %>
-    <h4>現在作成中の実験</h4>
-    <hr>
-    <font size="4">
-      <table class="table striped">
-        <thead>
-          <tr>
-            <th>タイトル</th>
-            <th>実験テーマ</th>
-            <th>実験ID</th>
-            <th>削除</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= for exp <- @experiment do %>
+<%= end %>
+  <div class="Container" style="margin: 3%;">
+    <%= if @experiment do %>
+      <h4>現在作成中の実験</h4>
+      <hr>
+      <font size="4">
+        <table class="table striped">
+          <thead>
             <tr>
-              <td><%= exp[:name] %></td>
-              <td><%= exp[:theme] %></td>
-              <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
-              <td>
-                <form method="post" action="/host/remove">
-                  <input type="submit" value="削除" class="btn">
-                  <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
-                  <input type="hidden" name="xid" value="<%= exp[:xid] %>">
-                </form>
-              </td>
+              <th>タイトル</th>
+              <th>実験テーマ</th>
+              <th>実験ID</th>
+              <th>削除</th>
             </tr>
+          </thead>
+          <tbody>
+            <%= for exp <- @experiment do %>
+              <tr>
+                <td><%= exp[:name] %></td>
+                <td><%= exp[:theme] %></td>
+                <td><a href="/experiment/<%= exp[:xid] %>/host"><%= exp[:x_token] %></a></td>
+                <td>
+                  <form method="post" action="/host/remove">
+                    <input type="submit" value="削除" class="btn">
+                    <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+                    <input type="hidden" name="xid" value="<%= exp[:xid] %>">
+                  </form>
+                </td>
+              </tr>
             <%= end %>
-        </tbody>
-      </table>
-    </font>
-  <% end %>
-</div>
+          </tbody>
+        </table>
+      </font>
+    <% end %>
+  </div>
