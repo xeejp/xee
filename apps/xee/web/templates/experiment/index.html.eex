@@ -1,5 +1,17 @@
 <div id="content">
 </div>
+<%= if @host do %>
+<div id="experiment-token" class="modal">
+  <div class="modal-content">
+    <h3>実験記号: <em><%= @x_token %></em></h3>
+  </div>
+</div>
+<div class="fixed-btn" style="position: fixed; bottom: 100px; right: 30px; margin: 0px;">
+  <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
+    実験記号を表示
+  </a>
+</div>
+<% end %>
 <script>
 window._topic = "<%= @topic %>";
 window._token = "<%= @token %>";

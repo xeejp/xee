@@ -9,41 +9,36 @@
 
     <%= if assigns[:title] do %>
       <title>XEE.JP - <%= @title %> -</title>
-    <%= else %>
+    <% else %>
       <title>XEE.JP</title>
-    <%= end %>
-    <style type="text/css">
-      .introbtn {
-        /*background: -moz-linear-gradient(top,#FFF 0%,#EEE);
-          background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#333));*/
-        /*border: 1px solid #888;*/
-        color:#111;
-        background-color: #90EE90;
-        /*text-decoration: none;
-          text-align: center;*/
-        font-size: 0.9em;
-        border: none;
-        border-radius: 2px;
-        display: inline-block;
-        /* height: 36px; */
-        /*line-height: 5px;*/
-        outline: 0;
-        padding: 2px;
-        /* text-transform: uppercase; */
-        /* vertical-align: middle; */
-        /* -webkit-tap-highlight-color: transparent; */
-      }
-    </style>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/intro.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/introjs.min.css" rel="stylesheet" type="text/css">
+    <% end %>
+      <style type="text/css">
+        .introbtn {
+          /*background: -moz-linear-gradient(top,#FFF 0%,#EEE);
+            background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#333));*/
+          /*border: 1px solid #888;*/
+          color:#111;
+          background-color: #90EE90;
+          /*text-decoration: none;
+            text-align: center;*/
+          font-size: 0.9em;
+          border: none;
+          border-radius: 2px;
+          display: inline-block;
+          /* height: 36px; */
+          /*line-height: 5px;*/
+          outline: 0;
+          padding: 2px;
+          /* text-transform: uppercase; */
+          /* vertical-align: middle; */
+          /* -webkit-tap-highlight-color: transparent; */
+        }
+      </style>
+      <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+      <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/introjs.min.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -61,17 +56,17 @@
             <%= if assigns[:title] do %>
               <span class="brand-logo center hide-on-small-only"><%= @title %></span>
               <%= end %>
-            <ul class="right">
-              <%= if logged_in?(@conn) do %>
-                <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="min-width: 130px; text-align: center;"><%= current_user(@conn).name %></a></li>
-              <% else %>
-                <li id='step_registration'><%= link "新規登録", to: registration_path(@conn, :new) %></li>
-                <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
-              <% end %>
-            </ul>
+              <ul class="right">
+                <%= if logged_in?(@conn) do %>
+                  <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="min-width: 130px; text-align: center;"><%= current_user(@conn).name %></a></li>
+                <% else %>
+                  <li id='step_registration'><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+                  <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
+                <% end %>
+              </ul>
           </div>
         </div>
-        </nav>
+      </nav>
     </div>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
@@ -94,12 +89,16 @@
         </div>
       </center>
     </footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.1.0/intro.min.js"></script>
 
     <script>
-$(document).ready(function() {
-  $('select').material_select();
-});
-$(".dropdown-button").dropdown();
+      $(document).ready(function() {
+        $('select').material_select();
+      });
+      $(".dropdown-button").dropdown();
+      $('.modal-trigger').leanModal();
     </script>
   </body>
 </html>
