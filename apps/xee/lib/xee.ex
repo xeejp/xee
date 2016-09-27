@@ -15,10 +15,10 @@ defmodule Xee do
       supervisor(Xee.Endpoint, []),
       # Start the Ecto repository
       worker(Xee.Repo, []),
-      worker(Xee.ThemeServer, []),
       worker(Xee.HostServer, []),
       worker(Xee.TokenServer, []),
       worker(Xee.ExperimentServer, []),
+      worker(Xee.ThemeServer, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
