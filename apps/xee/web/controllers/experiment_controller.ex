@@ -59,7 +59,7 @@ defmodule Xee.ExperimentController do
     info = Xee.ExperimentServer.get_info(xid)
     x_token = info.x_token
     title = info.theme
-    render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title
+    render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title, host: false
   end
 
   def host(conn, %{"xid" => xid}) do
@@ -71,7 +71,7 @@ defmodule Xee.ExperimentController do
       info = Xee.ExperimentServer.get_info(xid)
       x_token = info.x_token
       title = info.theme
-      render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title
+      render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title, host: true
     else
       conn
       |> put_flash(:error, "Not Exists Experiment ID")
