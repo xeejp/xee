@@ -1,12 +1,23 @@
 defmodule Xee.ThemeController do
   use Xee.Web, :controller
 
+  def get_themes do
+    Xee.ThemeServer.get_all
+    |> Map.to_list
+    |> Enum.map(fn {_key, value} -> value end)
+    |> Enum.filter(fn theme -> Xee.Theme.granted? theme end)
+  end
+
   def explore(conn, %{"page" => "list"}) do
-    themes = Xee.ThemeServer.get_all
-              |> Map.to_list
-              |> Enum.map(fn {_key, value} -> value end)
-              |> Enum.filter(fn theme -> Xee.Theme.granted? theme end)
+    themes = get_themes
     render conn, "list.html", themes: themes
+  end
+
+  def explore(conn, %{"page" => "category"}) do
+    themes = get_themes
+    tags = Application.get_env(:xee, Xee.ThemeServer)
+            |> Keyword.get(:tags, [])
+    render conn, "category.html", themes: themes, tags: tags
   end
 
   def theme(conn, %{"theme_id" => theme_id}) do

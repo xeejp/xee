@@ -4,7 +4,7 @@
   <font size="7">
     <ul>
       <li>
-        <a href="<%= theme_path(@conn, :explore, "list") %>">
+        <a href="<%= theme_path(@conn, :explore, "category") %>">
           実験テーマ一覧
         </a>
       </li>

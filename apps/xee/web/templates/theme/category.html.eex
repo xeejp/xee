@@ -1,0 +1,18 @@
+<div class="center-block" style="margin: 3%;">
+  <%= if @themes do %>
+    <h4>実験テーマ一覧</h4>
+
+    <%= raw tag_list(@conn, @tags, @themes) %>
+  <% end %>
+
+  <div class="row">
+    <button class="btn col offset-l10" style="margin-top: 2%; margin-bottom: 6%;" type="button" onclick="location.href='/host/experiment'">実験作成</button>
+  </div>
+</div>
+<script>
+ $(document).ready(function(){
+    $('.collapsible').collapsible({
+      accordion : false
+    });
+  });
+</script>

@@ -1,2 +1,23 @@
 /* Phoenix flash messages */
 .alert:empty { display: none; }
+
+.indent-list li {
+  margin: 5px 0px;
+  list-style-type: disc !important;
+}
+
+.indent-list ul {
+  margin-left: 5%;
+}
+
+.disc-list > li {
+    list-style-type: disc !important;
+}
+
+.circle-list > li {
+    list-style-type: circle !important;
+}
+
+.none-list li {
+  list-style-type: none !important;
+}
