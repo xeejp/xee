@@ -12,9 +12,9 @@
         <span id='step1'>
           <%= if Map.has_key?(@conn.params, "intro") do %>
           <a href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
-          <%= else %>
+          <% else %>
           <a href="<%= host_path(@conn, :experiment, intro: false) %>">
-          <%= end %>
+          <% end %>
           実験作成画面
           </a>
         </span>
@@ -22,24 +22,6 @@
     </ul>
   </font>
 </div>
-<%= if Map.has_key?(@conn.params, "intro") do %>
-<script>
-if ("<%= @conn.params["intro"] %>" == "true") {
-  var intro = introJs().setOptions({
-    'showButtons': false,
-    'showBullets': false,
-    'showStepNumbers':false
-  })
-  const step = [
-  {
-    element: '#step1',
-    intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
-  }]
-  intro = intro.setOption('steps',step)
-  intro.start()
-}
-</script>
-<%= end %>
 <div class="Container" style="margin: 3%;">
   <%= if @experiment do %>
     <h4>現在作成中の実験</h4>
@@ -68,9 +50,27 @@ if ("<%= @conn.params["intro"] %>" == "true") {
               <td><%= exp[:theme] %></td>
               <td><a href="/experiment/<%= exp[:xid] %>/host" class="waves-effect waves-light btn" style="text-transform: none"><%= exp[:x_token] %></a></td>
             </tr>
-            <%= end %>
+            <% end %>
         </tbody>
       </table>
     </font>
   <% end %>
 </div>
+<%= if Map.has_key?(@conn.params, "intro") do %>
+<script>
+if ("<%= @conn.params["intro"] %>" == "true") {
+  var intro = introJs().setOptions({
+    'showButtons': false,
+    'showBullets': false,
+    'showStepNumbers':false
+  })
+  const step = [
+  {
+    element: '#step1',
+    intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
+  }]
+  intro = intro.setOption('steps',step)
+  setTimeout(() => intro.start(), 60000)
+}
+</script>
+<% end %>

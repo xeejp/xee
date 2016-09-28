@@ -66,7 +66,7 @@ const step = [
   }
 ]
 intro = intro.setOption('steps',step)
-intro.start()
+setTimeout(() => intro.start(), 60000)
 document.getElementById("user_name").focus()
 </script>
 <% end %>
