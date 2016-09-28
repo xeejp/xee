@@ -41,6 +41,26 @@
     </div>
   </div>
 </form>
+<%= if @themes do %>
+  <h4>実験テーマ一覧</h4>
+  <hr>
+  <table class="table striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>タイトル</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for theme <- @themes do %>
+        <tr>
+          <td></td>
+          <td><%= theme.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <%= if Map.has_key?(@conn.params, "intro") do %>
 <script>
 if ("<%= @conn.params["intro"] %>" == "true"){
@@ -75,28 +95,8 @@ if ("<%= @conn.params["intro"] %>" == "true"){
     }
   ]
   intro = intro.setOption('steps',step)
-  intro.start()
+  setTimeout(() => intro.start(), 60000)
 }
 document.getElementById("experiment").focus()
 </script>
-<%= end %>
-<%= if @themes do %>
-  <h4>実験テーマ一覧</h4>
-  <hr>
-  <table class="table striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>タイトル</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for theme <- @themes do %>
-        <tr>
-          <td></td>
-          <td><%= theme.name %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
 <% end %>
