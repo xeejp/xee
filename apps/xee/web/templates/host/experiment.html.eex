@@ -49,6 +49,7 @@
       <tr>
         <th>#</th>
         <th>タイトル</th>
+        <th>カテゴリ</th>
       </tr>
     </thead>
     <tbody>
@@ -56,6 +57,7 @@
         <tr>
           <td></td>
           <td><%= theme.name %></td>
+          <td><%= Enum.join(theme.tags, ", ") %></td>
         </tr>
       <% end %>
     </tbody>

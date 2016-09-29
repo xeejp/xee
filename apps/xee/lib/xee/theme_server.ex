@@ -33,16 +33,17 @@ defmodule Xee.ThemeServer do
     participant = Keyword.get(params, :participant) |> Path.expand(path)
     granted = Keyword.get(params, :granted, nil)
     description = Keyword.get(params, :description, nil)
+    tags = Keyword.get(params, :tags, [])
     standing_experiments = Keyword.get(params, :standing_experiments, nil)
     watch_files = [host, participant] ++ watch_files
     unless is_nil(description) do
       description = Path.expand(description, path)
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments, tags) end)
   end
 
-  defp load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments) do
+  defp load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments, tags) do
     module = module_func.()
     for file <- require_files do
       Code.load_file(file)
@@ -60,7 +61,7 @@ defmodule Xee.ThemeServer do
     else
       MapSet.new(granted)
     end
-    theme = %Xee.Theme{experiment: experiment, id: name, name: name, description: description, granted: granted}
+    theme = %Xee.Theme{experiment: experiment, id: name, name: name, description: description, granted: granted, tags: tags}
     Xee.ThemeServer.register(name, theme)
     create_standing_experiment(theme, standing_experiments)
     apply(module, :install, [])

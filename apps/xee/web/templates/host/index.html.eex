@@ -1,26 +1,23 @@
 <div class="center-block" style="margin: 3%;">
   <h4>管理者画面</h4>
   <hr>
-  <font size="7">
-    <ul>
-      <li>
-        <a href="<%= theme_path(@conn, :explore, "list") %>">
-          実験テーマ一覧
-        </a>
-      </li>
-      <li>
+  <div style="margin-top: 3%">
+    <font size="5">
+      <div class="collection">
+        <a class="collection-item" href="<%= theme_path(@conn, :explore, "list") %>">実験テーマ一覧</a>
+        <a class="collection-item" href="<%= theme_path(@conn, :explore, "category") %>">実験テーマ一覧 (カテゴリ別)</a>
         <span id='step1'>
           <%= if Map.has_key?(@conn.params, "intro") do %>
-          <a href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
+            <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
           <% else %>
-          <a href="<%= host_path(@conn, :experiment, intro: false) %>">
+            <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: false) %>">
           <% end %>
-          実験作成画面
+            実験作成画面
           </a>
         </span>
-      </li>
-    </ul>
-  </font>
+      </div>
+    </font>
+  </div>
 </div>
 <div class="Container" style="margin: 3%;">
   <%= if @experiment do %>
