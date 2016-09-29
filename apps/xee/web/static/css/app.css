@@ -21,3 +21,7 @@
 .none-list li {
   list-style-type: none !important;
 }
+
+table.blue-striped > tbody > tr:nth-child(odd) {
+    background-color: #b3e5fc !important;
+}

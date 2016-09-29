@@ -1,12 +1,22 @@
 <div class="center-block" style="margin: 3%;">
-  <%= if @themes do %>
-    <h4>実験テーマ一覧</h4>
-
-    <%= raw tag_list(@conn, @tags, @themes) %>
-  <% end %>
-
   <div class="row">
-    <button class="btn col offset-l10" style="margin-top: 2%; margin-bottom: 6%;" type="button" onclick="location.href='/host/experiment'">実験作成</button>
+    <div class="col s12 m8 l12">
+      <div class="card light-blue lighten-5">
+        <div class="card-content">
+          <span class="card-title">カテゴリ別 実験テーマ一覧</span>
+          <%= if @themes do %>
+            <div style="margin: 5%">
+              <%= raw tag_list(@conn, @tags, @themes) %>
+            </div>
+          <% else %>
+            <p>表示可能な実験はありません。</p>
+          <% end %>
+        </div>
+        <div class="card-action">
+          <button class="btn" type="button" onclick="location.href='/host/experiment'">実験作成</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>

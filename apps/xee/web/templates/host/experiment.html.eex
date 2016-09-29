@@ -79,7 +79,7 @@ if ("<%= @conn.params["intro"] %>" == "true"){
 }
 document.getElementById("experiment").focus()
 </script>
-<%= end %>
+<% end %>
 <%= if @themes do %>
   <h4>実験テーマ一覧</h4>
   <hr>
@@ -88,6 +88,7 @@ document.getElementById("experiment").focus()
       <tr>
         <th>#</th>
         <th>タイトル</th>
+        <th>カテゴリ</th>
       </tr>
     </thead>
     <tbody>
@@ -95,6 +96,7 @@ document.getElementById("experiment").focus()
         <tr>
           <td></td>
           <td><%= theme.name %></td>
+          <td><%= Enum.join(theme.tags, ", ") %></td>
         </tr>
       <% end %>
     </tbody>
