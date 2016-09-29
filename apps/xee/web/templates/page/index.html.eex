@@ -49,11 +49,8 @@ const step = [
   }
 ]
 intro = intro.setOption('steps',step)
-const fn = function() {
-  intro.start()
-}
 var element = document.getElementById("admin");
 if(element) document.getElementById('admin').style.width = (document.getElementById('exit').clientWidth+document.getElementById('next').clientWidth+10)+'px'
-setTimeout(fn,1000)
+setTimeout(() => intro.start(), 60000)
 </script>
 <% end %>

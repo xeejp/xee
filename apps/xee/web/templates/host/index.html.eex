@@ -7,11 +7,11 @@
         <a class="collection-item" href="<%= theme_path(@conn, :explore, "list") %>">実験テーマ一覧</a>
         <a class="collection-item" href="<%= theme_path(@conn, :explore, "category") %>">実験テーマ一覧 (カテゴリ別)</a>
         <span id='step1'>
-            <%= if Map.has_key?(@conn.params, "intro") do %>
-              <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
-            <% else %>
-              <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: false) %>">
-            <% end %>
+          <%= if Map.has_key?(@conn.params, "intro") do %>
+            <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: @conn.params["intro"]=="true") %>">
+          <% else %>
+            <a class="collection-item" href="<%= host_path(@conn, :experiment, intro: false) %>">
+          <% end %>
             実験作成画面
           </a>
         </span>
@@ -67,7 +67,7 @@ if ("<%= @conn.params["intro"] %>" == "true") {
     intro:"こちらから実験を作成することができます。<br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
   }]
   intro = intro.setOption('steps',step)
-  intro.start()
+  setTimeout(() => intro.start(), 60000)
 }
 </script>
 <% end %>
