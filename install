@@ -1,0 +1,26 @@
+#!/bin/bash
+
+repository=$1
+name=$2
+env=${3:-"dev"}
+repository_name=`echo $repository | awk 'BEGIN{FS = "/"}{print $2}' | sed -e 's/\.git.*//'`
+module_name=`echo $repository_name | sed -r 's/(^|-)(.)/\U\2\E/g'`
+application_name=`echo $repository_name | sed -r 's/-/_/g'`
+
+git clone $repository "./apps/$application_name"
+
+cd ./apps/$application_name/
+npm install
+npm run build:$env
+cd ../../
+
+sed '$d' ./config/themes.exs > ./config/themes.exs
+
+echo "theme $module_name," >> ./config/themes.exs
+echo "  name: \"$name\"," >> ./config/themes.exs
+echo "  path: \"apps/$application_name/\"," >> ./config/themes.exs
+echo "  host: \"host.js\"," >> ./config/themes.exs
+echo "  participant: \"participant.js\"," >> ./config/themes.exs
+echo "  tags: []" >> ./config/themes.exs
+echo "" >> ./config/themes.exs
+echo "register_themes" >> ./config/themes.exs
