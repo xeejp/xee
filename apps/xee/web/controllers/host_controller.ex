@@ -7,19 +7,24 @@ defmodule Xee.HostController do
     user = conn.assigns[:host]
     experiment = Xee.HostServer.get(user.id)
     if experiment do
-      experiment = Enum.map(experiment, fn(x) -> Xee.ExperimentServer.get_info(x) end)
+      experiment = Enum.filter_map(experiment,
+       &(Xee.ExperimentServer.has?(&1)),
+       &(Xee.ExperimentServer.get_info(&1)))
     end
     render conn, "index.html", csrf_token: get_csrf_token(), experiment: experiment
   end
 
   def remove(conn, %{"xid" => xid}) do
     user = conn.assigns[:host]
-    %{x_token: token} = Xee.ExperimentServer.get_info(xid)
-    pid = Xee.ExperimentServer.get(xid)
-    Xee.ExperimentServer.remove(xid)
-    Xee.TokenServer.drop(token)
-    Xee.HostServer.drop(user.id, xid)
-    Xee.Experiment.stop(pid)
+
+    if Xee.ExperimentServer.has?(xid) do
+      %{x_token: token} = Xee.ExperimentServer.get_info(xid)
+      pid = Xee.ExperimentServer.get(xid)
+      Xee.ExperimentServer.remove(xid)
+      Xee.TokenServer.drop(token)
+      Xee.HostServer.drop(user.id, xid)
+      Xee.Experiment.stop(pid)
+    end
     conn
     |> redirect(to: "/host")
     |> halt
