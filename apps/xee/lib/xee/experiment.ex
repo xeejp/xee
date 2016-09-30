@@ -29,6 +29,10 @@ defmodule Xee.Experiment do
     GenServer.cast(pid, {:script, {:join, [id]}})
   end
 
+  def message(pid, message, token) do
+    GenServer.cast(pid, {:script, {:handle_message, [message, token]}, token})
+  end
+
   def client(pid, received, participant_id) do
     GenServer.cast(pid, {:script, {:handle_received, [received, participant_id]}, participant_id})
   end
@@ -57,7 +61,7 @@ defmodule Xee.Experiment do
     case call_script(experiment, func, args) do
       {:ok, result} ->
         case experiment.module.script_type do
-          :data -> 
+          :data ->
             case result do
               %{"host" => new_host, "participant" => new_participant} when is_map(new_participant) ->
                 broadcast_data(xid, sender, host, new_host, participant, new_participant)
@@ -67,9 +71,10 @@ defmodule Xee.Experiment do
           :message ->
             host = Map.get(result, "host", nil)
             participant = Map.get(result, "participant", %{})
+            experiment_messages = Map.get(result, "experiment", %{})
             redirect = Map.get(result, "redirect", %{})
-            broadcast_message(xid, host, participant, redirect)
-            {:noreply, {xid, experiment, Map.drop(result, ["host", "participant", "redirect"])}}
+            broadcast_message(xid, host, participant, experiment_messages, redirect)
+            {:noreply, {xid, experiment, Map.drop(result, ["host", "participant", "redirect", "experiment"])}}
         end
       {:error, e} ->
         Logger.error(Exception.format(:error, e, System.stacktrace()))
@@ -101,23 +106,46 @@ defmodule Xee.Experiment do
     Task.await(host_task)
   end
 
-  def broadcast_message(xid, host, participant, redirect) do
+  def broadcast_message(xid, host, participant, experiment, redirect) do
     host_task = Task.async(fn ->
       if host != nil do
         Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: :host, body: host})
       end
     end)
+    # Redirect
     redirect = Enum.map(redirect, fn {id, redirect} ->
       Task.async(fn ->
         Xee.Endpoint.broadcast!(form_topic(xid), "redirect", %{to: id, body: redirect})
       end)
     end)
-    Enum.map(participant, fn {id, data} ->
+    # Participant
+    participant = Enum.map(participant, fn {id, data} ->
       Task.async(fn ->
         Xee.Endpoint.broadcast!(form_topic(xid), "message", %{to: id, body: data})
       end)
     end)
-    |> Enum.map(&Task.await/1)
+    # Experiment
+    experiment = Enum.map(experiment, fn {token, data} ->
+      redirect = Map.get(data, :redirect)
+      message = Map.get(data, :message)
+      Task.async(fn ->
+        target_xid = Xee.TokenServer.get(token)
+        if Xee.HostServer.has_same_host?(xid, target_xid) do
+          if not is_nil(redirect) do
+            dest = Xee.TokenServer.get(redirect)
+            Xee.Endpoint.broadcast!(form_topic(target_xid), "redirect", %{to: :participant, body: dest})
+          end
+          if not is_nil(message) do
+            pid = Xee.ExperimentServer.get(target_xid)
+            token = Xee.TokenServer.get_token(xid)
+            Xee.Experiment.message(pid, message, token)
+          end
+        end
+      end)
+    end)
+
+    Enum.map(experiment, &Task.await/1)
+    Enum.map(participant, &Task.await/1)
     Enum.map(redirect, &Task.await/1)
     Task.await(host_task)
   end

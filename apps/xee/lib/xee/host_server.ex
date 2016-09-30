@@ -1,24 +1,25 @@
 defmodule Xee.HostServer do
   @moduledoc """
-  The server to store experiment ID and its info linked host ID.
+  The server to store the experiment ID and its info linked host ID.
   """
   def start_link() do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
   @doc """
-  Stores experiment ID and its info linked host_id.
+  Stores the experiment ID and its info linked host_id.
   """
   def register(host_id, experiment_id) do
     Agent.update(__MODULE__, fn map ->
       (
       experiments = if Map.has_key?(map, host_id), do: map[host_id], else: MapSet.new
       Map.put(map, host_id, MapSet.put(experiments, experiment_id))
-      ) end)
+      )
+    end)
   end
 
   @doc """
-  Returns all of experiments created by the host.
+  Returns all of the experiments created by the host.
   """
   def get(host_id) do
     Agent.get(__MODULE__, fn map ->
@@ -26,10 +27,19 @@ defmodule Xee.HostServer do
     end)
   end
 
-  @doc "Checks whether experiment ID exists or not."
+  @doc "Checks whether the experiment ID exists or not."
   def has?(host_id, experiment_id) do
     Agent.get(__MODULE__, fn map ->
       Map.has_key?(map, host_id) && MapSet.member?(map[host_id], experiment_id)
+    end)
+  end
+
+  @doc "Checks whether the given experiments is owned by the same host."
+  def has_same_host?(xid1, xid2) do
+    Agent.get(__MODULE__, fn map ->
+      Enum.any?(map, fn {_host_id, mapset} ->
+        MapSet.member?(mapset, xid1) and MapSet.member?(mapset, xid2)
+      end)
     end)
   end
 

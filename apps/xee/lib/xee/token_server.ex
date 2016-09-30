@@ -28,6 +28,15 @@ defmodule Xee.TokenServer do
     GenServer.call(__MODULE__, {:get, token})
   end
 
+  @doc """
+  Returns the experiment token.
+
+  This returns nil when token doesn't exist.
+  """
+  def get_token(xid) do
+    GenServer.call(__MODULE__, {:get_token, xid})
+  end
+
   @doc "Registers a token and an experiment ID."
   def register(token, experiment_id) do
     GenServer.cast(__MODULE__, {:register, token, experiment_id})
@@ -64,6 +73,14 @@ defmodule Xee.TokenServer do
 
   def handle_call({:get, token}, _from, map) do
     {:reply, Map.get(map, token), map}
+  end
+
+  def handle_call({:get_token, xid}, _from, map) do
+    token = case Enum.filter(map, fn {_token, id} -> id == xid end) do
+      [{token, _}] -> token
+      _ -> nil
+    end
+    {:reply, token, map}
   end
 
   def handle_call({:has, token}, _from, map) do

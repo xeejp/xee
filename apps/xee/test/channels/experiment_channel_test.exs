@@ -16,11 +16,13 @@ defmodule Xee.ExperimentChannelTest do
     ExperimentServer.create("x2", test2_experiment, "")
     host_socket2 = join_channel("x2")
     participant_socket2 = join_channel("x2", "p1")
+
     on_exit fn ->
       stop([host_socket, participant_socket])
       stop([host_socket2, participant_socket2])
     end
-    {:ok, host_socket: host_socket, participant_socket: participant_socket, host_socket2: host_socket2, participant_socket2: participant_socket2}
+    {:ok, host_socket: host_socket, participant_socket: participant_socket,
+     host_socket2: host_socket2, participant_socket2: participant_socket2}
   end
 
   test "push from client", %{host_socket: host_socket, participant_socket: participant_socket} do

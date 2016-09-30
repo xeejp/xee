@@ -31,6 +31,17 @@ defmodule Xee.HostServerTest do
     refute HostServer.has?(:d, :D)
   end
 
+  test "has_same_host?" do
+    HostServer.register(:a, :A)
+    HostServer.register(:b, :B)
+    HostServer.register(:c, :C1)
+    HostServer.register(:c, :C2)
+    assert HostServer.has_same_host?(:A, :A)
+    assert HostServer.has_same_host?(:C1, :C2)
+    refute HostServer.has_same_host?(:A, :B)
+    refute HostServer.has_same_host?(:B, :C1)
+  end
+
   test "drop" do
     HostServer.register(:a, :A)
     HostServer.register(:b, :B)

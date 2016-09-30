@@ -115,4 +115,12 @@ defmodule Xee.ExperimentTest do
     Experiment.client(pid, "message 4")
     assert %{"data" => %{"host" => ["message 2", "message 4"], "participant" => %{"p1" => ["message 1"], "p2" => ["message 3"]}}} == Experiment.fetch(pid)
   end
+
+  #  test "message", %{pid3: pid} do
+  #    Experiment.message(pid, "message 1", "b")
+  #    :timer.sleep(1000)
+  #    assert %{"data" => %{host: [], participant: %{"p1" => [], "p2" => []}, messages: %{"b" => ["message 1"]}}} == Experiment.fetch(pid)
+  #    Experiment.message(pid, "message 2", "b")
+  #    assert %{"data" => %{host: [], participant: %{"p1" => [], "p2" => []}, messages: %{"b" => ["message 1", "message 2"]}}} == Experiment.fetch(pid)
+  #  end
 end

@@ -9,7 +9,7 @@ defmodule Xee.TokenServerTest do
     :ok
   end
 
-  test "register and get" do
+  test "register, get, and get_token" do
     assert :ok == TokenServer.register(:a, "a")
     assert :ok == TokenServer.register(:b, "b")
     assert :ok == TokenServer.register(:c, "c")
@@ -17,6 +17,10 @@ defmodule Xee.TokenServerTest do
     assert "b" == TokenServer.get(:b)
     assert "c" == TokenServer.get(:c)
     assert nil == TokenServer.get(:d)
+    assert :a == TokenServer.get_token("a")
+    assert :b == TokenServer.get_token("b")
+    assert :c == TokenServer.get_token("c")
+    assert nil == TokenServer.get_token("d")
   end
 
   test "has?" do
