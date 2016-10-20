@@ -1,20 +1,38 @@
+<script>
+   window.onload= function(){
+      var lazyloading = document.getElementById("lazyloading");
+      var jsfile = document.createElement("script");
+      jsfile.setAttribute("src", "<%= @javascript %>");
+      lazyloading.appendChild(jsfile);
+
+      jsfile.onload = function() {
+         document.getElementById("jsloadprogress").style.display = "none";
+      }
+   }
+
+   window._topic = "<%= @topic %>";
+   window._token = "<%= @token %>";
+   window._x_token = "<%= @x_token %>";
+</script>
 <div id="content">
-</div>
 <%= if @host do %>
-<div id="experiment-token" class="modal">
-  <div class="modal-content">
-    <h3>実験記号: <em><%= @x_token %></em></h3>
+  <div id="experiment-token" class="modal">
+    <div class="modal-content">
+      <h3>実験記号: <em><%= @x_token %></em></h3>
+    </div>
+  </div>
+  <div class="fixed-btn" style="position: fixed; bottom: 100px; right: 30px; margin: 0px;">
+    <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
+      実験記号を表示
+    </a>
+  </div>
+<% end %>
+<div id="jsloadprogress">
+  <p>実験プログラムをダウンロードしています。</p>
+  <p>このまましばらくお待ちください。</p>
+  <div class="progress">
+    <div class="indeterminate"></div>
   </div>
 </div>
-<div class="fixed-btn" style="position: fixed; bottom: 100px; right: 30px; margin: 0px;">
-  <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
-    実験記号を表示
-  </a>
+<div id="lazyloading"></div>
 </div>
-<% end %>
-<script>
-window._topic = "<%= @topic %>";
-window._token = "<%= @token %>";
-window._x_token = "<%= @x_token %>";
-</script>
-<script src="<%= @javascript %>"></script>
