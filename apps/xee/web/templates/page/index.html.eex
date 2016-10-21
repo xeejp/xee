@@ -1,39 +1,36 @@
 <div class="container page-header" >
   <div class="row">
-    <div class="col-md-12">
-      <div style="text-align:center;">
-        <img alt="経済実験へようこそ！" src="<%= static_path(@conn, "/logo_front.png") %>" height="300em"/>
-      </div>
+    <div class="col-md-12" style="text-align:center;">
+      <img alt="経済実験へようこそ！" src="<%= static_path(@conn, "/logo_front.png") %>" height="300em"/>
     </div>
   </div>
 </div>
 
 <div class="container main-content">
-  <center>
-    <div class="row">
-      <div class="col-md-4 content-area" style="float:none;" >
-        <form method="get" action="/experiment" >
-          <div class="form-group has-feedback" style="margin: 5% 10%;"　>
-            <input type="text" class="form-control input-lg" name="token" id='step1'>
-            <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
-            <span class="help-block">実験記号を入力してください。</span>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" id='step2'>実験に参加する</button>
-        </form>
-      </div>
+  <div class="row">
+    <div class="col-md-4 content-area" style="float:none;" align="center">
+      <form method="get" action="/experiment">
+        <div class="form-group has-feedback" style="margin: 5% 10%;">
+          <input type="text" class="form-control input-lg" name="token" id='step1'>
+          <span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
+          <span class="help-block">実験記号を入力してください。</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id='step2'>実験に参加する</button>
+      </form>
     </div>
-  </center>
+  </div>
 </div>
+
 <%= if not logged_in?(@conn) do %>
 <script>
-var intro = introJs().onchange(function(){document.activeElement.blur()}).setOptions({
-  'showButtons': false,
-  'showBullets': false,
-  'keyboardNavigation': false,
-  'showStepNumbers':false
-})
+  var intro = introJs().onchange(function(){document.activeElement.blur()}).setOptions({
+    'showButtons': false,
+    'showBullets': false,
+    'keyboardNavigation': false,
+    'showStepNumbers':false
+  })
 
-const step = [
+  const step = [
   {
     element: '#step1',
     intro:"<p>実験記号を入力してください。</p><br/><button id='exit' type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button><button id='next' type='button' class='btn waves-effect waves-light' style='margin-left:10px' onClick='intro.nextStep()'>次へ</button><br/><button id='admin' type='button' class='btn waves-effect waves-light' style='margin-top:10px;width:100%' onClick='intro.goToStep(3)'>管理者の方はこちら</button>",
@@ -46,11 +43,10 @@ const step = [
   {
     element: '#step_registration',
     intro: "<p>こちらから新規登録を行います。</p><br/><button type='button' class='btn grey black-text lighten-2 waves-effect' onClick='intro.exit()'>閉じる</button>"
-  }
-]
-intro = intro.setOption('steps',step)
-var element = document.getElementById("admin");
-if(element) document.getElementById('admin').style.width = (document.getElementById('exit').clientWidth+document.getElementById('next').clientWidth+10)+'px'
-setTimeout(() => intro.start(), 60000)
+  }]
+  intro = intro.setOption('steps',step)
+  var element = document.getElementById("admin");
+  if(element) document.getElementById('admin').style.width = (document.getElementById('exit').clientWidth+document.getElementById('next').clientWidth+10)+'px'
+  setTimeout(() => intro.start(), 60000)
 </script>
 <% end %>

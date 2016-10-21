@@ -1,31 +1,33 @@
 <div id="content">
-<div id="jsloadprogress">
-  <p>実験プログラムをダウンロードしています。</p>
-  <p>このまましばらくお待ちください。</p>
-  <div class="progress">
-    <div class="indeterminate"></div>
+  <div id="jsloadprogress">
+    <p>実験プログラムをダウンロードしています。</p>
+    <p>このまましばらくお待ちください。</p>
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
   </div>
-</div>
-<div id="lazyloading"></div>
-<script>
-   window.onload= function(){
+
+  <div id="lazyloading"></div>
+  <script>
+    window.onload= function(){
       var lazyloading = document.getElementById("lazyloading");
       var jsfile = document.createElement("script");
       jsfile.setAttribute("src", "<%= @javascript %>");
       lazyloading.appendChild(jsfile);
 
       jsfile.onload = function() {
-         document.getElementById("jsloadprogress").style.display = "none";
+        document.getElementById("jsloadprogress").style.display = "none";
       }
-   }
+    }
 
-   window._topic = "<%= @topic %>";
-   window._token = "<%= @token %>";
-   window._x_token = "<%= @x_token %>";
-</script>
+    window._topic = "<%= @topic %>";
+    window._token = "<%= @token %>";
+    window._x_token = "<%= @x_token %>";
+  </script>
 </div>
 
 <%= if @host do %>
+<div id="content">
   <div id="experiment-token" class="modal">
     <div class="modal-content">
       <h3>実験記号: <em><%= @x_token %></em></h3>
@@ -36,4 +38,5 @@
       実験記号を表示
     </a>
   </div>
+</div>
 <% end %>
