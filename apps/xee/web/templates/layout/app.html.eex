@@ -26,6 +26,8 @@
         outline: 0;
         padding: 2px;
       }
+      html, body {height: 100%;}
+      #main {min-height: 100%;}
     </style>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>">
