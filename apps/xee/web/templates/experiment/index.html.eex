@@ -1,9 +1,13 @@
 <div id="content">
   <div id="jsloadprogress">
-    <p>実験プログラムをダウンロードしています。</p>
-    <p>このまましばらくお待ちください。</p>
-    <div class="progress">
-      <div class="indeterminate"></div>
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">ダウンロード</span>
+        <div class="progress">
+          <div class="indeterminate"></div>
+        </div>
+        <p>実験プログラムをダウンロードしています。<br />このまましばらくお待ちください。</p>
+      </div>
     </div>
   </div>
 
@@ -27,16 +31,15 @@
 </div>
 
 <%= if @host do %>
-<div id="content">
-  <div id="experiment-token" class="modal">
-    <div class="modal-content">
-      <h3>実験記号: <em><%= @x_token %></em></h3>
-    </div>
+<div id="experiment-token" class="modal">
+  <div class="modal-content">
+    <h3>実験記号: <em><%= @x_token %></em></h3>
   </div>
-  <div class="fixed-btn" style="position: fixed; bottom: 90px; right: 30px; margin: 0px;">
-    <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
-      実験記号を表示
-    </a>
-  </div>
+</div>
+
+<div class="fixed-btn" style="position: fixed; bottom: 90px; right: 30px; margin: 0px;">
+  <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
+    実験記号を表示
+  </a>
 </div>
 <% end %>
