@@ -6,7 +6,7 @@ defmodule Xee.RegistrationController do
   Showing register page.
   """
   def new(conn, _params) do
-    changeset = User.changeset(%User{})
+    changeset = User.changeset(%User{}, :invalid)
     render conn, "new.html", changeset: changeset
   end
 
@@ -15,9 +15,11 @@ defmodule Xee.RegistrationController do
   """
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)
+    ip = conn.remote_ip |> Tuple.to_list |> Enum.join(".")
 
     case User.create(changeset, Xee.Repo) do
       {:ok, user} ->
+        Sendmail.Mailer.send_newuser_email(user.id, user.name, ip, user.updated_at)
         conn
         |> put_session(:current_user, user.id)
         |> put_flash(:info, "Welcome to Xee!")
