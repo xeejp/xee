@@ -3,6 +3,7 @@ defmodule Xee.ThemeServer do
   The server to store experiment themes.
   """
   require Logger
+  @root_dir Path.expand("./../../../../", __DIR__)
 
   defp do_and_watch(files, func) do
     func.()
@@ -14,7 +15,7 @@ defmodule Xee.ThemeServer do
   end
 
   def experiment(name, params) do
-    path = Keyword.get(params, :path)
+    path = Keyword.get(params, :path) |> Path.expand(@root_dir)
     file = Keyword.get(params, :file) |> Path.expand(path)
     module_func = fn -> get_module_from_file(file) end
     module = module_func.()
@@ -29,6 +30,7 @@ defmodule Xee.ThemeServer do
   end
 
   defp load_from_file(name, path, module_func, require_files, watch_files, params) do
+    path = Path.expand(path, @root_dir)
     host = Keyword.get(params, :host) |> Path.expand(path)
     participant = Keyword.get(params, :participant) |> Path.expand(path)
     granted = Keyword.get(params, :granted, nil)

@@ -1,4 +1,5 @@
 import {Socket} from "phoenix"
+
 window.Experiment = class Experiment {
   constructor(topic, token, update) {
     this.topic = topic
