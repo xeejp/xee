@@ -66,6 +66,8 @@ defmodule Xee.HostController do
         Xee.TokenServer.register(x_token, xid)
         Xee.ExperimentServer.create(xid, xtheme.experiment, %{name: name, experiment: xtheme.experiment, theme: xtheme.name, x_token: x_token, xid: xid})
         Xee.HostServer.register(user.id, xid)
+        ip = conn.remote_ip |> Tuple.to_list |> Enum.join(".")
+        Sendmail.Mailer.send_new_experiment_email(user.id, user.name, ip, name, theme_id, x_token)
         conn
         |> redirect(to: "/experiment/" <> xid <> "/host")
         |> halt
