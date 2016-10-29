@@ -34,5 +34,3 @@ use Mix.Config
 #  mailgun_key: "key-your_mailgun_key",
 #  from_address: "postmaster@example.com",
 #  to_address: "receivemaster@example.com"
-
-import_config "prod.secret.exs"
