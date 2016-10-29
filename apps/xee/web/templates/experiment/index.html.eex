@@ -1,34 +1,29 @@
 <div id="content">
-  <div id="jsloadprogress">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">ダウンロード</span>
-        <div class="progress">
-          <div class="indeterminate"></div>
-        </div>
-        <p>実験プログラムをダウンロードしています。<br />このまましばらくお待ちください。</p>
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">ダウンロード</span>
+      <div class="progress">
+        <div class="indeterminate"></div>
       </div>
+      <p>実験プログラムをダウンロードしています。<br />このまましばらくお待ちください。</p>
     </div>
   </div>
 
   <div id="lazyloading"></div>
-  <script>
-    window.onload= function(){
-      var lazyloading = document.getElementById("lazyloading");
-      var jsfile = document.createElement("script");
-      jsfile.setAttribute("src", "<%= @javascript %>");
-      lazyloading.appendChild(jsfile);
-
-      jsfile.onload = function() {
-        document.getElementById("jsloadprogress").style.display = "none";
-      }
-    }
-
-    window._topic = "<%= @topic %>";
-    window._token = "<%= @token %>";
-    window._x_token = "<%= @x_token %>";
-  </script>
 </div>
+
+<script>
+  window.onload= function(){
+    var lazyloading = document.getElementById("lazyloading");
+    var jsfile = document.createElement("script");
+    jsfile.setAttribute("src", "<%= @javascript %>");
+    lazyloading.appendChild(jsfile);
+  }
+
+  window._topic = "<%= @topic %>";
+  window._token = "<%= @token %>";
+  window._x_token = "<%= @x_token %>";
+</script>
 
 <%= if @host do %>
 <div id="experiment-token" class="modal">

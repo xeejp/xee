@@ -1,3 +1,4 @@
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 <script>
 <%= @javascript %>
 require("web/static/js/app").Experiment("<%= @topic %>", "<%= @token %>", _root)
