@@ -33,7 +33,7 @@ defmodule Xee.HostControllerTest do
 
   test "GET /host/experiment with signin" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -46,12 +46,12 @@ defmodule Xee.HostControllerTest do
 
   test "GET /host/experiment?theme_id=THEME_ID" do
     Xee.ThemeServer.experiment "test1",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
     Xee.ThemeServer.experiment "test2",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -77,7 +77,7 @@ defmodule Xee.HostControllerTest do
 
   test "create action must fail when one or more of required fields are blank" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -93,7 +93,7 @@ defmodule Xee.HostControllerTest do
 
   test "POST /experiment/create" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -111,7 +111,7 @@ defmodule Xee.HostControllerTest do
 
   test "POST /host/remove" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
