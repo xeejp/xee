@@ -77,7 +77,7 @@ defmodule Xee.HostControllerTest do
 
   test "create action must fail when one or more of required fields are blank" do
     Xee.ThemeServer.experiment "test",
-      path: "apps/xee/experiments/test",
+      path: "apps/xee/experiments/test2",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -93,16 +93,16 @@ defmodule Xee.HostControllerTest do
 
   test "POST /experiment/create" do
     Xee.ThemeServer.experiment "test",
-      path: "apps/xee/experiments/test",
+      path: "apps/xee/experiments/test2",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
     x_token = "test"
     user = Xee.Repo.get_by(User, name: "a")
     conn = build_conn()
-            |> with_session_and_flash
-            |> assign(:host, user)
-            |> action(:create, %{"experiment_name" => "test1", "theme" => "test", "x_token" => x_token})
+           |> with_session_and_flash
+           |> assign(:host, user)
+           |> action(:create, %{"experiment_name" => "test1", "theme" => "test", "x_token" => x_token})
     assert Xee.TokenServer.has?(x_token)
     xid = Xee.TokenServer.get(x_token)
     assert Xee.ExperimentServer.has?(xid)

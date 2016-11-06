@@ -13,6 +13,10 @@ defmodule Xee.ThemeScript do
 
         def init, do: %{ids: MapSet.new(), logs: []}
 
+        def receive_meta(data, %{host_id: _host_id, _token}) do
+          {:ok, data}
+        end
+
         def join(%{ids: ids} = data, id) do
           {:ok, %{data | ids: MapSet.put(ids, id)}}
         end
@@ -94,9 +98,10 @@ defmodule Xee.ThemeScript do
       def handle_received(data, received, id) do
         {:error, "There is no matched `handle_received/3`. data = #{inspect data}, received = #{inspect received}, id = #{inspect id}"}
       end
+      def receive_meta(data, meta), do: nil
 
       defoverridable [init: 0, install: 0, script_type: 0,
-       handle_received: 2, handle_received: 3]
+       handle_received: 2, handle_received: 3, receive_meta: 2]
     end
   end
 

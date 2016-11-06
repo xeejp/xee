@@ -9,6 +9,6 @@ defmodule XeeJP.Mixfile do
   end
 
   defp deps do
-    [{:xeethemescript, "~> 0.1.0", override: true}]
+    [{:xeethemescript, "~> 0.3.0", override: true}]
   end
 end

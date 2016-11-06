@@ -19,6 +19,7 @@ defmodule Xee.ExperimentServer do
   def create(key, experiment, info) do
     {:ok, pid} = Experiment.start_link(experiment, key)
     Agent.update(__MODULE__, fn map -> Map.put(map, key, {pid, info}) end)
+    {:ok, pid}
   end
 
   @doc "Returns the experiment data."

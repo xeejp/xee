@@ -21,6 +21,14 @@ defmodule Xee.Experiment do
     end
   end
 
+  def attach_meta(pid, host_id, token) do
+    meta = %{
+      host_id: host_id,
+      token: token
+    }
+    GenServer.cast(pid, {:script, {:receive_meta, [meta]}})
+  end
+
   def fetch(pid) do
     GenServer.call(pid, :fetch)
   end

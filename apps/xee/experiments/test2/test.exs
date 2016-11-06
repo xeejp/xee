@@ -9,6 +9,10 @@ defmodule Test2 do
     {:ok, %{"data" => %{"host" => [], "participant" => %{}}}}
   end
 
+  def receive_meta(data, meta) do
+    {:ok, %{"data" => data, "host" => meta}}
+  end
+
   def join(%{"host" => host, "participant" => participant} = state, id) do
     unless Map.has_key?(participant, id) do
       state = %{state | "participant" => Map.put(participant, id, [])}

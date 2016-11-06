@@ -9,9 +9,9 @@ defmodule Xee.ExperimentServerTest do
   end
 
   test "create, get and get_info" do
-    assert :ok == ExperimentServer.create(:a, test_experiment, :A)
-    assert :ok == ExperimentServer.create(:b, test_experiment, :B)
-    assert :ok == ExperimentServer.create(:c, test_experiment, :C)
+    assert :ok == ExperimentServer.create(:a, test_experiment, :A) |> elem(0)
+    assert :ok == ExperimentServer.create(:b, test_experiment, :B) |> elem(0)
+    assert :ok == ExperimentServer.create(:c, test_experiment, :C) |> elem(0)
     a = ExperimentServer.get(:a)
     b = ExperimentServer.get(:b)
     c = ExperimentServer.get(:c)

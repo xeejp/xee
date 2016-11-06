@@ -1,5 +1,6 @@
 defmodule Xee.ExperimentTest do
   use ExUnit.Case, async: false
+  use Xee.ChannelCase
   use Xee.ExperimentTestHelper
   alias Xee.ExperimentServer
   alias Xee.Experiment
@@ -116,11 +117,8 @@ defmodule Xee.ExperimentTest do
     assert %{"data" => %{"host" => ["message 2", "message 4"], "participant" => %{"p1" => ["message 1"], "p2" => ["message 3"]}}} == Experiment.fetch(pid)
   end
 
-  #  test "message", %{pid3: pid} do
-  #    Experiment.message(pid, "message 1", "b")
-  #    :timer.sleep(1000)
-  #    assert %{"data" => %{host: [], participant: %{"p1" => [], "p2" => []}, messages: %{"b" => ["message 1"]}}} == Experiment.fetch(pid)
-  #    Experiment.message(pid, "message 2", "b")
-  #    assert %{"data" => %{host: [], participant: %{"p1" => [], "p2" => []}, messages: %{"b" => ["message 1", "message 2"]}}} == Experiment.fetch(pid)
-  #  end
+  test "attach_meta", %{pid2: pid} do
+    Experiment.attach_meta(pid, "host_id", "token")
+    assert_broadcast "message", %{body: %{host_id: "host_id", token: "token"}}
+  end
 end
