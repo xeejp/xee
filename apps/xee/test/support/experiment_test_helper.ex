@@ -30,13 +30,13 @@ defmodule Xee.ExperimentTestHelper do
 
   defmacro __using__(_opts) do
     quote do
-      Code.require_file("experiments/test/test.exs")
-      host = File.read!("experiments/test/host.js")
-      participant = File.read!("experiments/test/participant.js")
+      Code.require_file(Path.expand("./../../experiments/test/test.exs", unquote(__DIR__)))
+      host = File.read!(Path.expand("./../../experiments/test/host.js", unquote(__DIR__)))
+      participant = File.read!(Path.expand("./../../experiments/test/participant.js", unquote(__DIR__)))
       @test_experiment %Xee.Experiment{theme_id: :t1, module: Test, host: host, participant: participant}
-      Code.require_file("experiments/test2/test.exs")
-      host = File.read!("experiments/test2/host.js")
-      participant = File.read!("experiments/test2/participant.js")
+      Code.require_file(Path.expand("./../../experiments/test2/test.exs", unquote(__DIR__)))
+      host = File.read!(Path.expand("./../../experiments/test2/host.js", unquote(__DIR__)))
+      participant = File.read!(Path.expand("./../../experiments/test2/participant.js", unquote(__DIR__)))
       @test2_experiment %Xee.Experiment{theme_id: :t2, module: Test2, host: host, participant: participant}
       import Xee.ExperimentTestHelper
       def test_experiment, do: @test_experiment

@@ -9,7 +9,7 @@ defmodule Xee.ThemeControllerTest do
 
   test "GET /explore/list" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -19,7 +19,7 @@ defmodule Xee.ThemeControllerTest do
 
   test "get the description page of the theme which has a description" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js",
@@ -30,7 +30,7 @@ defmodule Xee.ThemeControllerTest do
 
   test "get the description page of the theme which has no description" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js"
@@ -40,7 +40,7 @@ defmodule Xee.ThemeControllerTest do
 
   test "get description.js" do
     Xee.ThemeServer.experiment "test",
-      path: "experiments/test",
+      path: "apps/xee/experiments/test",
       file: "test.exs",
       host: "host.js",
       participant: "participant.js",
