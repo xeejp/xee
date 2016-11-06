@@ -133,7 +133,7 @@ defmodule Xee.Experiment do
         if Xee.HostServer.has_same_host?(xid, target_xid) do
           if not is_nil(redirect) do
             dest = Xee.TokenServer.get(redirect)
-            Xee.Endpoint.broadcast!(form_topic(target_xid), "redirect", %{to: :participant, body: dest})
+            Xee.Endpoint.broadcast!(form_topic(target_xid), "redirect", %{to: :all, body: dest})
           end
           if not is_nil(message) do
             pid = Xee.ExperimentServer.get(target_xid)

@@ -70,6 +70,7 @@ defmodule Xee.ExperimentChannel do
 
   def handle_out(event, %{to: user, body: body} = info, socket) when event in @events do
     send? = case {socket.assigns[:user], user} do
+      {_, :all} -> true
       {user, user} -> true
       {:host, :participant} -> false
       {_, :participant} -> true
