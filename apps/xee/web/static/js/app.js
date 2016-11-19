@@ -13,8 +13,8 @@ window.Experiment = class Experiment {
 
     // Redirect
     this.chan.on("redirect", payload => {
-      const xid = payload.body
-      window.location = "/experiment/" + xid
+      const {xid, host} = payload.body
+      window.location = "/experiment/" + xid + (host ? "/host" : "")
     })
   }
 
