@@ -30,34 +30,46 @@ defmodule Xee.ThemeServer do
   end
 
   defp load_from_file(name, path, module_func, require_files, watch_files, params) do
-    path = Path.expand(path, @root_dir)
-    host = Keyword.get(params, :host) |> Path.expand(path)
-    participant = Keyword.get(params, :participant) |> Path.expand(path)
+    external = Keyword.get(params, :external, false)
+    host = Keyword.get(params, :host)
+    participant = Keyword.get(params, :participant)
+    {host, participant} = if external do
+      {host, participant}
+    else
+      path = Path.expand(path, @root_dir)
+      host = Keyword.get(params, :host) |> Path.expand(path)
+      participant = Keyword.get(params, :participant) |> Path.expand(path)
+      {host, participant}
+    end
     granted = Keyword.get(params, :granted, nil)
     description = Keyword.get(params, :description, nil)
     tags = Keyword.get(params, :tags, [])
     standing_experiments = Keyword.get(params, :standing_experiments, nil)
-    watch_files = [host, participant] ++ watch_files
+    watch_files = if external do
+      watch_files
+    else
+      [host, participant] ++ watch_files
+    end
     unless is_nil(description) do
       description = Path.expand(description, path)
       watch_files = [description | watch_files]
     end
-    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments, tags) end)
+    do_and_watch(watch_files, fn -> load_from_file(name, module_func, require_files, host, participant, description, external, granted, standing_experiments, tags) end)
   end
 
-  defp load_from_file(name, module_func, require_files, host, participant, description, granted, standing_experiments, tags) do
+  defp load_from_file(name, module_func, require_files, host, participant, description, external, granted, standing_experiments, tags) do
     module = module_func.()
     for file <- require_files do
       Code.load_file(file)
     end
-    host = File.read!(host)
-    participant = File.read!(participant)
-    description = unless is_nil(description) do
+    host = if external, do: host, else: File.read!(host)
+    participant = if external, do: participant, else: File.read!(participant)
+    description = if not is_nil(description) and not external do
       File.read!(description)
     else
-      nil
+      description
     end
-    experiment = %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant}
+    experiment = %Xee.Experiment{theme_id: name, module: module, host: host, participant: participant, external: external}
     granted = if granted == nil do
       nil
     else

@@ -55,10 +55,17 @@ defmodule Xee.ExperimentController do
 
   defp join_experiment(conn, xid, u_id) do
     token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:participant, xid, u_id})
-    javascript = "/experiment/#{xid}/participant.js"
+
     info = Xee.ExperimentServer.get_info(xid)
     x_token = info.x_token
     title = info.theme
+    external = info.experiment.external
+
+    javascript = if external do
+      get_javascript(xid, :participant)
+    else
+      "/experiment/#{xid}/participant.js"
+    end
     render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title, host: false
   end
 
@@ -67,10 +74,17 @@ defmodule Xee.ExperimentController do
     has = Xee.HostServer.has?(user.id, xid)
     if has do
       token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:host, xid})
-      javascript = "/experiment/#{xid}/host.js"
+
       info = Xee.ExperimentServer.get_info(xid)
       x_token = info.x_token
       title = info.theme
+      external = info.experiment.external
+
+      javascript = if external do
+        get_javascript(xid, :host)
+      else
+        "/experiment/#{xid}/host.js"
+      end
       render conn, "index.html", javascript: javascript, token: token, topic: Xee.Experiment.form_topic(xid), x_token: x_token, title: title, host: true
     else
       conn

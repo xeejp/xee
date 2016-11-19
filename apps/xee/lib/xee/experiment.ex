@@ -2,7 +2,7 @@ defmodule Xee.Experiment do
   use GenServer
   require Logger
 
-  defstruct theme_id: nil, module: nil, host: nil, participant: nil
+  defstruct theme_id: nil, module: nil, external: false, host: nil, participant: nil
 
   def start_link(experiment, xid) do
     GenServer.start_link(__MODULE__, {experiment, xid})
