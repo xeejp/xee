@@ -68,7 +68,7 @@ defmodule Xee.ExperimentChannel do
   intercept ["update", "message", "redirect"]
   @events ["update", "message", "redirect"]
 
-  def handle_out(event, %{to: user, body: body} = info, socket) when event in @events do
+  defp filter_push(event, user, body, socket) do
     send? = case {socket.assigns[:user], user} do
       {_, :all} -> true
       {user, user} -> true
@@ -79,6 +79,15 @@ defmodule Xee.ExperimentChannel do
     if send? do
       push socket, event, %{body: body}
     end
+  end
+
+  def handle_out("redirect", %{to: user, body: body} = info, socket) do
+    filter_push("redirect", user, %{xid: body, host: socket.assigns[:user] == :host}, socket)
+    {:noreply, socket}
+  end
+
+  def handle_out(event, %{to: user, body: body} = info, socket) when event in @events do
+    filter_push(event, user, body, socket)
     {:noreply, socket}
   end
 
