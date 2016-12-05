@@ -1,0 +1,66 @@
+<div>
+  <div class="col s12 m6 col s12 m12 l10" id="concept">
+    <div class="card z-depth-1 light-blue lighten-5">
+      <div class="card-content">
+        <span class="card-title">
+          <h2 style="margin: 0px;">
+            XEEについて
+          </h2>
+          Online <font color="red">Ex</font>periment System for <font color="red">E</font>conomic <font color="red">E</font>ducation.
+        </span>
+        <div class="col s12 m6 col s12 m12 l10" id="concept" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">概要</span>
+              <p>1分ですぐに始められるオンライン経済実験サイトです。</p>
+              <p>特別な知識無しで、手軽に経済実験を行えるようなシステムが無かったので作りました。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 col s12 m12 l10" id="exeperimentList" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">実験一覧</span>
+              <%= if @themes do %>
+                <table class="table striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>タイトル</th>
+                      <th>説明画面</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for theme <- @themes do %>
+                      <tr>
+                        <td></td>
+                        <td><%= theme.name %></td>
+                        <td><%= unless is_nil(theme.description) do %><a href="<%= theme_path(@conn, :theme, theme.id) %>" class="btn">説明画面</a><% end %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table></div>
+              <% end %>
+          </div>
+        </div>
+        <div class="col s12 m6 col s12 m12 l10" id="development" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">チーム</span>
+              <table>
+                <tbody>
+                  <%= for member <- @members do %>
+                    <tr>
+                      <td><a href="<%= member.url %>" target="_blank"><%= member.name %></a></td>
+                      <td><%= raw Map.get(member, :position, "") %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
