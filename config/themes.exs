@@ -16,5 +16,12 @@ use Xee.ThemeConfig
 #   participant: "participant.js",
 #   standing_experiments: %{name: "PublicGoods sample", x_token: "sample"},
 #   tags: ["相互作用あり"]
+ theme BeautyContest,
+   name: "BC",
+   path: "apps/xee_beauty_contest",
+   host: "host.js",
+   participant: "participant.js",
+   standing_experiments: %{name: "PublicGoods sample", x_token: "sample"},
+   tags: ["相互作用あり"]
 
 register_themes

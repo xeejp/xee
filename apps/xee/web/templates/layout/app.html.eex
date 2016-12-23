@@ -26,6 +26,13 @@
         outline: 0;
         padding: 2px;
       }
+      .drag-and-drop {
+        cursor: move;
+        z-index: 1000;
+      }
+      .drag {
+        z-index: 1001;
+      }
       html, body {height: 100%;}
       #main {min-height: 100%;}
     </style>
@@ -90,6 +97,5 @@
       $(".dropdown-button").dropdown();
       $('.modal-trigger').leanModal();
     </script>
-
   </body>
 </html>
