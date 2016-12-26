@@ -6,14 +6,38 @@
           <h2 style="margin: 0px;">
             XEEについて
           </h2>
-          Online <font color="red">Ex</font>periment System for <font color="red">E</font>conomic <font color="red">E</font>ducation.
+          Online E<font color="red">X</font>periment System for <font color="red">E</font>conomic <font color="red">E</font>ducation.
         </span>
         <div class="col s12 m6 col s12 m12 l10" id="concept" style="margin-top:10px;">
           <div class="card z-depth-1">
             <div class="card-content">
               <span class="card-title">概要</span>
-              <p>1分ですぐに始められるオンライン経済実験サイトです。</p>
-              <p>特別な知識無しで、手軽に経済実験を行えるようなシステムが無かったので作りました。</p>
+              <p>「設定1分ですぐに始められる経済実験」をコンセプトに開発されたオンライン経済実験教材です。</p>
+              <p>どなたでも無料でご利用いただけます。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 col s12 m12 l10" id="concept" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">特徴</span>
+　  　　　　  <ol>
+                <li>スマホで簡単にできる。</li>
+                <li>だれでもタダで使える。</li>
+                <li>1,000人同時実験も大丈夫。</li>
+                <li>プログラミングの知識不要。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 col s12 m12 l10" id="concept" style="margin-top:10px;">
+          <div class="card z-depth-1">
+            <div class="card-content">
+              <span class="card-title">マニュアル</span>
+　　　　　　　<p>
+                <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn"><i class="material-icons right">launch</i>教師用マニュアル</a><br/>
+                Version 1.0.0 (2016/12/25)
+              </p>
             </div>
           </div>
         </div>

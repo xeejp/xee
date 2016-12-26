@@ -13,7 +13,9 @@
   <div class="card light-blue lighten-5 col s12 m12 l10">
     <div class="card-content">
       <span class="card-title">新規登録</span>
+      <p>どなたでも無料でご自由にご登録いただけます。</p>
       <div class="row" >
+
         <div class="col s12 m12 l6" id="step1">
           <div class="input-field">
             <input class="validate" id="user_name" name="user[name]" type="text"  placeholder="ユーザID">
@@ -35,6 +37,33 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="card light-blue lighten-5 col s12 m12 l10">
+    <div class="col s12 m6 col s12 m12 l10" style="margin-top:10px;">
+      <div class="card z-depth-1">
+        <div class="card-content">
+          <span class="card-title">XEEシステムとは</span>
+          <p>
+            <a href="<%= page_path(@conn, :about) %>" class="waves-effect waves-light btn">アバウトページ</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m6 col s12 m12 l10" style="margin-top:10px;">
+      <div class="card z-depth-1">
+        <div class="card-content">
+          <span class="card-title">マニュアル</span>
+          <p>
+            <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn"><i class="material-icons right">launch</i>教師用マニュアル</a><br/>
+                Version 1.0.0 (2016/12/25)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 var intro = introJs().onchange(
   function(){
