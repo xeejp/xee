@@ -27,7 +27,7 @@
                         <% end %>
                       </td>
                       <td><%= Enum.join(theme.tags, ", ") %></td>
-                      <td><a href="<%= host_path(@conn, :experiment, theme_id: theme.id) %>" class="btn">実験作成</a></td>
+                      <td><a href="<%= host_path(@conn, :experiment, theme_id: theme.id) %>" class="btn">作成</a></td>
                     </tr>
                   <% end %>
                 </tbody>
