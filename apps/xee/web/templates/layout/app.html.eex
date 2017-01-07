@@ -65,7 +65,7 @@
               <%= if logged_in?(@conn) do %>
                 <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown" style="padding: 0px 25%; min-width: 130px;"><%= current_user(@conn).name %></a></li>
               <% else %>
-                <li id='step_registration'><%= link "新規登録", to: registration_path(@conn, :new) %></li>
+                <li id='step_registration'><%= link "教師用ページ", to: registration_path(@conn, :new) %></li>
                 <li><%= link "ログイン", to: session_path(@conn, :new) %></li>
               <% end %>
             </ul>
@@ -78,7 +78,7 @@
     <div class="container" id="main" role="main" >
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <p><%= render @view_module, @view_template, assigns %></p>
+      <%= render @view_module, @view_template, assigns %>
     </div>
 
     <footer class="page-footer light-blue darken-3" style="padding:10px; text-align: center; width:100%;" id="footer">
