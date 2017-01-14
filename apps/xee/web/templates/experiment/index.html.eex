@@ -32,9 +32,98 @@
   </div>
 </div>
 
-<div class="fixed-btn" style="position: fixed; bottom: 90px; right: 30px; margin: 0px;">
-  <a class="waves-effect waves-light btn-large red modal-trigger" href="#experiment-token">
-    実験記号を表示
-  </a>
+<div class= "drag-and-drop"
+     style="right: 30px;bottom: 90px;position: fixed;"
+     >
+  <i class="material-icons large"
+      style="transform: scale(-1, 1);"
+    >record_voice_over</i>
 </div>
+<div class="modal-trigger" id="modal-trigger-dummy" href="#experiment-token"></div>
+<script>
+
+ 
+  (function(){
+    var elements = document.getElementsByClassName("drag-and-drop");
+  
+    var x;
+    var y;
+  
+    for(var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener("mousedown", mdown, false);
+        elements[i].addEventListener("touchstart", mdown, false);
+    }
+
+    function mdown(e) {
+        this.classList.add("drag");
+        if(e.type === "mousedown") {
+            var event = e;
+            this.removeEventListener("touchstart", mdown, false);
+        } else {
+            var event = e.changedTouches[0];
+            this.removeEventListener("mousedown", mdown, false);
+        }   
+        x = event.pageX - this.offsetLeft;
+        y = event.pageY - this.offsetTop;
+        this.addEventListener("mouseup", mupc, false);
+        this.addEventListener("touchend", mupct, false);
+        document.body.addEventListener("mousemove", mmove, false);
+        document.body.addEventListener("touchmove", mmove, false);
+    }
+
+    function mmove(e) {
+        var drag = document.getElementsByClassName("drag")[0];
+        if(e.type === "mousemove") {
+            var event = e;
+        } else {
+            var event = e.changedTouches[0];
+        }
+        e.preventDefault();
+        drag.style.top = event.pageY - y + "px";
+        drag.style.bottom = "auto";
+        drag.style.left = event.pageX - x + "px";
+        drag.style.right = "auto";
+        drag.removeEventListener("mouseup", mupc, false);
+        drag.removeEventListener("touchend", mupct, false);
+        drag.addEventListener("mouseup", mup, false);
+        document.body.addEventListener("mouseleave", mup, false);
+        drag.addEventListener("touchend", mup, false);
+        document.body.addEventListener("touchleave", mup, false);
+
+    }
+    function removeEvent(){
+        document.body.removeEventListener("mousemove", mmove, false);
+        document.body.removeEventListener("mouseleave", mup, false);
+        document.body.removeEventListener("touchmove", mmove, false);
+        document.body.removeEventListener("touchleave", mup, false);
+    }
+    function mup(e) {
+        removeEvent();
+        var drag = document.getElementsByClassName("drag")[0];
+        drag.removeEventListener("mouseup", mup, false);
+        drag.removeEventListener("touchend", mup, false);
+        drag.classList.remove("drag");    
+    }
+    function mupc(e){
+        removeEvent();
+        var drag = document.getElementsByClassName("drag")[0]
+        drag.removeEventListener("mouseup", mupc, false);
+        drag.removeEventListener("touchend", mupct, false);
+        drag.classList.remove("drag");
+
+        var modal_dummy = document.getElementById("modal-trigger-dummy");
+        modal_dummy.click();
+    }
+    function mupct(e){
+        removeEvent();
+        var drag = document.getElementsByClassName("drag")[0]
+        drag.removeEventListener("mouseup", mupc, false);
+        drag.removeEventListener("touchend", mupct, false);
+        drag.classList.remove("drag");
+
+        var modal_dummy = document.getElementById("modal-trigger-dummy");
+        setTimeout(function(){modal_dummy.click()},300);
+    }
+})()
+</script>
 <% end %>
