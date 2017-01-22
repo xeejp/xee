@@ -10,7 +10,7 @@
   </div>
 <% end %>
 <div class="row">
-  <div class="card light-blue lighten-5 col s12 m12 l10">
+  <div class="card light-blue lighten-5 col s12 m12 l112">
     <div class="card-content">
       <span class="card-title">新規登録</span>
       <p>どなたでも無料でご自由にご登録いただけます。</p>
@@ -37,26 +37,25 @@
     </div>
   </div>
 </div>
-
 <div class="row">
-  <div class="card light-blue lighten-5 col s12 m12 l10">
-    <div class="col s12 m6 col s12 m12 l10" style="margin-top:10px;">
+  <div class="card light-blue lighten-5 col s12 m12 l12">
+    <div class="col s12 m12 l12" style="margin-top:10px;">
       <div class="card z-depth-1">
         <div class="card-content">
           <span class="card-title">XEEシステムとは</span>
           <p>
-            <a href="<%= page_path(@conn, :about) %>" class="waves-effect waves-light btn">アバウトページ</a>
+            <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn"><i class="material-icons right">launch</i>教師用マニュアル</a><a href="https://docs.com/user642920/5154/xee" target="_blank" class="waves-effect waves-light btn" style="margin-left:20px;"><i class="material-icons right">launch</i>紹介スライド</a><a href="<%= page_path(@conn, :about) %>" class="waves-effect waves-light btn" style="margin-left:20px;">アバウトページ</a><br />Version 1.0.0 (2016/12/25)
           </p>
         </div>
       </div>
     </div>
-    <div class="col s12 m6 col s12 m12 l10" style="margin-top:10px;">
+    <div class="col s12 m6 col s12 m12 l12" style="margin-top:10px;">
       <div class="card z-depth-1">
         <div class="card-content">
-          <span class="card-title">マニュアル</span>
+          <span class="card-title">最新情報</span>
           <p>
-            <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn"><i class="material-icons right">launch</i>教師用マニュアル</a><br/>
-                Version 1.0.0 (2016/12/25)
+<a class="twitter-timeline" data-lang="ja" data-theme="light" href="https://twitter.com/xeejp">XEE PROJECTの最新情報</a>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
           </p>
         </div>
       </div>
