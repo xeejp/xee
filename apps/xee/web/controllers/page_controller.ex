@@ -20,7 +20,9 @@ defmodule Xee.PageController do
       %{position: "<strong>Experiments Programmer</strong>", name: "Syoya Matsumoto (松元 翔矢)", url: "https://github.com/M42M0"},
       %{position: "<strong>Experiments Programmer</strong>", name: "Taiki Mizo (溝 大貴)", url: "https://github.com/kazuwo"},
       %{position: "<strong>Experiments Programmer</strong> / Xee System Programmer", name: "Wataru Yunoue (湯之上 航)", url: "https://github.com/hayarasu308"},
-      %{position: "<strong>Experiments Programmer</strong>", name: "Kenta Konagayoshi (小永吉　健太)", url: "https://github.com/orgs/xeejp/people/konaken"},
+      %{position: "<strong>Experiments Programmer</strong>", name: "Kenta Konagayoshi (小永吉　健太)", url: "https://github.com/konaken"},
+      %{position: "<strong>System Planner</strong>", name: "Kensuke Sumizawa (住澤 研介)", url: "https://github.com/ShiroQ"},
+      %{position: "<strong>System Planner</strong> / Experiments Programmer", name: "Tatsuya Takenouchi (竹ノ内 達哉)", url: "https://github.com/InsideOfBamboo"},
     ]
     render conn, "about.html", themes: themes , members: members
   end
