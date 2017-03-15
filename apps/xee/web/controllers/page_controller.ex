@@ -11,7 +11,7 @@ defmodule Xee.PageController do
               |> Enum.map(fn {_key, value} -> value end)
               |> Enum.filter(fn theme -> Xee.Theme.granted? theme end)
     members = [
-      %{position: "<strong>Principal Investigator</strong> / Master of Applied Economics", name: "Ryohei Hayashi (林 良平)", url: "https://github.com/RyoheiHayashi"},
+      %{position: "<strong>Principal Investigator</strong> / Ph.D. in Economics", name: "Ryohei Hayashi (林 良平)", url: "https://github.com/RyoheiHayashi"},
       %{position: "<strong>System Designer</strong> / Xee System Programmer / Experiments Programmer", name: "Ryo Hashiguchi (橋口 遼)", url: "https://github.com/ryo33"},
       %{position: "<strong>Xee System Programmer</strong> / Experiments Programmer", name: "Iori Ikeda (池田 伊織)", url: "https://github.com/NotFounds"},
       %{position: "<strong>Xee System Programmer</strong>", name: "Akira Fukunaga (福永 彬)", url: "https://github.com/kagemiku"},
