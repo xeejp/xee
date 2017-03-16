@@ -44,7 +44,7 @@
         <div class="card-content">
           <span class="card-title">XEEシステムとは</span>
           <p>
-            <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn"><i class="material-icons right">launch</i>教師用マニュアル</a><a href="https://docs.com/user642920/5154/xee" target="_blank" class="waves-effect waves-light btn" style="margin-left:20px;"><i class="material-icons right">launch</i>紹介スライド</a><a href="<%= page_path(@conn, :about) %>" class="waves-effect waves-light btn" style="margin-left:20px;">アバウトページ</a><br />Version 1.0.0 (2016/12/25)
+            <a href="https://s3-ap-northeast-1.amazonaws.com/xee-manual/system/xee-manual-1-0-0.pdf" target="_blank" class="waves-effect waves-light btn" style="margin-right:20px;"><i class="material-icons right">launch</i>教師用マニュアル</a><a href="https://docs.com/user642920/5154/xee" target="_blank" class="waves-effect waves-light btn" style="margin-right:20px;"><i class="material-icons right">launch</i>紹介スライド</a><a href="<%= page_path(@conn, :about) %>" class="waves-effect waves-light btn" style="margin-right:20px;">アバウトページ</a><br />Version 1.0.0 (2016/12/25)
           </p>
         </div>
       </div>
