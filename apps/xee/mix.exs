@@ -39,20 +39,20 @@ defmodule Xee.Mixfile do
   #
   # Type `mix help deps` for examples and options
   def deps do
-    [{:phoenix, "~> 1.2.0"},
+    [{:phoenix, "~> 1.3.0"},
      {:xeethemescript, "~> 0.3.0"},
-     {:phoenix_pubsub, "~> 1.0"},
+     {:phoenix_pubsub, "~> 1.0.2"},
      {:phoenix_ecto, "~> 3.2.3"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"},
-     {:uuid, "~> 1.1" },
+     {:postgrex, ">= 0.13.3"},
+     {:phoenix_html, "~> 2.10.4"},
+     {:phoenix_live_reload, "~> 1.1.1", only: :dev},
+     {:gettext, "~> 0.13.1"},
+     {:cowboy, "~> 1.1.2"},
+     {:uuid, "~> 1.1.7" },
      {:poison, "~> 2.0"},
-     {:comeonin, "~> 2.5"},
+     {:comeonin, "~> 4.0.2"},
      {:fwatch, "~> 0.5.0"},
-     {:timex, "~> 2.2.0"},
-     {:tzdata, "~> 0.5.7"}]
+     {:timex, "~> 3.1.24"},
+     {:tzdata, "~> 0.5.12"}]
   end
 end
