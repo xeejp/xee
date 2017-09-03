@@ -50,7 +50,7 @@ defmodule Xee.Mixfile do
      {:cowboy, "~> 1.1.2"},
      {:uuid, "~> 1.1.7" },
      {:poison, "~> 2.0"},
-     {:comeonin, "~> 4.0.2"},
+     {:comeonin, "~> 2.6.0"},
      {:fwatch, "~> 0.5.0"},
      {:timex, "~> 3.1.24"},
      {:tzdata, "~> 0.5.12"}]
