@@ -6,7 +6,7 @@ defmodule Xee.Repo.Migrations.CreateUser do
       add :name, :string, null: false;
       add :crypted_password, :string, null: false;
 
-      timestamps
+      timestamps()
     end
 
     # add unique constraints to user.name
