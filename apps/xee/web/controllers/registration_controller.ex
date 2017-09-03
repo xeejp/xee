@@ -19,7 +19,6 @@ defmodule Xee.RegistrationController do
 
     case User.create(changeset, Xee.Repo) do
       {:ok, user} ->
-        Sendmail.Mailer.send_new_user_email(user.id, user.name, ip, user.updated_at)
         conn
         |> put_session(:current_user, user.id)
         |> put_flash(:info, "Welcome to Xee!")

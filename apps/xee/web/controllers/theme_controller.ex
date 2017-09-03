@@ -9,12 +9,12 @@ defmodule Xee.ThemeController do
   end
 
   def explore(conn, %{"page" => "list"}) do
-    themes = get_themes
+    themes = get_themes()
     render conn, "list.html", themes: themes
   end
 
   def explore(conn, %{"page" => "category"}) do
-    themes = get_themes
+    themes = get_themes()
     tags = Application.get_env(:xee, Xee.ThemeServer)
             |> Keyword.get(:tags, [])
     render conn, "category.html", themes: themes, tags: tags

@@ -16,4 +16,4 @@ use Xee.ThemeConfig
 #   participant: "participant.js",
 #   standing_experiments: %{name: "PublicGoods sample", x_token: "sample"},
 #   tags: ["相互作用あり"]
- register_themes
+ register_themes()

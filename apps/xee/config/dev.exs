@@ -17,7 +17,9 @@ config :xee, Xee.Endpoint,
 config :xee, Xee.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif)$},
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|ico)$},
+      ~r{priv/static/js/.*(js|css|png|jpeg|jpg|gif)$},
+      ~r{priv/static/css/.*(js|css|png|jpeg|jpg|gif)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]

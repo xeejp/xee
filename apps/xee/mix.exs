@@ -13,7 +13,7 @@ defmodule Xee.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -40,19 +40,19 @@ defmodule Xee.Mixfile do
   # Type `mix help deps` for examples and options
   def deps do
     [{:phoenix, "~> 1.2.0"},
-     {:xeethemescript, "~> 0.1.0", override: true},
+     {:xeethemescript, "~> 0.3.0"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.0"},
-     {:postgrex, ">= 0.9.1", override: true},
+     {:phoenix_ecto, "~> 3.2.3"},
+     {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1" },
-     {:poison, "~> 1.5"},
+     {:poison, "~> 2.0"},
      {:comeonin, "~> 2.5"},
      {:fwatch, "~> 0.5.0"},
      {:timex, "~> 2.2.0"},
-     {:tzdata, "~> 0.5.7", override: true}]
+     {:tzdata, "~> 0.5.7"}]
   end
 end

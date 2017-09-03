@@ -16,21 +16,14 @@ defmodule Xee.Web do
   below.
   """
 
-  def model do
-    quote do
-      use Ecto.Schema
-      use Ecto.Model
-      import Ecto
-    end
-  end
-
   def controller do
     quote do
       use Phoenix.Controller
+      use Ecto.Schema
 
       alias Xee.Repo
       import Ecto
-      import Ecto.Model
+      import Ecto.Changeset
       import Ecto.Query, only: [from: 2]
 
       import Xee.Router.Helpers
@@ -66,7 +59,7 @@ defmodule Xee.Web do
 
       alias Xee.Repo
       import Ecto
-      import Ecto.Model
+      import Ecto.Changeset
       import Ecto.Query, only: [from: 2]
 
     end

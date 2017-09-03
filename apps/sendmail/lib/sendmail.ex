@@ -1,2 +1,0 @@
-defmodule Sendmail do
-end

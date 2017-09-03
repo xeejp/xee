@@ -1,6 +1,5 @@
 defmodule Xee.SessionController do
   use Xee.Web, :controller
-  alias Xee.User
 
   @doc """
   Showing login page
