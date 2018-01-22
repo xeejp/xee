@@ -17,7 +17,7 @@ defmodule Xee.ModelCase do
   using do
     quote do
       alias Xee.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 2]
       import Xee.ModelCase
     end
