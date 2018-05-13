@@ -6,10 +6,10 @@
 ---
 
 ## 1. Elixir 1.4 or later
-Download [Elixir](https://elixir-lang.org/) from [Elixir-Install](https://elixir-lang.org/install.html) page, and install it.
-The latest version of Elixir is now 1.6.5.
-And install Erlang/OTP by Elixir installer. The latest version of Erlang OTP is now 20.2.
-We recommend to use default settings of installer.
+Download [Elixir](https://elixir-lang.org/) from [Elixir-Install](https://elixir-lang.org/install.html) page, and install it.  
+The latest version of Elixir is now 1.6.5.  
+And install Erlang/OTP by Elixir installer. The latest version of Erlang OTP is now 20.2.  
+We recommend to use default settings of installer.  
 
 ## 2. Phoenix
 Download Phoenix Framework via mix command.
@@ -102,4 +102,4 @@ Change directory to "xee" and `mix phoenix.server`, then you can use new theme.
  ### 8.1. Use supervisor mode
  You can use supervisor mode form your teachers page.
  If URI of teachers page is like `http://localhost:4000/experiment/ABC/host`,
- visit `http://localhost:4000/experiment/<font color="Red">ABC</font>/host/X` as user "X".
+ visit `http://localhost:4000/experiment/ABC/host/X` as user "X".
