@@ -8,14 +8,15 @@
 ## 1. Elixir 1.4 or later
 Download [Elixir](https://elixir-lang.org/) from [Elixir-Install](https://elixir-lang.org/install.html) page, and install it.  
 The latest version of Elixir is now 1.6.5.  
-And install Erlang/OTP by Elixir installer. The latest version of Erlang OTP is now 20.2.  
+And install Erlang/OTP by Elixir installer.  
+The latest version of Erlang OTP is now 20.2.
 We recommend to use default settings of installer.  
 
 ## 2. Phoenix
-Download Phoenix Framework via mix command.
-Run command prompt application (type `cmd` into your desktop search bar) and type like follows:
+Download Phoenix Framework via mix command.  
+Run command prompt application (type `cmd` into your desktop search bar) and type like follows:  
 ```
-mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
+mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
 ```
 Then press "Y".
 The latest version of Phoenix Framework is 1.3.2, but we use 1.2.5.
@@ -25,9 +26,9 @@ Visit [Node.js](https://nodejs.org/en/) site and download "LTS version" installe
 Please note that "current version" is not supported.
 
 ### 4. Visual Studio
-Visit [Visual Studio Download Page](https://www.visualstudio.com/downloads/) and download "Visual Studio Community 2017" because it's free.
-Install "C++によるデスクトップ開発" from top page and "Git for Windows" from "個別のコンポーネント".
-Make sure that "vcvrsall.bat" has been installed under the "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build".
+Visit [Visual Studio Download Page](https://www.visualstudio.com/downloads/) and download "Visual Studio Community 2017" because it's free.  
+Install "C++によるデスクトップ開発" from top page and "Git for Windows" from "個別のコンポーネント".  
+Make sure that "vcvrsall.bat" has been installed under the "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build".  
 After you install these, run Visual Studio and open new project at once.
 
 ## 4. Postgre SQL
@@ -64,7 +65,7 @@ mix deps.compile
 
   ### 6.3. Check default
   Run
-  `mix phoenix.server`
+  `mix phx.server`
   and you can see your XEE local web site on [http://localhost:4000](http://localhost:4000).
   If you couldn't see "Master XEE", webpack may be failed.
   Check database connection using user registry system.
@@ -96,7 +97,7 @@ mix deps.compile
  ```
 
 ### 7.3. Run Xee
-Change directory to "xee" and `mix phoenix.server`, then you can use new theme.
+Change directory to "xee" and `mix phx.server`, then you can use new theme.
 
 ## 8. For your convenience.
  ### 8.1. Use supervisor mode
