@@ -19,7 +19,7 @@ Run command prompt application (type `cmd` into your desktop search bar) and typ
 mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
 ```
 Then press "Y".
-The latest version of Phoenix Framework is 1.3.2, but we use 1.2.5.
+The latest version of Phoenix Framework is 1.3.2.
 
 ## 3. Node.js
 Visit [Node.js](https://nodejs.org/en/) site and download "LTS version" installer.
