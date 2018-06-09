@@ -10,8 +10,9 @@ addons:
 services:
     - postgresql
 before_script:
-  - sleep 3
+  - sleep 30
   - psql -c 'create database xee_test;' -U postgres
+  - sleep 30
   - script/travis_bootstrap
 script: script/test
 notifications:
