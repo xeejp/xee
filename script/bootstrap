@@ -1,0 +1,5 @@
+script/test_bootstrap
+cd apps/xee
+npm install
+cd ../..
+node_modules/bower/bin/bower install
