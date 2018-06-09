@@ -10,7 +10,6 @@ services:
 addons:
   postgresql: '9.6.9'
 before_script:
-  - mix do ecto.create, ecto.migrate
 script:
   - mix test
 notifications:

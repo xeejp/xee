@@ -46,6 +46,7 @@ defmodule Test3.Mixfile do
       {:uuid, "~> 1.1.8" },
       {:poison, "~> 3.1.0"},
       {:comeonin, "~> 4.1.1"},
+      {:bcrypt_elixir, "~> 1.0.7"},
       {:fwatch, "~> 0.5.0"},
       {:timex, "~> 3.3.0"},
       {:tzdata, "~> 0.5.16"}
