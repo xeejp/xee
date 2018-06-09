@@ -1,4 +1,4 @@
-defmodule Xee.ConnCase do
+defmodule XeeWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -24,10 +24,10 @@ defmodule Xee.ConnCase do
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
-      import Xee.Router.Helpers
+      import XeeWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Xee.Endpoint
+      @endpoint XeeWeb.Endpoint
     end
   end
 

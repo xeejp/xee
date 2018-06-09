@@ -1,3 +1,3 @@
 defmodule Xee.PageViewTest do
-  use Xee.ConnCase, async: true
+  use XeeWeb.ConnCase, async: true
 end

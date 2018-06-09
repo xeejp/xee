@@ -1,3 +1,0 @@
-script/test_bootstrap
-mix ecto.create
-mix ecto.migrate

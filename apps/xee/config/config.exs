@@ -8,7 +8,7 @@ use Mix.Config
 config :xee, ecto_repos: [Xee.Repo]
 
 # Configures the endpoint
-config :xee, Xee.Endpoint,
+config :xee, XeeWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "YMHjvC+X66HvbtH0da1w6v5rJh+wvPjUW7Iqaq0c7aQgxk1uOp5o0DLz+wW4BD5d",
   render_errors: [default_format: "html"],

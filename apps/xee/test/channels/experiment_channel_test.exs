@@ -1,6 +1,6 @@
-defmodule Xee.ExperimentChannelTest do
+defmodule XeeWeb.ExperimentChannelTest do
   use ExUnit.Case, async: false
-  use Xee.ChannelCase
+  use XeeWeb.ChannelCase
   use Xee.ExperimentTestHelper
 
   alias Xee.ExperimentServer

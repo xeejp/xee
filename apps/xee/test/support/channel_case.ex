@@ -1,4 +1,4 @@
-defmodule Xee.ChannelCase do
+defmodule XeeWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -26,7 +26,7 @@ defmodule Xee.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint Xee.Endpoint
+      @endpoint XeeWeb.Endpoint
     end
   end
 

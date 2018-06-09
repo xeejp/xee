@@ -1,3 +1,0 @@
-script/test_bootstrap
-npm install
-node_modules/bower/bin/bower install

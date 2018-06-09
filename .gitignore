@@ -1,11 +1,10 @@
 # App artifacts
-/config/experiments.exs
-/web/static/assets
-/_build
-/db
+/config/themes.exs
 deps
+node_modules
+/_build
+/deps
 /*.ez
-/experiments
 /apps/*
 !/apps/xee
 
@@ -14,12 +13,12 @@ erl_crash.dump
 npm-debug.log
 
 # Static artifacts
-node_modules
+/apps/xee/assets/node_modules
 
 # Since we are building assets from web/static,
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
-/apps/xee/priv/static/
+/apps/xee/priv/static
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
@@ -27,7 +26,9 @@ node_modules
 # Alternatively, you may comment the line below and commit the
 # secrets file as long as you replace its contents by environment
 # variables.
-config/prod.secret.exs
+/apps/xee/config/prod.secret.exs
 
 # Others
 .DS_Store
+apps/xee/assets/yarn-error.log
+apps/xee/assets/yarn.lock

@@ -26,7 +26,7 @@ defmodule Xee.ExperimentTestHelper do
   end
   ```
   """
-  @endpoint Xee.Endpoint
+  @endpoint XeeWeb.Endpoint
 
   defmacro __using__(_opts) do
     quote do
@@ -54,7 +54,7 @@ defmodule Xee.ExperimentTestHelper do
   Returns a socket connected as a host.
   """
   def join_channel(xid) do
-    token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:host, xid})
+    token = Phoenix.Token.sign(XeeWeb.Endpoint, "experiment", {:host, xid})
     socket("x:" <> xid, %{"token" => token})
   end
 
@@ -63,7 +63,7 @@ defmodule Xee.ExperimentTestHelper do
   Returns a socket connected as a participant.
   """
   def join_channel(xid, name) do
-    token = Phoenix.Token.sign(Xee.Endpoint, "experiment", {:participant, xid, name})
+    token = Phoenix.Token.sign(XeeWeb.Endpoint, "experiment", {:participant, xid, name})
     socket("x:" <> xid, %{"token" => token})
   end
 
@@ -92,7 +92,7 @@ defmodule Xee.ExperimentTestHelper do
 
   defp socket(topic, param) do
     require Phoenix.ChannelTest
-    {:ok, socket} = Phoenix.ChannelTest.connect(Xee.UserSocket, %{})
+    {:ok, socket} = Phoenix.ChannelTest.connect(XeeWeb.UserSocket, %{})
     {:ok, _, socket} = Phoenix.ChannelTest.subscribe_and_join(socket, topic, param)
     socket
   end

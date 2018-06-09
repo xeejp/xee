@@ -1,6 +1,6 @@
 defmodule Xee.ExperimentTest do
   use ExUnit.Case, async: false
-  use Xee.ChannelCase
+  use XeeWeb.ChannelCase
   use Xee.ExperimentTestHelper
   alias Xee.ExperimentServer
   alias Xee.Experiment

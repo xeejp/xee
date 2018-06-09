@@ -1,5 +1,5 @@
 defmodule Xee.SessionTest do
-  use Xee.ConnCase
+  use XeeWeb.ConnCase
   use Xee.SessionTestHelper
 
   alias Xee.User

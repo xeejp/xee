@@ -1,5 +1,5 @@
 defmodule Xee.PageControllerTest do
-  use Xee.ConnCase
+  use XeeWeb.ConnCase
   use ExUnit.Case, async: false
 
   setup() do

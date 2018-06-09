@@ -11,7 +11,7 @@ git clone $repository "./apps/$application_name"
 
 cd ./apps/$application_name/
 yarn install
-webpack -p
+brunch build --production
 cd ../../
 
 sed '$d' ./config/themes.exs > ./config/themes.exs

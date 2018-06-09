@@ -1,8 +1,8 @@
 defmodule Xee.ExperimentControllerTest do
   use ExUnit.Case, async: false
-  use Xee.ConnCase
+  use XeeWeb.ConnCase
   use Xee.ExperimentTestHelper
-  use Xee.SessionTestHelper, controller: Xee.ExperimentController
+  use Xee.SessionTestHelper, controller: XeeWeb.ExperimentController
 
   alias Xee.User
 
