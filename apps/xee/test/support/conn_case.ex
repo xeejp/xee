@@ -21,7 +21,7 @@ defmodule XeeWeb.ConnCase do
       use Phoenix.ConnTest
 
       alias Xee.Repo
-      import Ecto.Model
+      import Ecto.Schema 
       import Ecto.Query, only: [from: 2]
 
       import XeeWeb.Router.Helpers

@@ -1,4 +1,4 @@
-defmodule Xee.TokenServerTest do
+defmodule XeeWeb.TokenServerTest do
   use ExUnit.Case, async: false
   alias Xee.TokenServer, as: TokenServer
 

@@ -1,7 +1,7 @@
-defmodule Xee.AuthenticationPlugTest do
+defmodule XeeWeb.AuthenticationPlugTest do
   use ExUnit.Case, async: true
   use Plug.Test
-  use Xee.SessionTestHelper
+  use XeeWeb.SessionTestHelper
 
   alias Xee.User
 

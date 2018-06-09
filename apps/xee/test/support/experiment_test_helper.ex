@@ -1,12 +1,12 @@
-defmodule Xee.ExperimentTestHelper do
+defmodule XeeWeb.ExperimentTestHelper do
   @moduledoc """
   Provides helper functions for testing experiment.
 
   ## Example
   ```elixir
-  defmodule Xee.ExampleTest do
+  defmodule XeeWeb.ExampleTest do
     use ExUnit.Case, async: false # Specify async: false
-    use Xee.ExperimentTestHelper # Use this helper
+    use XeeWeb.ExperimentTestHelper # Use this helper
 
     setup do
       ExperimentServer.start_link() # Start ExperimentServer
@@ -38,7 +38,7 @@ defmodule Xee.ExperimentTestHelper do
       host = File.read!(Path.expand("./../../experiments/test2/host.js", unquote(__DIR__)))
       participant = File.read!(Path.expand("./../../experiments/test2/participant.js", unquote(__DIR__)))
       @test2_experiment %Xee.Experiment{theme_id: :t2, module: Test2, host: host, participant: participant}
-      import Xee.ExperimentTestHelper
+      import XeeWeb.ExperimentTestHelper
       def test_experiment, do: @test_experiment
       def test2_experiment, do: @test2_experiment
     end
@@ -74,7 +74,7 @@ defmodule Xee.ExperimentTestHelper do
     require Phoenix.ChannelTest
     Task.async(fn ->
       Enum.map(sockets, fn socket ->
-        Phoenix.ChannelTest.push socket, "stop", finish
+        Phoenix.ChannelTest.push socket, "stop", finish()
       end)
       |> Enum.each(fn _ ->
         receive do

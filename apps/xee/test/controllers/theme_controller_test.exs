@@ -1,4 +1,4 @@
-defmodule Xee.ThemeControllerTest do
+defmodule XeeWeb.ThemeControllerTest do
   use XeeWeb.ConnCase
   use ExUnit.Case, async: false
 

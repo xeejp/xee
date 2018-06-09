@@ -21,7 +21,7 @@ defmodule XeeWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       alias Xee.Repo
-      import Ecto.Model
+      import Ecto.Schema
       import Ecto.Query, only: [from: 2]
 
 

@@ -1,4 +1,4 @@
-defmodule Xee.PageControllerTest do
+defmodule XeeWeb.PageControllerTest do
   use XeeWeb.ConnCase
   use ExUnit.Case, async: false
 

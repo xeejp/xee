@@ -1,4 +1,4 @@
-defmodule Xee.HostServerTest do
+defmodule XeeWeb.HostServerTest do
   use ExUnit.Case
   alias Xee.HostServer, as: HostServer
 

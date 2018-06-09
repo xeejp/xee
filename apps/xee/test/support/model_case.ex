@@ -1,4 +1,4 @@
-defmodule Xee.ModelCase do
+defmodule XeeWeb.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -17,9 +17,9 @@ defmodule Xee.ModelCase do
   using do
     quote do
       alias Xee.Repo
-      import Ecto.Model
+      import Ecto.Schema
       import Ecto.Query, only: [from: 2]
-      import Xee.ModelCase
+      import XeeWeb.ModelCase
     end
   end
 

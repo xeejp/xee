@@ -1,4 +1,4 @@
-defmodule Xee.ThemeTest do
+defmodule XeeWeb.ThemeTest do
   use ExUnit.Case
   alias Xee.Theme
 

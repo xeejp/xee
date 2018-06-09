@@ -1,6 +1,6 @@
-defmodule Xee.ExperimentServerTest do
+defmodule XeeWeb.ExperimentServerTest do
   use ExUnit.Case, async: false
-  use Xee.ExperimentTestHelper
+  use XeeWeb.ExperimentTestHelper
   alias Xee.ExperimentServer
 
   setup do

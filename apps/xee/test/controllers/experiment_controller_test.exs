@@ -1,8 +1,8 @@
-defmodule Xee.ExperimentControllerTest do
+defmodule XeeWeb.ExperimentControllerTest do
   use ExUnit.Case, async: false
   use XeeWeb.ConnCase
-  use Xee.ExperimentTestHelper
-  use Xee.SessionTestHelper, controller: XeeWeb.ExperimentController
+  use XeeWeb.ExperimentTestHelper
+  use XeeWeb.SessionTestHelper, controller: XeeWeb.ExperimentController
 
   alias Xee.User
 
@@ -17,7 +17,7 @@ defmodule Xee.ExperimentControllerTest do
 
     conn = build_conn()
             |> with_session_and_flash
-            |> action :index, %{"xid" => xid}
+            |> action(:index, %{"xid" => xid})
     assert get_flash(conn, :error) == "Not Exists Experiment ID"
   end
 
@@ -34,7 +34,7 @@ defmodule Xee.ExperimentControllerTest do
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :shortcut, %{"token" => " \n \t #{token} \t\n "}
+            |> action(:shortcut, %{"token" => " \n \t #{token} \t\n "})
 
     Xee.TokenServer.drop(token)
     Xee.ExperimentServer.remove(xid)
@@ -57,7 +57,7 @@ defmodule Xee.ExperimentControllerTest do
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :index, %{"xid" => xid}
+            |> action(:index, %{"xid" => xid})
     Xee.TokenServer.drop(token)
     Xee.ExperimentServer.remove(xid)
 
@@ -80,7 +80,7 @@ defmodule Xee.ExperimentControllerTest do
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :host, %{"xid" => xid}
+            |> action(:host, %{"xid" => xid})
 
     Xee.HostServer.drop(user.id, xid)
     Xee.ExperimentServer.remove(xid)
@@ -101,7 +101,7 @@ defmodule Xee.ExperimentControllerTest do
             |> put_session(:u_id, u_id)
             |> put_session(:xid, xid)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :participant_script, %{"xid" => xid}
+            |> action(:participant_script, %{"xid" => xid})
     Xee.ExperimentServer.remove(xid)
 
     assert xid == get_session(conn, :xid)
@@ -124,7 +124,7 @@ defmodule Xee.ExperimentControllerTest do
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :host_script, %{"xid" => xid}
+            |> action(:host_script, %{"xid" => xid})
 
     Xee.HostServer.drop(user.id, xid)
     Xee.ExperimentServer.remove(xid)
@@ -148,7 +148,7 @@ defmodule Xee.ExperimentControllerTest do
             |> with_session_and_flash
             |> assign(:host, user)
     conn = %{conn | private: Map.put(conn.private, :phoenix_endpoint, @endpoint)}
-            |> action :control, %{"xid" => xid, "id" => "aaaa"}
+            |> action(:control, %{"xid" => xid, "id" => "aaaa"})
 
     Xee.HostServer.drop(user.id, xid)
     Xee.ExperimentServer.remove(xid)

@@ -1,8 +1,8 @@
-defmodule Xee.HostControllerTest do
+defmodule XeeWeb.HostControllerTest do
   use XeeWeb.ConnCase
   use ExUnit.Case, async: false
-  use Xee.SessionTestHelper, controller: XeeWeb.HostController
-  use Xee.ExperimentTestHelper
+  use XeeWeb.SessionTestHelper, controller: XeeWeb.HostController
+  use XeeWeb.ExperimentTestHelper
 
   alias Xee.User
 

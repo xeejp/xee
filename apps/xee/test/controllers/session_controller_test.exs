@@ -1,7 +1,7 @@
-defmodule Xee.SessionControllerTest do
+defmodule XeeWeb.SessionControllerTest do
   use XeeWeb.ConnCase
   use ExUnit.Case, async: false
-  use Xee.SessionTestHelper, controller: XeeWeb.SessionController
+  use XeeWeb.SessionTestHelper, controller: XeeWeb.SessionController
 
   alias Xee.User
   alias Xee.Session

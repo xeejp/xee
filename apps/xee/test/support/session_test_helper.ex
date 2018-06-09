@@ -1,4 +1,4 @@
-defmodule Xee.SessionTestHelper do
+defmodule XeeWeb.SessionTestHelper do
   defmacro __using__(args) do
     controller = Keyword.get(args, :controller)
 
