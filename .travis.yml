@@ -10,8 +10,9 @@ services:
 addons:
   postgresql: '9.6.9'
 before_script:
-  - script/travis_bootstrap
-script: script/test
+  - mix ecto.create, ecto.migrate
+script:
+  - mix test
 notifications:
   email:
     on_success: never
