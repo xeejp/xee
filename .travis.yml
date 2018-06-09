@@ -10,7 +10,7 @@ services:
 addons:
   postgresql: '9.6.9'
 before_script:
-  - psql -l
+  - rm /usr/local/var/postgres/postmaster.pid
   - psql -c 'create database xee_test;' -U postgres
   - script/travis_bootstrap
 script: script/test
