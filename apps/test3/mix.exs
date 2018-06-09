@@ -36,7 +36,6 @@ defmodule Test3.Mixfile do
     [
       {:xeethemescript, "~> 0.3.0"},
       {:phoenix, "~> 1.3.2"},
-      {:xeethemescript, "~> 0.3.0"},
       {:phoenix_pubsub, "~> 1.0.2"},
       {:phoenix_ecto, "~> 3.3.0"},
       {:postgrex, ">= 0.13.5"},
