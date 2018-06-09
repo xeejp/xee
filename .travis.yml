@@ -1,22 +1,11 @@
+language: elixir
+elixir: '1.5.2'
+otp_release: '20.0'
 services:
   - postgresql
 before_script:
+  - cp config/database.yml.travis config/database.yml
   - psql -c 'create database xee_test;' -U postgres
-language: elixir
-dist: trusty
-elixir:
-  - 1.6
-otp_release:
-  - 20.1
-sudo: false
-env:
-  global:
-    - ELIXIR_ASSERT_TIMEOUT=2000
-  matrix:
-    - COWBOY_VERSION=1.0
-    - COWBOY_VERSION=2.0
-before_script:
-  - mix deps.get
 script:
   - mix test
 notifications:
