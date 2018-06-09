@@ -10,8 +10,8 @@ application_name=`echo $repository_name | sed -r 's/-/_/g'`
 git clone $repository "./apps/$application_name"
 
 cd ./apps/$application_name/
-npm install
-npm run build:$env
+yarn install
+webpack -p
 cd ../../
 
 sed '$d' ./config/themes.exs > ./config/themes.exs

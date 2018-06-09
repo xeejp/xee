@@ -2,9 +2,9 @@ language: elixir
 elixir:
   - 1.5.1
 otp_release:
-  - 20.0
+  - 20.3.7
 addons:
-  postgresql: '9.6'
+  postgresql: '9.6.9'
 before_script:
   - psql -c 'create database xee_test;' -U postgres
   - script/travis_bootstrap
