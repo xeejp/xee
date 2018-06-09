@@ -1,15 +1,21 @@
 language: elixir
-sudo: required
-elixir:
-  - 1.5.1
-otp_release:
-  - 20.3.7
 dist: trusty
-services:
-    - postgresql
-addons:
-  postgresql: '9.6.9'
+elixir:
+  - 1.4
+  - 1.5
+  - 1.6
+otp_release:
+  - 19.3
+  - 20.1
+sudo: false
+env:
+  global:
+    - ELIXIR_ASSERT_TIMEOUT=2000
+  matrix:
+    - COWBOY_VERSION=1.0
+    - COWBOY_VERSION=2.0
 before_script:
+  - mix deps.get
 script:
   - mix test
 notifications:
